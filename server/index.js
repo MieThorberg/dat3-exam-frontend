@@ -3,6 +3,8 @@ const socketio = require('socket.io')
 const http = require('http')
 const cors = require('cors');
 
+const {addUser, removeUser ,getUser, getUsersInRoom} = require('./users')
+
 const PORT = process.env.PORT || 5000
 
 const router = require('./router');
@@ -20,18 +22,26 @@ app.use(router)
 
 //client side socket
 io.on('connection', ( (socket) => {
-    console.log('we have a new conncetion!!!!!');
-
     socket.on('join', ({name, room}, callback) => {
-        console.log(name, room);
+        const {error, user} = addUser({id: socket.id, name, room});
 
-        const error = true
+        if (error) return callback(error);
 
-        // if (error) {
-        //     callback({error: 'error'}); 
-        // }
+        //emit from the backend to the front
+        socket.emit('message', {user: 'admin', text: `${user.name}, welcome to the room ${user.room}`});
+        socket.broadcast.to(user.room).emit('message', {user: 'admin', text: `${user.name} has joined!`})
 
+        socket.join(user.room);
+        callback()
     });
+
+    socket.on('sendMessage', (message, callback) => {
+      //gets user who sent the message
+      const user = getUser(socket.id);
+      
+      io.to(user.room).emit('message', {user: user.name, text: message})
+      callback();
+    })
 
     socket.on('disconnect', () => {
         console.log('user has left!!!');
