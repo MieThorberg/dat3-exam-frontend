@@ -1,60 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react'
-import { io } from 'socket.io-client'
-// import Moment from 'react-moment'
-import "../styles/Chat.css"
-import { useLocation } from 'react-router-dom'
+import React from 'react'
 
-
-const Chat = () => {
-  const location = useLocation()
-  const msgBoxRef = useRef()
-
-  const [ data, setData ] = useState({})
-  const [ msg, setMsg ] = useState("")
-  const [ loading, setLoading ] = useState(false)
-  const [ allMessages, setMessages ] = useState([])
-  const [ socket, setSocket ] = useState()
-
-  useEffect(() => {
-      const socket = io("http://localhost:9000")
-      setSocket(socket)
-
-      socket.on("connect", () => {
-          console.log("socket Connected")
-          socket.emit("joinRoom", location.state.room)
-      })        
-  }, [])
-
-  useEffect(() => {
-      if(socket){
-          socket.on("getLatestMessage", (newMessage) => {
-              console.log(allMessages)
-              console.log(newMessage)
-              setMessages([ ...allMessages,  newMessage ])
-              msgBoxRef.current.scrollIntoView({behavior: "smooth"})
-              setMsg("")
-              setLoading(false)
-          })
-      }
-  }, [socket, allMessages])    
-
-  useEffect(() => {
-      setData(location.state)
-  }, [location])
-  
-  const handleChange = e => setMsg(e.target.value)
-  const handleEnter = e => e.keyCode===13 ? onSubmit() : ""
-  const onSubmit = () => {
-      if(msg){
-          setLoading(true)
-          const newMessage = { time:new Date(), msg, name: data.name }
-          socket.emit("newMessage", {newMessage, room: data.room})
-      }
-  }
-
+const Room = () => {
   return (
-      <div>
-              <div>
+    <div  >
+        
+              <div >
                 
                   <h1>Welcome to Room: {data?.room} ${data.name}</h1>
               </div>
@@ -67,6 +17,7 @@ const Chat = () => {
                               <div>
                                   <div>
                                       <strong>{msg.name}:</strong>
+                                      {/* <small className="text-muted m-1"><Moment fromNow>{msg.time}</Moment></small> */}
                                   </div>
                                   <h4>{msg.msg}</h4>
                               </div>
@@ -76,6 +27,7 @@ const Chat = () => {
                               <div>
                                   <div>
                                       <strong >{msg.name}:</strong>
+                                      {/* <small className="text-mmuted m-1"><Moment fromNow>{msg.time}</Moment></small> */}
                                   </div>
                                   <h4>{msg.msg}</h4>
                               </div>
@@ -98,9 +50,9 @@ const Chat = () => {
                       }
                   </button>   
               </div>
-
+              
       </div>
   )
 }
 
-export default Chat;
+export default Room
