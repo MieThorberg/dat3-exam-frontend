@@ -1,53 +1,35 @@
-const express = require('express')
-const socketio = require('socket.io')
-const http = require('http')
-const cors = require('cors');
-
-const {addUser, removeUser ,getUser, getUsersInRoom} = require('./users')
-
-const PORT = process.env.PORT || 5000
-
-const router = require('./router');
+const express = require("express")
+const { Server } = require("socket.io");
+var http = require('http');
+const cors = require("cors")
 
 const app = express()
-const server = http.createServer(app)
-const io = socketio(server, {
-    cors: {
-      origin: "http://localhost:3000",
-
-    }
-  })
 app.use(cors())
-app.use(router)
 
-//client side socket
-io.on('connection', ( (socket) => {
-    socket.on('join', ({name, room}, callback) => {
-        const {error, user} = addUser({id: socket.id, name, room});
+var server = http.createServer(app);
 
-        if (error) return callback(error);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"]
+  }
+});
 
-        //emit from the backend to the front
-        socket.emit('message', {user: 'admin', text: `${user.name}, welcome to the room ${user.room}`});
-        socket.broadcast.to(user.room).emit('message', {user: 'admin', text: `${user.name} has joined!`})
+app.get("/", (req, res) => {res.send("Chat BE with Socket.io by Prince Raj"); res.end()})
 
-        socket.join(user.room);
-        callback()
-    });
+io.on("connection", (socket) => {
+  console.log(socket.id)
 
-    socket.on('sendMessage', (message, callback) => {
-      //gets user who sent the message
-      const user = getUser(socket.id);
-      
-      io.to(user.room).emit('message', {user: user.name, text: message})
-      callback();
-    })
+  socket.on("joinRoom", room => {
+		socket.join(room)
+  })
 
-    socket.on('disconnect', () => {
-        console.log('user has left!!!');
-    });
-}))
+  socket.on("newMessage", ({newMessage, room}) => {
+    io.in(room).emit("getLatestMessage", newMessage)
+  })
 
+});
 
+const port = process.env.PORT || 9000
 
-server.listen(PORT, () =>console.log(`server hast started on port ${PORT}`));
+server.listen(port, console.log(`App started at port ${port}`))

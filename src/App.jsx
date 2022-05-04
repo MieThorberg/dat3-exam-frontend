@@ -19,7 +19,7 @@ export default function App() {
     <Routes>
         <Route path="/" element={<Home/>}>
         </Route>
-        <Route path="chat" element={<Chat/>}/>
+        <Route path="chat/:roomId" element={<Chat/>}/>
         <Route path="join" element={<Join/>}/>
         <Route path="login" element={<LoginPage loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>} />
         <Route path="*" element={<NoMatch/>} />

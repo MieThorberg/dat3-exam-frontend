@@ -1,69 +1,106 @@
-import React, {useState, useEffect} from 'react'
-import queryString from 'query-string'
+import React, {useState, useEffect, useRef} from 'react'
 import { io } from 'socket.io-client'
-import InfoBar from './InfoBar'
-import Input from './Input'
-import Messages from './Messages'
-import TextContainer from './TextContainer'
+// import Moment from 'react-moment'
 import "../styles/Chat.css"
+import { useLocation } from 'react-router-dom'
 
-let socket
 
 const Chat = () => {
-    const [name, setName] = useState('')
-    const [room, setRoom] = useState('')
-    const [users, setUsers] = useState('');
-    const [message, setMessage] = useState('')
-    const [messages, setMessages] = useState([])
+  const location = useLocation()
+  const msgBoxRef = useRef()
 
-    const ENDPOINT = 'http://localhost:5000'
-
-    useEffect( () => {
-        const {name, room} = queryString.parse(location.search);
-        socket = io(ENDPOINT)
-
-        setName(name)
-        setRoom(room)
-        socket.emit('join', {name, room}, () => {
-            
-        });
-
-        return () =>{
-            socket.emit('disconnect');
-
-            socket.off();
-        }
-    },[ENDPOINT,location.search])
+  const [ data, setData ] = useState({})
+  const [ msg, setMsg ] = useState("")
+  const [ loading, setLoading ] = useState(false)
+  const [ allMessages, setMessages ] = useState([])
+  const [ socket, setSocket ] = useState()
 
   useEffect(() => {
-    socket.on('message', (message) => {
-      setMessages([...messages, message]);
-    })
-  }, [messages])
+      const socket = io("http://localhost:9000")
+      setSocket(socket)
 
-  // function for sending messages
-  const sendMessage = (e) => {
-    e.preventDefault();
+      socket.on("connect", () => {
+          console.log("socket Connected")
+          socket.emit("joinRoom", location.state.room)
+      })        
+  }, [])
 
-    if (message) {
-      socket.emit('sendMessage', message, () => setMessage(''))
-    }
+  useEffect(() => {
+      if(socket){
+          socket.on("getLatestMessage", (newMessage) => {
+              console.log(allMessages)
+              console.log(newMessage)
+              setMessages([ ...allMessages,  newMessage ])
+              msgBoxRef.current.scrollIntoView({behavior: "smooth"})
+              setMsg("")
+              setLoading(false)
+          })
+      }
+  }, [socket, allMessages])    
 
+  useEffect(() => {
+      setData(location.state)
+  }, [location])
+  
+  const handleChange = e => setMsg(e.target.value)
+  const handleEnter = e => e.keyCode===13 ? onSubmit() : ""
+  const onSubmit = () => {
+      if(msg){
+          setLoading(true)
+          const newMessage = { time:new Date(), msg, name: data.name }
+          socket.emit("newMessage", {newMessage, room: data.room})
+      }
   }
 
-  console.log(message, messages);
-
   return (
-    <div className='outerContainer'>
-      <div className='container'>
-        <InfoBar room={room}/>
-        <Messages messages={messages} name={name} />
-        <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
-       
+      <div  >
+              <div >
+                  <h1>Welcome to Room: {data?.room} ${data.name}</h1>
+              </div>
+              <div  style={{height: "450px", overflowY:"scroll"}}>
+                  {
+                      allMessages.map(msg => {
+                          return data.name === msg.name
+                          ?
+                          <div >
+                              <div>
+                                  <div>
+                                      <strong>{msg.name}:</strong>
+                                      {/* <small className="text-muted m-1"><Moment fromNow>{msg.time}</Moment></small> */}
+                                  </div>
+                                  <h4>{msg.msg}</h4>
+                              </div>
+                          </div>
+                          :
+                          <div>
+                              <div>
+                                  <div>
+                                      <strong >{msg.name}:</strong>
+                                      {/* <small className="text-mmuted m-1"><Moment fromNow>{msg.time}</Moment></small> */}
+                                  </div>
+                                  <h4>{msg.msg}</h4>
+                              </div>
+                          </div>
+                      })
+                  }
+                  <div ref={msgBoxRef} ></div>
+              </div>
+              <div >
+                  <input type="text"  name="message" onKeyDown={handleEnter} placeholder="Type your message" value={msg} onChange={handleChange} />
+                  <button type="button" disabled={loading} onClick={onSubmit}>
+                      {
+                          loading
+                          ?
+                          <div></div>                            
+                          :
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-send" viewBox="0 0 16 16">
+                              <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"></path>
+                          </svg>
+                      }
+                  </button>   
+              </div>
       </div>
-      <TextContainer users={users} />
-    </div>
   )
 }
 
-export default Chat
+export default Chat;
