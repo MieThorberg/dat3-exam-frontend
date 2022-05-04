@@ -47,7 +47,7 @@ const Join = ({ loggedIn}) => {
               <div >
                   <input type="name" className='joinInput' name="name" placeholder="Enter name" onChange={handleChange} />
               </div>
-              <div className="form-group mb-4">
+              <div>
               <input type="name" className='joinInput' name="room" placeholder="Enter pin" onChange={handleChange} />
                   {/* <select name="room" aria-label="Default select example" onChange={handleChange}>
                       <option value="">Select Room</option>

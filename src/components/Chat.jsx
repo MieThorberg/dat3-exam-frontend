@@ -14,6 +14,7 @@ const Chat = () => {
   const [ loading, setLoading ] = useState(false)
   const [ allMessages, setMessages ] = useState([])
   const [ socket, setSocket ] = useState()
+  const [userNumber, setUserNumber] = useState('')
 
   useEffect(() => {
       const socket = io("http://localhost:9000")
@@ -22,7 +23,8 @@ const Chat = () => {
       socket.on("connect", () => {
           console.log("socket Connected")
           socket.emit("joinRoom", location.state.room)
-      })        
+      }) 
+       
   }, [])
 
   useEffect(() => {
@@ -35,6 +37,11 @@ const Chat = () => {
               setMsg("")
               setLoading(false)
           })
+          socket.on("newclientconnect", (newClient) => {
+            setUserNumber(newClient)
+            // console.log(newClient)
+           
+        })
       }
   }, [socket, allMessages])    
 
@@ -55,8 +62,9 @@ const Chat = () => {
   return (
       <div>
               <div>
-                  <h1 className='center-text'>Welcome to Werewolf</h1>
-                  <h1 className='center-text'>Room: {data?.room} User:{data.name}</h1>
+                  <h1 className='center-text'>Welcome to Werewolf: {data.name}</h1>
+                  <h1 className='center-text'>Room: {data?.room}</h1>
+                  <h1 className='center-text'>Users in chat:{userNumber.description}</h1>
               </div>
               <div>
                   {
