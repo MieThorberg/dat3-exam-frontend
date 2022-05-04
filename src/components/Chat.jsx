@@ -55,10 +55,10 @@ const Chat = () => {
   return (
       <div>
               <div>
-                
-                  <h1>Welcome to Room: {data?.room} ${data.name}</h1>
+                  <h1 className='center-text'>Welcome to Werewolf</h1>
+                  <h1 className='center-text'>Room: {data?.room} User:{data.name}</h1>
               </div>
-              <div  style={{height: "450px", overflowY:"scroll"}}>
+              <div>
                   {
                       allMessages.map(msg => {
                           return data.name === msg.name
@@ -86,7 +86,7 @@ const Chat = () => {
               </div>
               <div >
                   <input type="text"  name="message" onKeyDown={handleEnter} placeholder="Type your message" value={msg} onChange={handleChange} />
-                  <button type="button" disabled={loading} onClick={onSubmit}>
+                  <button type="button" className='button-style' disabled={loading} onClick={onSubmit}>
                       {
                           loading
                           ?

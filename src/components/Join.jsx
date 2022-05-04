@@ -40,15 +40,15 @@ const Join = ({ loggedIn}) => {
   return (
       <div>
           {loggedIn?
-          <form onSubmit={handleSubmit}>
+          <form className='form-box center-text' onSubmit={handleSubmit}>
               <div>
                   <h2>Join game</h2>
               </div>
               <div >
-                  <input type="name" name="name" placeholder="Enter name" onChange={handleChange} />
+                  <input type="name" className='joinInput' name="name" placeholder="Enter name" onChange={handleChange} />
               </div>
               <div className="form-group mb-4">
-              <input type="name" name="room" placeholder="Enter pin" onChange={handleChange} />
+              <input type="name" className='joinInput' name="room" placeholder="Enter pin" onChange={handleChange} />
                   {/* <select name="room" aria-label="Default select example" onChange={handleChange}>
                       <option value="">Select Room</option>
                       <option value="gaming">Gaming</option>
@@ -56,7 +56,7 @@ const Join = ({ loggedIn}) => {
                       <option value="socialMedia">Social Media</option>
                   </select> */}
               </div>
-              <button type="submit">Submit</button>
+              <button className='button' type="submit">Submit</button>
               {error ? <small>{error}</small> : "" }
           </form>
           :

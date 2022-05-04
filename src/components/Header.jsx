@@ -12,6 +12,7 @@ const Header = ( { loggedIn } ) => {
       <header>
         <nav>
           <NavLink className="nav-link" to="/">Home</NavLink>
+          <NavLink className="nav-link" to="join">Join game</NavLink>
           {
             loggedIn ?
                 <NavLink className="nav-button" to="/" onClick={logout}>Logout</NavLink>
