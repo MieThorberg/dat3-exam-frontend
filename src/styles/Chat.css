@@ -17,6 +17,14 @@
     width: 35%;
   }
 
+  .name-color{
+    color: blue;
+  }
+
+  .name-color-resp{
+    color: rgb(119, 26, 5);
+  }
+
   .button-style {
     color: #fff !important;
     text-transform: uppercase;
@@ -27,7 +35,7 @@
     border: #1A1A1D;
     text-align: center;
     width: 50%;
-        position: relative; left: 70%; margin-left: -500px; 
+        position: relative; left: 50%; margin-left: -500px; 
         padding: auto; 
     
 }

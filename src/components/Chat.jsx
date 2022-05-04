@@ -17,7 +17,7 @@ const Chat = () => {
   const [userNumber, setUserNumber] = useState('')
 
   useEffect(() => {
-      const socket = io("http://localhost:9000")
+      const socket = io("https://react-chat-werewolf-server.herokuapp.com")
       setSocket(socket)
 
       socket.on("connect", () => {
@@ -64,8 +64,9 @@ const Chat = () => {
               <div>
                   <h1 className='center-text'>Welcome to Werewolf: {data.name}</h1>
                   <h1 className='center-text'>Room: {data?.room}</h1>
-                  <h1 className='center-text'>Users in chat:{userNumber.description}</h1>
+                  <h1 className='center-text'>Users in chat: {userNumber.description}</h1>
               </div>
+              
               <div>
                   {
                       allMessages.map(msg => {
@@ -74,16 +75,17 @@ const Chat = () => {
                           <div >
                               <div>
                                   <div>
-                                      <strong>{msg.name}:</strong>
+                                      <strong className='name-color'>{msg.name}:</strong>
                                   </div>
                                   <h4>{msg.msg}</h4>
                               </div>
                           </div>
                           :
+                          //other users
                           <div>
                               <div>
                                   <div>
-                                      <strong >{msg.name}:</strong>
+                                      <strong className='name-color-resp'>{msg.name}:</strong>
                                   </div>
                                   <h4>{msg.msg}</h4>
                               </div>
