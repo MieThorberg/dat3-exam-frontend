@@ -49,12 +49,7 @@ const Join = ({ loggedIn}) => {
               </div>
               <div>
               <input type="name" className='joinInput' name="room" placeholder="Enter pin" onChange={handleChange} />
-                  {/* <select name="room" aria-label="Default select example" onChange={handleChange}>
-                      <option value="">Select Room</option>
-                      <option value="gaming">Gaming</option>
-                      <option value="coding">Coding</option>
-                      <option value="socialMedia">Social Media</option>
-                  </select> */}
+              
               </div>
               <button className='button' type="submit">Submit</button>
               {error ? <small>{error}</small> : "" }
