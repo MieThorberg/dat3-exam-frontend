@@ -1,44 +1,93 @@
-import React from 'react'
+import React, {useState, useEffect, useRef} from 'react'
+import { io } from 'socket.io-client'
+import { useLocation } from 'react-router-dom'
 
 const Room = () => {
+    const location = useLocation()
+    const msgBoxRefw = useRef()
+    const [ data, setData ] = useState({})
+    const [ msgw, setMsgw ] = useState("")
+    const [ role, setrole ] = useState("")
+    const [ loading, setLoading ] = useState(false)
+
+    const [ allWerewolfMessages, setWerewolfMessages ] = useState([])
+    const [ socket, setSocket ] = useState()
+
+    useEffect(() => {
+        const socket = io("http://localhost:9000/")
+        setSocket(socket)
+  
+        socket.on("connect", () => {
+            console.log("socket Connected")
+            socket.emit("joinWRoom", 'werewolf')
+        }) 
+         
+    }, [])
+
+    useEffect(() => {
+        //recieves the latest message from the server and sets our useStates
+        if(socket){
+            socket.on("getLatestWMessage", (newMessage) => {
+                console.log(allWerewolfMessages)
+                console.log(newMessage)
+                setWerewolfMessages([ ...allWerewolfMessages,  newMessage ])
+                msgBoxRefw.current.scrollIntoView({behavior: "smooth"})
+                setMsgw("")
+                setLoading(false)
+            })
+        }
+    }, [socket, allWerewolfMessages]) 
+    
+      useEffect(() => {
+          setData(location.state)
+      }, [location])
+
+       //werewolf role
+  const handleChangew = e => setMsgw(e.target.value)
+  const handleEnterw = e => e.keyCode===13 ? onSubmitw() : ""
+  const onSubmitw = () => {
+      if(msgw){
+          setLoading(true)
+          const newWMessage = { time:new Date(), msgw, name: data.name }
+          socket.emit("newWMessage", {newWMessage, room: 'werewolf'})
+      }
+  }
+
+
   return (
-    <div  >
-        
-              <div >
-                
-                  <h1>Welcome to Room: {data?.room} ${data.name}</h1>
-              </div>
-              <div  style={{height: "450px", overflowY:"scroll"}}>
+    <div >
+        <div className='card'>
+        <div className='render-chat'>
+        <h2>Wolf chat</h2>
                   {
-                      allMessages.map(msg => {
-                          return data.name === msg.name
+                      allWerewolfMessages.map(msgw => {
+                          return data.name === msgw.name
                           ?
                           <div >
                               <div>
                                   <div>
-                                      <strong>{msg.name}:</strong>
-                                      {/* <small className="text-muted m-1"><Moment fromNow>{msg.time}</Moment></small> */}
+                                      <strong className='name-color'>{msgw.name}:</strong>
                                   </div>
-                                  <h4>{msg.msg}</h4>
+                                  <h4>{msgw.msgw}</h4>
                               </div>
                           </div>
                           :
+                          //other users
                           <div>
                               <div>
                                   <div>
-                                      <strong >{msg.name}:</strong>
-                                      {/* <small className="text-mmuted m-1"><Moment fromNow>{msg.time}</Moment></small> */}
+                                      <strong className='name-color-resp'>{msgw.name}:</strong>
                                   </div>
-                                  <h4>{msg.msg}</h4>
+                                  <h4>{msgw.msgw}</h4>
                               </div>
                           </div>
                       })
                   }
-                  <div ref={msgBoxRef} ></div>
-              </div>
-              <div >
-                  <input type="text"  name="message" onKeyDown={handleEnter} placeholder="Type your message" value={msg} onChange={handleChange} />
-                  <button type="button" disabled={loading} onClick={onSubmit}>
+                  <div ref={msgBoxRefw} ></div>
+              </div><br></br>
+              <div className='form'>
+                  <input type="text"  name="messagew" onKeyDown={handleEnterw} placeholder="Type your message" value={msgw} onChange={handleChangew} />
+                  <button type="button"  disabled={loading} onClick={onSubmitw}>
                       {
                           loading
                           ?
@@ -50,7 +99,7 @@ const Room = () => {
                       }
                   </button>   
               </div>
-              
+              </div>
       </div>
   )
 }

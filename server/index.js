@@ -32,10 +32,17 @@ io.on("connection", (socket) => {
   socket.on("joinRoom", room => {
 		socket.join(room)
 
+    
+
 //  checks if a room exists and if it does then gets hows many clients are in the room and emits the number back to the clients in that room
 if (io.sockets.adapter.rooms.has(room)) clientsInRoom = io.sockets.adapter.rooms.get(room).size
     
     socket.broadcast.emit('newclientconnect',{ description: clientsInRoom+ ' users'})
+  })
+
+  socket.on("joinWRoom", room => {
+		socket.join(room)
+
   })
 
   // when someone disconnects from the chat
@@ -48,6 +55,10 @@ if (io.sockets.adapter.rooms.has(room)) clientsInRoom = io.sockets.adapter.rooms
   // sends message to all clients in that specific room
   socket.on("newMessage", ({newMessage, room}) => {
     io.in(room).emit("getLatestMessage", newMessage)
+  })
+
+  socket.on("newWMessage", ({newWMessage, room}) => {
+    io.in(room).emit("getLatestWMessage", newWMessage)
   })
 
 });

@@ -7,7 +7,7 @@ const Join = ({ loggedIn}) => {
   let navigate = useNavigate();
 
   const [error, setError] = useState("")
-  const [data, setData] = useState({ name:"", room:"" })
+  const [data, setData] = useState({ name:"", room:"", role:"" })
 
   const handleChange = e => {
       setData({
@@ -47,6 +47,11 @@ const Join = ({ loggedIn}) => {
               <div >
                   <input type="name" className='joinInput' name="name" placeholder="Enter name" onChange={handleChange} />
               </div>
+              <select name="role" aria-label="Default select example" onChange={handleChange}>
+                      <option value="">Select Role</option>
+                      <option value="werewolf">Werewolf</option>
+                      <option value="villager">Villager</option>
+                  </select>
               <div>
               <input type="name" className='joinInput' name="room" placeholder="Enter pin" onChange={handleChange} />
               

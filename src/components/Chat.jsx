@@ -3,26 +3,30 @@ import { io } from 'socket.io-client'
 // import Moment from 'react-moment'
 import "../styles/Chat.css"
 import { useLocation } from 'react-router-dom'
+import Room from './Room'
 
 
 const Chat = () => {
   const location = useLocation()
   const msgBoxRef = useRef()
-
   const [ data, setData ] = useState({})
   const [ msg, setMsg ] = useState("")
+  const [ role, setRole ] = useState("")
   const [ loading, setLoading ] = useState(false)
   const [ allMessages, setMessages ] = useState([])
   const [ socket, setSocket ] = useState()
   const [userNumber, setUserNumber] = useState('')
 
   useEffect(() => {
-      const socket = io("https://react-chat-werewolf-server.herokuapp.com")
+      const socket = io("http://localhost:9000/")
       setSocket(socket)
 
       socket.on("connect", () => {
           console.log("socket Connected")
           socket.emit("joinRoom", location.state.room)
+          socket.emit("joinWRoom", 'werewolf')
+          setRole(location.state.role)
+          
       }) 
        
   }, [])
@@ -48,6 +52,7 @@ const Chat = () => {
       }
   }, [socket, allMessages])    
 
+
   useEffect(() => {
       setData(location.state)
   }, [location])
@@ -63,15 +68,18 @@ const Chat = () => {
       }
   }
 
+
   return (
-      <div>
+      <div >
               <div>
                   <h1 className='center-text'>Welcome to Werewolf: {data.name}</h1>
                   <h1 className='center-text'>Room: {data?.room}</h1>
-                  <h1 className='center-text'>Users in chat: {userNumber.description}</h1>
+                  <h1 className='center-text'>Users in chat: {userNumber?.description}</h1>
               </div>
-              
-              <div>
+              <div className='container'>
+              <div className='card'>
+              <div className='render-chat'>
+                  <h2>Global game chat</h2>
                   {
                       allMessages.map(msg => {
                           return data.name === msg.name
@@ -96,11 +104,14 @@ const Chat = () => {
                           </div>
                       })
                   }
-                  <div ref={msgBoxRef} ></div>
-              </div>
-              <div >
-                  <input type="text"  name="message" onKeyDown={handleEnter} placeholder="Type your message" value={msg} onChange={handleChange} />
-                  <button type="button" className='button-style' disabled={loading} onClick={onSubmit}>
+                  
+                  <div ref={msgBoxRef}  ></div>
+                  
+              </div> <br></br>
+              
+              <div className='form'>
+                  <input type="text"  name="message" onKeyDown={handleEnter} placeholder="Type your message" value={msg} onChange={handleChange} /><br></br>
+                  <button type="button" disabled={loading} onClick={onSubmit}>
                       {
                           loading
                           ?
@@ -112,6 +123,19 @@ const Chat = () => {
                       }
                   </button>   
               </div>
+              </div>
+              
+              <div>
+                  {role === 'werewolf' ?
+                  <Room/>
+                  :
+                  <div></div>
+
+                    }
+              </div>
+              
+              </div>
+              
 
       </div>
   )
