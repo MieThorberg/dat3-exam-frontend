@@ -28,6 +28,7 @@ const Chat = () => {
   }, [])
 
   useEffect(() => {
+      //recieves the latest message from the server and sets our useStates
       if(socket){
           socket.on("getLatestMessage", (newMessage) => {
               console.log(allMessages)
@@ -37,6 +38,8 @@ const Chat = () => {
               setMsg("")
               setLoading(false)
           })
+
+          // when a new user enters the room we add the new user to the total number in the room
           socket.on("newclientconnect", (newClient) => {
             setUserNumber(newClient)
             // console.log(newClient)
@@ -49,6 +52,7 @@ const Chat = () => {
       setData(location.state)
   }, [location])
   
+  // handles new messages being sent to the server
   const handleChange = e => setMsg(e.target.value)
   const handleEnter = e => e.keyCode===13 ? onSubmit() : ""
   const onSubmit = () => {
