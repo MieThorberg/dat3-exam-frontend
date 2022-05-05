@@ -18,7 +18,7 @@ const Chat = () => {
   const [userNumber, setUserNumber] = useState('')
 
   useEffect(() => {
-      const socket = io("http://localhost:9000/")
+      const socket = io("https://react-chat-werewolf-server.herokuapp.com")
       setSocket(socket)
 
       socket.on("connect", () => {
