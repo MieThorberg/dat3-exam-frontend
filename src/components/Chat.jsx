@@ -4,6 +4,7 @@ import { io } from 'socket.io-client'
 import "../styles/Chat.css"
 import { useLocation } from 'react-router-dom'
 import Room from './Room'
+import facade from '../apiFacade'
 
 
 const Chat = () => {
@@ -16,6 +17,7 @@ const Chat = () => {
   const [ allMessages, setMessages ] = useState([])
   const [ socket, setSocket ] = useState()
   const [userNumber, setUserNumber] = useState('')
+  const [players, setPlayers] = useState([])
 
   useEffect(() => {
       const socket = io("https://react-chat-werewolf-server.herokuapp.com")
@@ -56,7 +58,11 @@ const Chat = () => {
   useEffect(() => {
       setData(location.state)
   }, [location])
-  
+
+  useEffect(() =>{
+    facade.getPlayers(1).then(data => setPlayers(data))
+  },[])
+  console.log(players);
   // handles new messages being sent to the server
   const handleChange = e => setMsg(e.target.value)
   const handleEnter = e => e.keyCode===13 ? onSubmit() : ""
@@ -68,6 +74,12 @@ const Chat = () => {
       }
   }
 
+  const startGame = () => {
+      const players = [{userName:"user", userPass:"test123"},
+      {userName:"admin", userPass:"test123"},
+      {userName:"user_admin", userPass:"test123"}]
+      facade.createPlayers(players, 1)
+  }
 
   return (
       <div >
@@ -75,6 +87,11 @@ const Chat = () => {
                   <h1 className='center-text'>Welcome to Werewolf: {data.name}</h1>
                   <h1 className='center-text'>Room: {data?.room}</h1>
                   <h1 className='center-text'>Users in chat: {userNumber?.description}</h1>
+                  {players.map(player => {
+                     return <div>
+                          <h3>{player.username}</h3>
+                      </div>
+                  })}
               </div>
               <div className='container'>
               <div className='card'>
@@ -124,7 +141,7 @@ const Chat = () => {
                   </button>   
               </div>
               </div>
-              
+              <button onClick={startGame}>start</button>
               <div>
                   {role === 'werewolf' ?
                   <Room/>
