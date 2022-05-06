@@ -3,6 +3,7 @@ const express = require("express")
 const { Server } = require("socket.io");
 var http = require('http');
 const cors = require("cors")
+const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
 // Creates an Express application
 const app = express()
@@ -29,8 +30,10 @@ io.on("connection", (socket) => {
   
 
  // socket.on(eventName, listener) listener function
-  socket.on("joinRoom", room => {
+  socket.on("joinRoom", ({name, room}) => {
+    // console.log(addUser({ id: socket.id, name, room }));
 		socket.join(room)
+
 
     
 
@@ -56,6 +59,13 @@ if (io.sockets.adapter.rooms.has(room)) clientsInRoom = io.sockets.adapter.rooms
   socket.on("newMessage", ({newMessage, room}) => {
     io.in(room).emit("getLatestMessage", newMessage)
   })
+
+  // socket.on("newUser", (room) => {
+  
+  //   io.in(room).emit("getLatestUser", getUsersInRoom(room))
+  // })
+
+// console.log(getUsersInRoom(1));
 
   socket.on("newWMessage", ({newWMessage, room}) => {
     io.in(room).emit("getLatestWMessage", newWMessage)

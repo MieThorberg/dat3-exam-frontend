@@ -42,7 +42,7 @@ export default function App() {
           {/* Logged as user links */}
           <Route path="/home" element={<Home setHeadline={setHeadline}/>}></Route>
           <Route path="/game_settings" element={<GameSettingsPage setHeadline={setHeadline}/>}></Route>
-          <Route path="/join_game" element={<JoinPage/>}></Route>
+          <Route path="/join_game/:roomId" element={<JoinPage/>}></Route>
           <Route path="/gamepin" element={<GamepinPage/>}></Route>
 
           {/* Playing game links */}

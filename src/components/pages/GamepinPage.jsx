@@ -7,6 +7,7 @@ const GamepinPage = () => {
   let navigate = useNavigate();
 
   const [error, setError] = useState("")
+  //Todo: change so its a user we send to the next page
   const [data, setData] = useState({ name: "", room: "", role: "" })
 
   const handleChange = e => {
@@ -33,7 +34,7 @@ const GamepinPage = () => {
     e.preventDefault()
     const isValid = validation()
     if (isValid) {
-      navigate(`/chat/${data.room}`, { state: data });
+      navigate(`/join_game/${data.room}`, { state: data });
     }
   }
   return (

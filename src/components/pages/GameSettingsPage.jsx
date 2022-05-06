@@ -42,7 +42,7 @@ const GameSettingsPage = ({ setHeadline }) => {
         e.preventDefault()
         const isValid = validation()
         if (isValid) {
-            navigate(`/chat/${data.room}`, { state: data });
+            navigate(`/join_game/${data.room}`, { state: data });
             facade.createGame('user', 'test123').then(data => setGame(data))
         }
 

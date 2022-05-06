@@ -45,7 +45,7 @@ function apiFacade() {
 
   const createGame = (username, password) => {
     const options = makeOptions("POST", true, { userName: username, userPass: password }); //True add's the token
-    console.log(username + " " + password);
+    // console.log(username + " " + password);
     return fetch(URL + "/api/games/creategame", options)
       .then(handleHttpErrors)
       .then(res => { setToken(res.token) })
