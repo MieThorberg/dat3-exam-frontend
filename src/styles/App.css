@@ -33,7 +33,7 @@ p {
 }
 
 .background-img {
-    background-image: url("../images/night.jpg");
+    /* background-image: url("../images/night.jpg"); */
     background-position: center;
     background-attachment: fixed;
     background-size: cover;
