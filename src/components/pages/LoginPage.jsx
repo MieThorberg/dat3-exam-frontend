@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
-import facade from "../apiFacade";
-import "../styles/LoginPage.css";
+import facade from "../../apiFacade";
+import "../../styles/LoginPage.css";
 
 function LogIn({ login, creatingUser}) {
   const init = { username: "", password: "" };

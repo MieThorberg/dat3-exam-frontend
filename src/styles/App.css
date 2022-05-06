@@ -1,0 +1,333 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(16, 5, 30);
+}
+
+h1,
+h2,
+h3,
+p {
+    color: rgb(215, 213, 218);
+}
+
+.header h1,
+.header-large h1 {
+    font-family: 'New Rocker', cursive;
+    font-size: 50px;
+}
+
+h2 {
+    font-size: 16px;
+}
+
+p {
+    font-size: 16px;
+}
+
+.background-img {
+    background-image: url("../images/night.jpg");
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: blur(1.5px);
+    -webkit-filter: blur(1.5px);
+    height: 100px;
+    width: 100px;
+    max-width: 100%;
+    height: 100%;
+    
+}
+
+.main {
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* border: 5px solid red; */
+    /*  background-color: rgba(16, 5, 30, 0.685); */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px 0 20px;
+}
+
+.main2 {
+    position: relative;
+    top: 50px;
+    left: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px 15px 50px 15px;
+}
+
+.scroll-container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+    width: 100%;
+    height: 100%;
+    /* border: 1px solid blue; */
+    
+}
+
+.full-scroll-section {
+    height: auto;
+    width: auto;
+    overflow: auto;
+    /* border: 1px solid green;   */ 
+   
+}
+
+.box {
+    /* border: 1px solid green; */
+}
+
+.full-scroll-section div {
+    /* border: 1px solid red; */
+}
+
+.text-section {
+    text-align: left;
+    padding: 0 10px 0 10px;
+    /* border: 1px solid red; */
+}
+
+.text-section h2 {
+    padding-top: 20px;
+    padding-bottom: 5px;
+}
+
+.text-section p {
+    padding-bottom: 20px;
+}
+
+.text-section div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+
+input[type=text],
+input[type=password] {
+  background-color: rgb(246, 246, 246);
+  color: black;
+  border-radius: 25px;
+  padding: 14px 20px;
+  width: 100%;
+  border: none;
+  margin: 10px 0 10px 0;
+  border: 1px solid transparent;
+  outline: none;
+  max-width: 300px;
+}
+
+input[type=text]:hover,
+input[type=password]:hover {
+  /* border: 1px solid #40446c57; */
+}
+
+input[type=text]:focus,
+input[type=password]:focus {
+/*   border: 3px solid #2f335c;
+  background-color: #977f9d;
+ */
+}
+
+input,
+button {
+    cursor: pointer;
+}
+
+button {
+    background-color: black;
+    color: rgb(197, 197, 197);
+    border-radius: 25px;
+    padding: 10px 20px;
+    height: 45px;
+    width: 100%;
+    font-size: 17px;
+    border: none;
+    outline: none;
+    font-weight: bolder;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+button:hover {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0.19);
+    background-color: gray;
+    color: black;
+}
+
+.btn-purple {
+    background-color: rgb(81, 41, 137);
+    color: rgb(215, 213, 218);
+}
+
+.btn-purple:hover {
+    background-color: rgb(215, 213, 218);
+    color: rgb(29, 29, 29);
+}
+
+.btn-lightpurple {
+    background-color: rgb(127, 110, 235);
+    color: rgb(215, 213, 218);
+}
+
+.btn-lightpurple:hover {
+    background-color: rgb(215, 213, 218);
+    color: rgb(29, 29, 29);
+}
+
+.main-container {
+    /* border: 2px solid blue; */
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto 60% auto;
+}
+
+.main-container div {
+    /* border: 2px solid green; */
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 60%;
+}
+
+.main-container .section div {
+    height: 100%;
+    width: 100%;
+    /* border: 2px solid orange; */
+}
+
+.main-container .section .header,
+.main-container .section .header-large {
+    text-align: center;
+    color: rgb(215, 213, 218);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 2px 2px 4px #00000088;
+}
+
+.main-container .section .header {
+    padding: 0px 10px 0px 10px;
+}
+
+.main-container .section .header * {
+    padding-top: 20px;
+}
+
+.main-container .section .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 15% 0 15%;
+}
+
+.main-container .section .content button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0 10px 0;
+    /* border: 2px solid orange; */
+}
+
+@media only screen and (max-width: 300px) {
+
+    .main-container .section .header h1,
+    .main-container .section .header-large h1 {
+        font-size: 40px;
+    }
+
+    .main-container .section .header {
+        padding: 0px 5px 0px 5px;
+    }
+
+    .main-container .section .header * {
+        padding-top: 30px;
+    }
+
+    .main-container .section .header h2 {
+        font-size: 12px;
+    }
+
+    .main-container {
+        grid-template-rows: auto 50% auto;
+    }
+
+    .main-container .section .content {
+        padding: 0;
+    }
+
+    button {
+        height: 40px;
+        font-size: 15px;
+    }
+}
+
+@media only screen and (min-width: 450px) {
+    button {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .main-container .section .header h1,
+    .main-container .section .header-large h1 {
+        font-size: 70px;
+    }
+
+    .main-container .section .header p {
+        font-size: 16px;
+    }
+
+    .main-container .section .header {
+        padding: 0px 20px 0px 20px;
+    }
+
+}
+
+@media only screen and (min-width: 900px) {
+    .main-container .section .header-large h1 {
+        font-size: 90px;
+    }
+
+    .main-container .section .header p {
+        font-size: 16px;
+    }
+}
+
+@media only screen and (min-height: 800px) {
+    .main-container {
+        grid-template-rows: auto 50% auto;
+    }
+}
+
+@media only screen and (min-height: 1000px) {
+    .main-container {
+        grid-template-rows: auto 40% auto;
+    }
+}
