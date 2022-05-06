@@ -20,7 +20,7 @@ const StartPage = () => {
                         <div className="content">
                             <button className="btn-purple" style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/home"}>Login</button>
                             <button className="btn-purple" style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/rules"}>About</button>
-                            <button className="btn-purple" style={{ maxWidth: "200px" }}>Credits</button>
+                            <button className="btn-purple" style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/credits"}>Credits</button>
                         </div>
                     </div>
                     {/* <!-- Column 3 (empty) --> */}
