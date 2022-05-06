@@ -87,9 +87,9 @@ const Chat = () => {
                   <h1 className='center-text'>Welcome to Werewolf: {data.name}</h1>
                   <h1 className='center-text'>Room: {data?.room}</h1>
                   <h1 className='center-text'>Users in chat: {userNumber?.description}</h1>
-                  {players.map(player => {
-                     return <div>
-                          <h3>{player.username}</h3>
+                  {players.map((player, index) => {
+                     return <div key={index}>
+                          <h3 >{player.username}</h3>
                       </div>
                   })}
               </div>
@@ -98,11 +98,11 @@ const Chat = () => {
               <div className='render-chat'>
                   <h2>Global game chat</h2>
                   {
-                      allMessages.map(msg => {
+                      allMessages.map((index, msg) => {
                           return data.name === msg.name
                           ?
-                          <div >
-                              <div>
+                          <div key={index}>
+                              <div >
                                   <div>
                                       <strong className='name-color'>{msg.name}:</strong>
                                   </div>
@@ -111,8 +111,8 @@ const Chat = () => {
                           </div>
                           :
                           //other users
-                          <div>
-                              <div>
+                          <div key={index}>
+                              <div >
                                   <div>
                                       <strong className='name-color-resp'>{msg.name}:</strong>
                                   </div>

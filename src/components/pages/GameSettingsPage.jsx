@@ -1,6 +1,8 @@
 import React from 'react'
 import "../../styles/App.css"
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react'
+import { useNavigate, NavLink } from 'react-router-dom'
+import facade from '../../apiFacade'
 
 const GameSettingsPage = ({ setHeadline }) => {
     //title i topnav
@@ -8,19 +10,47 @@ const GameSettingsPage = ({ setHeadline }) => {
         setHeadline("Game settings");
     }, []);
 
-    const [game, setGame] = useState("");
+    let navigate = useNavigate();
 
-    function createGame() {
-        facade.createGame("admin", "test123");
-        facade.getGameById("16").then(data => setGame(data));
-        console.log(game);
+    const [error, setError] = useState("")
+    const [data, setData] = useState({ name: "", room: "" })
+    const [pin, setPin] = useState("");
+    const [game, setGame] = useState('')
+
+    const handleChange = e => {
+        setData({
+            ...data,
+            [e.target.name]: e.target.value
+        })
+
+    }
+
+    const validation = () => {
+        if (!data.name) {
+            setError("Please enter your name.")
+            return false
+        }
+        if (!data.room) {
+            setError("Please enter pin code.")
+            return false
+        }
+        setError("")
+        return true
+    }
+
+    const handleSubmit = e => {
+        e.preventDefault()
+        const isValid = validation()
+        if (isValid) {
+            navigate(`/chat/${data.room}`, { state: data });
+            facade.createGame('user', 'test123').then(data => setGame(data))
+        }
+
     }
     return (
         <div className='main2'>
             <div className='scroll-container'>
                 <div className='full-scroll-section'>
-
-
                     <div className='box'>
                         <div className='text-section'>
                             <h2>Type amount of wolves</h2>
@@ -46,13 +76,23 @@ const GameSettingsPage = ({ setHeadline }) => {
                             <input type="text" />
                         </div>
                     </div>
-                    <button onClick={createGame}>Create game</button>
+
+                    <div className='box'>
+                        <form onSubmit={handleSubmit}>
+                            <div >
+                                <input type="name" name="name" placeholder="Game name" onChange={handleChange} />
+                            </div>
+                            <div>
+                                <input type="name" name="room" placeholder="Enter pin" onChange={handleChange} /><br></br>
+                            </div>
+                            <button type="submit">Create game</button>
+                            {/* If you dont have type in values for the inputs */}
+                            {error ? <small>{error}</small> : ""}
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-
-
-
     )
 }
 
