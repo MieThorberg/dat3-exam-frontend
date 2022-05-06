@@ -46,9 +46,21 @@ function apiFacade() {
   const createGame = (username, password) => {
     const options = makeOptions("POST", true, { userName: username, userPass: password }); //True add's the token
     console.log(username + " " + password);
-    return fetch(URL + "/api/game/creategame", options)
+    return fetch(URL + "/api/games/creategame", options)
       .then(handleHttpErrors)
       .then(res => { setToken(res.token) })
+  }
+
+  const createPlayers = (players, id) => {
+    const options = makeOptions("POST", true, players); //True add's the token
+    return fetch(URL + `/api/games/${id}/createplayers`, options)
+      .then(handleHttpErrors)
+      .then(res => { setToken(res.token) })
+  }
+
+  const getPlayers = (id) => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + `/api/games/${id}/players`, options).then(handleHttpErrors);
   }
 
   const getGameById = (id) => {
@@ -83,6 +95,8 @@ function apiFacade() {
     create,
     createGame,
     getGameById,
+    createPlayers,
+    getPlayers,
   }
 }
 const facade = apiFacade();

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate, NavLink } from 'react-router-dom'
+import facade from '../apiFacade'
 import "../styles/Join.css"
 
 const CreateGame = ({ loggedIn}) => {
@@ -7,8 +8,9 @@ const CreateGame = ({ loggedIn}) => {
   let navigate = useNavigate();
 
   const [error, setError] = useState("")
-  const [data, setData] = useState({ name:"", room:"" })
+  const [data, setData] = useState({ name:"", room:""})
   const [pin, setPin] = useState("");
+  const [game, setGame] = useState('')
 
   const handleChange = e => {
       setData({
@@ -36,8 +38,11 @@ const CreateGame = ({ loggedIn}) => {
       const isValid = validation()
       if(isValid){
           navigate(`/chat/${data.room}`, { state: data });
+          facade.createGame('user','test123').then(data => setGame(data))
       }
+
   }
+
 console.log('room:'+data.room);
 console.log('name:'+data.name);
   return (
@@ -55,7 +60,7 @@ console.log('name:'+data.name);
               <input type='button' onClick={() => setPin((pin) => `${pin}1`)} value="Generate"></input>
 
               </div>
-              <button className='button' type="submit">Create game</button>
+              <button  type="submit">Create game</button>
               {error ? <small>{error}</small> : "" }
           </form>
           :
