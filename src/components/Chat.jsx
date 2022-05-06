@@ -98,7 +98,7 @@ const Chat = () => {
               <div className='render-chat'>
                   <h2>Global game chat</h2>
                   {
-                      allMessages.map((index, msg) => {
+                      allMessages.map((msg, index) => {
                           return data.name === msg.name
                           ?
                           <div key={index}>
