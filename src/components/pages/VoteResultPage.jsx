@@ -3,23 +3,26 @@ import "../../styles/App.css"
 import { useEffect, useState } from 'react'
 import gameController from '../../gameController'
 
-const VoteResultPage = ({voteresult}) => {
-   /*  const [result, setResult] = useState(""); */
+const VoteResultPage = ({ voteresult }) => {
+    const [result, setResult] = useState("");
 
-    /* useEffect(() => {
-        gameController.getVotingResult(2).then(data => setResult(data));
-        console.log(result)
-        if (result != "") {
-            gameController.killPlayer(2, result.id);
+    useEffect(() => {
+
+        if (voteresult != {}) {
+
+
         }
-    }, [setResult])
-    
+
+    }, [voteresult])
+    gameController.killPlayer(2, voteresult).then(data => setResult(data));
+
+    console.log("result " + result);
+    console.log(voteresult);
+    console.log(voteresult.id);
+    /* console.log(result);
  */
 
-    console.log("vote: " + voteresult.username);
 
-
-    
 
     return (
         <>
@@ -32,7 +35,7 @@ const VoteResultPage = ({voteresult}) => {
                     <div className="section">
                         <div className="header">
                             <p>Voting result:</p>
-                            <h1>Killed {voteresult.username} character {voteresult.characterName}.</h1>
+                            <h1>Killed {result.username} character {result.characterName}.</h1>
                         </div>
                     </div>
                     {/* <!-- Column 3 (empty) --> */}
