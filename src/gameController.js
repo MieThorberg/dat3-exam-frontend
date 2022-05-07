@@ -3,7 +3,18 @@ import facade from "./apiFacade";
 function GameController() {
     function createGame() { }
     function createPlayer() { }
-    function createRound() { }
+    function createRound() {
+        if (isDay) {
+            //addDay()
+            //createDayRound()
+        } else {
+            //createNightRound()
+        }
+    }
+
+    function getNightRound(gameid, day) { }
+    function getDayRound(gameid, day) { }
+
     function assignCharacters(id) {
         facade.assignCharacters(id);
     }
@@ -44,7 +55,7 @@ function GameController() {
     }
     function addDay(gameid) {
         facade.addDay(gameid);
-     }
+    }
 
     function hasEnded(gameid) {
         return facade.hasEnded(gameid);

@@ -108,7 +108,11 @@ const Village = ({setVoteresult}) => {
                             <button onClick={onClickReset}>Reset</button>
                         </div>
                         {
-                            timerHasStopped ? <div className="content">
+                            timerHasStopped ? 
+                            
+                            //isDay() check who is allowed to vote, and only show vote button for them
+
+                            <div className="content">
                                 <input type="text" placeholder="type name to vote on" />
                                 <button className="btn-purple" onClick={vote}>Vote</button>
                             </div> : <></>
