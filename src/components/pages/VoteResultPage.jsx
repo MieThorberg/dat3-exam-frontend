@@ -4,19 +4,22 @@ import { useEffect, useState } from 'react'
 import gameController from '../../gameController'
 
 const VoteResultPage = ({voteresult}) => {
-   /*  const [result, setResult] = useState(""); */
+    const [result, setResult] = useState("");
 
-    /* useEffect(() => {
-        gameController.getVotingResult(2).then(data => setResult(data));
-        console.log(result)
-        if (result != "") {
-            gameController.killPlayer(2, result.id);
-        }
-    }, [setResult])
+    // useEffect(() => {        
+    //     if (voteresult != {} ) {
+            
+    //     }
+    // }, [voteresult])
     
- */
+    console.log("test");
+    console.log(voteresult.id)
 
-    console.log("vote: " + voteresult.username);
+    if(voteresult.id != null) {
+        console.log("bob");
+    gameController.killPlayer(2, voteresult.id).then(data => {setResult(data)});
+
+    }
 
 
     

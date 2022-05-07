@@ -79,12 +79,11 @@ const Village = ({setVoteresult}) => {
 
     function vote() {
         //TODO: change and get the gameid, userid & playerid
-        gameController.vote(2, 3, 7);
+        gameController.vote(2, 3, 5);
         console.log("voting")
        
-        const player = gameController.getVotingResult(2);
-        console.log(player);
-        setVoteresult({player});
+        gameController.getVotingResult(2).then(data => setVoteresult(data));
+        // setVoteresult(player);
         
         
         navigate(`/game/voteresult`);
