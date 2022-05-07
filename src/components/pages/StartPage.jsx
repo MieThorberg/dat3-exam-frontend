@@ -1,10 +1,10 @@
 import React from 'react'
 import "../../styles/App.css"
 
-const StartPage = () => {
+const StartPage = ({mode}) => {
     return (
         <div>
-            <div className='background-img'></div>
+            <div id='background-img' style={{backgroundImage: `url(${mode.image})`}}></div>
             <div className='main' style={{ backgroundColor: "rgba(16, 5, 30, 0.685)" }}>
                 {/* TODO: make background image work */}
                 

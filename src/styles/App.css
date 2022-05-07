@@ -11,6 +11,12 @@ body {
     background-color: rgba(16, 5, 30);
 }
 
+a {
+    text-decoration: none;
+    display: block;
+    color: black;
+}
+
 h1,
 h2,
 h3,
@@ -32,15 +38,19 @@ p {
     font-size: 16px;
 }
 
-.background-img {
+#background-img {
     background-image: url("../images/night.jpg");
     background-position: center;
     background-attachment: fixed;
+    
     background-size: cover;
     background-repeat: no-repeat;
     filter: blur(1.5px);
     -webkit-filter: blur(1.5px);
-    height: 100vh;
+    height: 120vh;
+    
+
+    /* border: 5px solid red; */
     
 }
 
@@ -48,7 +58,7 @@ p {
     position: fixed;
     top: 0;
     left: 0;
-    /* border: 5px solid red; */
+   /*  border: 5px solid red; */
     /*  background-color: rgba(16, 5, 30, 0.685); */
     height: 100%;
     display: flex;
@@ -57,6 +67,7 @@ p {
     align-items: center;
     width: 100%;
     padding: 0 20px 0 20px;
+   
 }
 
 .main2 {
@@ -72,7 +83,7 @@ p {
     padding: 20px 15px 50px 15px;
 }
 
-.scroll-container{
+.scroll-container {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -81,15 +92,15 @@ p {
     width: 100%;
     height: 100%;
     /* border: 1px solid blue; */
-    
+
 }
 
 .full-scroll-section {
     height: auto;
     width: auto;
     overflow: auto;
-    /* border: 1px solid green;   */ 
-   
+    /* border: 1px solid green;   */
+
 }
 
 .box {
@@ -127,26 +138,26 @@ p {
 
 input[type=text],
 input[type=password] {
-  background-color: rgb(246, 246, 246);
-  color: black;
-  border-radius: 25px;
-  padding: 14px 20px;
-  width: 100%;
-  border: none;
-  margin: 10px 0 10px 0;
-  border: 1px solid transparent;
-  outline: none;
-  max-width: 300px;
+    background-color: rgb(246, 246, 246);
+    color: black;
+    border-radius: 25px;
+    padding: 14px 20px;
+    width: 100%;
+    border: none;
+    margin: 10px 0 10px 0;
+    border: 1px solid transparent;
+    outline: none;
+    max-width: 300px;
 }
 
 input[type=text]:hover,
 input[type=password]:hover {
-  /* border: 1px solid #40446c57; */
+    /* border: 1px solid #40446c57; */
 }
 
 input[type=text]:focus,
 input[type=password]:focus {
-/*   border: 3px solid #2f335c;
+    /*   border: 3px solid #2f335c;
   background-color: #977f9d;
  */
 }
@@ -251,6 +262,34 @@ button:hover {
     align-items: center;
     margin: 10px 0 10px 0;
     /* border: 2px solid orange; */
+}
+
+.mobile-chat {
+    
+}
+
+.btn-chat {
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    background-color: rgb(197, 114, 245);
+    color:rgb(29, 29, 29);
+    max-width: 130px;
+}
+
+.chat-popup {
+    visibility: hidden;
+    position: fixed;
+    top: 0;
+    right: 15px;
+    border: 1px solid green;
+    z-index: 9;
+}
+
+.chat-popup .form-container {
+    max-width: 500px;
+    padding: 10px;
+    background-color: white;
 }
 
 @media only screen and (max-width: 300px) {

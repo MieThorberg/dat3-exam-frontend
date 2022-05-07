@@ -21,29 +21,39 @@ import { useState } from "react";
 
 
 export default function App() {
+  const nightMode = {
+    image: "src\images\night.jpg"
+    /* TODO: add colors for font, navigation, btn, background-color */
+  }
+  
+  const dayMode = {
+    image: "src/images/day.jpg"
+    /* TODO: add colors for font, navigation, btn, background-color */
+  }
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [headline, setHeadline] = useState("");
+  const [mode, setMode] = useState(nightMode);
 
   return (
     <div>
       <BrowserRouter>
-        <Header loggedIn={loggedIn} headline={headline}/>
+        <Header loggedIn={loggedIn} headline={headline} />
         <Routes>
-          <Route path="/" element={<StartPage/>}></Route>
+          <Route path="/" element={<StartPage mode={nightMode}/>}></Route>
 
           {/* TODO: make frontend */}
           <Route path="/login" element={<LoginPage loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
-          <Route path="/create_user" element={<CreateUserPage/>}></Route>
-          <Route path="/edit_user" element={<EditUserPage/>}></Route>
-          <Route path="/rules" element={<RulesPage setHeadline={setHeadline}/>}></Route>
-          <Route path="/credits" element={<CreditsPage/>}></Route>
-          
+          <Route path="/create_user" element={<CreateUserPage />}></Route>
+          <Route path="/edit_user" element={<EditUserPage />}></Route>
+          <Route path="/rules" element={<RulesPage setHeadline={setHeadline} />}></Route>
+          <Route path="/credits" element={<CreditsPage />}></Route>
+
           {/* Logged as user links */}
-          <Route path="/home" element={<Home setHeadline={setHeadline}/>}></Route>
-          <Route path="/game_settings" element={<GameSettingsPage setHeadline={setHeadline}/>}></Route>
-          <Route path="/join_game/:roomId" element={<JoinPage/>}></Route>
-          <Route path="/gamepin" element={<GamepinPage/>}></Route>
+          <Route path="/home" element={<Home setHeadline={setHeadline} mode={nightMode}/>}></Route>
+          <Route path="/game_settings" element={<GameSettingsPage setHeadline={setHeadline} />}></Route>
+          <Route path="/join_game/:roomId" element={<JoinPage />}></Route>
+          <Route path="/gamepin" element={<GamepinPage />}></Route>
 
           {/* Playing game links */}
           <Route path="/village" element={<Village />}></Route>
