@@ -72,8 +72,44 @@ function apiFacade() {
 
   const getGameById = (id) => {
     const options = makeOptions("GET", true); //True add's the token
-    return fetch(URL + "/api/game/id/" + id, options).then(handleHttpErrors);
+    return fetch(URL + "/api/games/id/" + id, options).then(handleHttpErrors);
   }
+
+  const assignCharacters = (id) => {
+    const options = makeOptions("PUT", true, id); //True add's the token
+    return fetch(URL + `/api/games/${id}/assigncharacters`, options)
+      .then(handleHttpErrors)
+      .then(res => { setToken(res.token) })
+  }
+
+  //playerid is the vote
+  const vote = (gameid, userid, playerid) => {
+    const options = makeOptions("PUT", true, {id: playerid}); //True add's the token
+    return fetch(URL + `/api/games/${gameid}/${userid}/vote`, options)
+      .then(handleHttpErrors)
+      .then(res => { setToken(res.token) })
+  }
+
+  const getVoteResult = (id) => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + `/api/games/${id}/voteresult`, options).then(handleHttpErrors);
+  }
+
+
+  const killPlayer = (gameid, playerid) => {
+    const options = makeOptions("PUT", true, {id: playerid}); //True add's the token
+    return fetch(URL + `/api/games/${gameid}/killplayer/`, options)
+      .then(handleHttpErrors)
+      .then(res => { setToken(res.token) })
+  }
+  
+
+
+
+
+
+
+
 
   const makeOptions = (method, addToken, body) => {
     var opts = {
@@ -105,6 +141,10 @@ function apiFacade() {
     createPlayers,
     getPlayers,
     createPlayer,
+    assignCharacters,
+    vote,
+    getVoteResult,
+    killPlayer,
   }
 }
 const facade = apiFacade();

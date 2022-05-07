@@ -1,12 +1,14 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { io } from 'socket.io-client'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import "../../styles/App.css"
 import facade from '../../apiFacade'
+import gameController from '../../gameController'
 
 const JoinPage = () => {
     // const players = []
+    const navigate = useNavigate();
     const location = useLocation()
     const msgBoxRef = useRef()
     const [data, setData] = useState({})
@@ -24,25 +26,27 @@ const JoinPage = () => {
             console.log("socket Connected")
             socket.emit("joinRoom", location.state.room)
             socket.emit("joinWRoom", 'werewolf')
-
-
             setRole(location.state.role)
-
-
         })
 
     }, [])
 
     useEffect(() => {
-        facade.getPlayers(1).then(data => setPlayers(data));
-    }, []);
+        //TODO: change to gameid
+        facade.getPlayers(2).then(data => setPlayers(data));
+    }, [players]);
 
-    console.log(players);
+
     const startGame = () => {
         const players = [{ userName: "user", userPass: "test123" },
         { userName: "admin", userPass: "test123" },
         { userName: "user_admin", userPass: "test123" }]
         facade.createPlayers(players, 1)
+    }
+
+    function start() {
+        gameController.startGame(2);
+        navigate(`/game/${data.room}/village`, { state: data });
     }
 
     return (
@@ -59,13 +63,14 @@ const JoinPage = () => {
                             <h1>Werewolf</h1>
                             {/* <h3>{data.name}</h3> */}
 
-                            <div style={{backgroundColor: "red"}}>
+                            <div style={{ backgroundColor: "red" }}>
                                 {players.map((player) => {
                                     return <div key={player.id}>
                                         <h3 style={{ color: 'white' }}>{player.username}</h3>
                                     </div>
                                 })}
                             </div>
+                            <button className='btn-purple' onClick={start}>Start game</button>
 
 
 

@@ -50,14 +50,14 @@ const Home = ({ setHeadline, mode }) => {
             </div>
           </div>
         </div>
-        <div className='mobile-chat'>
+        {/* <div className='mobile-chat'>
           <button className='btn-chat' onClick={openChat}>Chat</button>
           <div className='chat-popup' id='mobileChatForm'>
             <form className='form-container'>
               <button onClick={closeChat}>Close</button>
             </form>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
 

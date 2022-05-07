@@ -12,6 +12,7 @@ import GameSettingsPage from "./components/pages/GameSettingsPage";
 import JoinPage from "./components/pages/JoinPage";
 import GamepinPage from "./components/pages/GamepinPage";
 import Village from "./components/pages/Village";
+import VoteResultPage from "./components/pages/VoteResultPage";
 
 import NoMatch from "./components/NoMatch";
 import Chat from "./components/Chat";
@@ -35,6 +36,9 @@ export default function App() {
   const [headline, setHeadline] = useState("");
   const [mode, setMode] = useState(nightMode);
 
+
+  const [voteresult, setVoteresult] = useState({});
+  
   return (
     <div>
       <BrowserRouter>
@@ -56,7 +60,8 @@ export default function App() {
           <Route path="/gamepin" element={<GamepinPage />}></Route>
 
           {/* Playing game links */}
-          <Route path="/village" element={<Village />}></Route>
+          <Route path="/game/:roomid/village" element={<Village setVoteresult={setVoteresult}/>}></Route>
+          <Route path="/game/voteresult" element={<VoteResultPage voteresult={voteresult}/>}></Route>
 
           <Route path="chat/:roomId" element={<Chat loggedIn={loggedIn} />} />
           <Route path="create" element={<CreateGame />} />

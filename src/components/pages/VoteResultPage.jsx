@@ -1,8 +1,26 @@
 import React from 'react'
-import "../../styles/Village.css"
 import "../../styles/App.css"
+import { useEffect, useState } from 'react'
+import gameController from '../../gameController'
 
-const VoteResultPage = () => {
+const VoteResultPage = ({voteresult}) => {
+   /*  const [result, setResult] = useState(""); */
+
+    /* useEffect(() => {
+        gameController.getVotingResult(2).then(data => setResult(data));
+        console.log(result)
+        if (result != "") {
+            gameController.killPlayer(2, result.id);
+        }
+    }, [setResult])
+    
+ */
+
+    console.log("vote: " + voteresult.username);
+
+
+    
+
     return (
         <>
             {/* TODO: make background image work */}
@@ -13,13 +31,8 @@ const VoteResultPage = () => {
                     {/* <!-- Column 2 (start section) --> */}
                     <div className="section">
                         <div className="header">
-                            <p>Welcome to</p>
-                            <h1>Werewolf</h1>
-                        </div>
-                        <div className="content">
-                            <button className="btn-purple" onClick={event => window.location.href = "/home"}>Login</button>
-                            <button className="btn-purple">About</button>
-                            <button className="btn-purple">Credits</button>
+                            <p>Voting result:</p>
+                            <h1>Killed {voteresult.username} character {voteresult.characterName}.</h1>
                         </div>
                     </div>
                     {/* <!-- Column 3 (empty) --> */}
@@ -30,4 +43,4 @@ const VoteResultPage = () => {
     )
 }
 
-export default StartPage;
+export default VoteResultPage;
