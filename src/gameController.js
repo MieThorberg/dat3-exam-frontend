@@ -8,7 +8,10 @@ function GameController() {
         facade.assignCharacters(id);
     }
 
-    function cleanVoting() { }
+    //TODO: where to put it?
+    function cleanVotes(gameid) {
+        facade.cleanVotes(gameid);
+    }
     //vote from one player
     function vote(gameid, userid, playerid) {
         facade.vote(gameid, userid, playerid);
@@ -22,25 +25,34 @@ function GameController() {
     const getVotingResult = (id) => {
         return facade.getVoteResult(id);
     }
-    function killPlayer(gameid, playerid) { 
+    function killPlayer(gameid, playerid) {
+        /*  cleanVotes(gameid); */
         return facade.killPlayer(gameid, playerid);
     }
 
-    function getVictimLatest() { }
+    function getVictimLatest(gameid) {
+        return facade.getVictimLatest(gameid);
+    }
     function getVictims() { }
 
     function getAllPlayers() { }
     function getAlivePlayers() { }
     function getAllWerewolves() { }
 
-    function getDays() { }
-    function addDay() { }
+    function getDay(gameid) {
+        return facade.getDay(gameid);
+    }
+    function addDay(gameid) {
+        facade.addDay(gameid);
+     }
 
-    function hasEnded() { }
+    function hasEnded(gameid) {
+        return facade.hasEnded(gameid);
+    }
 
     //gameid
-    function startGame(id) {
-        assignCharacters(id);
+    function startGame(gameid) {
+        assignCharacters(gameid);
         //createRound in loop
     }
 
@@ -49,6 +61,10 @@ function GameController() {
         vote,
         getVotingResult,
         killPlayer,
+        hasEnded,
+        getVictimLatest,
+        getDay,
+        addDay,
     }
 }
 

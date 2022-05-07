@@ -103,14 +103,35 @@ function apiFacade() {
       .then(res => { setToken(res.token) })
   }
   
+  const cleanVotes = (id) => {
+    const options = makeOptions("PUT", true); //True add's the token
+    return fetch(URL + `/api/games/${id}/cleanvotes`, options)
+      .then(handleHttpErrors)
+      .then(res => { setToken(res.token) })
+  }
 
+  const hasEnded = (id) => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + `/api/games/${id}/hasended`, options).then(handleHttpErrors);
+  }
 
+  const getVictimLatest = (id) => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + `/api/games/${id}/victims/latest`, options).then(handleHttpErrors);
+  }
 
+  const getDay = (id) => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + `/api/games/${id}/day`, options).then(handleHttpErrors);
+  }
 
-
-
-
-
+  const addDay = (id) => {
+    const options = makeOptions("PUT", true); //True add's the token
+    return fetch(URL + `/api/games/${id}/addday`, options)
+      .then(handleHttpErrors)
+      .then(res => { setToken(res.token) })
+  }
+  
   const makeOptions = (method, addToken, body) => {
     var opts = {
       method: method,
@@ -145,6 +166,11 @@ function apiFacade() {
     vote,
     getVoteResult,
     killPlayer,
+    cleanVotes,
+    hasEnded,
+    getVictimLatest,
+    getDay,
+    addDay,
   }
 }
 const facade = apiFacade();
