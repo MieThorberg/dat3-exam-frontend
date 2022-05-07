@@ -96,9 +96,9 @@ function apiFacade() {
   }
 
 
-  const killPlayer = (gameid, playerid) => {
-    const options = makeOptions("PUT", true, {id: playerid}); //True add's the token
-    return fetch(URL + `/api/games/${gameid}/killplayer/`, options)
+  const killPlayer = (gameid, player) => {
+    const options = makeOptions("PUT", true, player); //True add's the token
+    return fetch(URL + `/api/games/${gameid}/killplayer`, options)
       .then(handleHttpErrors)
       .then(res => { setToken(res.token) })
   }

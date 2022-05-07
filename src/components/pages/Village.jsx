@@ -85,7 +85,6 @@ const Village = ({setVoteresult}) => {
         gameController.getVotingResult(2).then(data => setVoteresult(data));
         // setVoteresult(player);
         
-        
         navigate(`/game/voteresult`);
     }
 
