@@ -4,12 +4,12 @@ function GameController() {
     function createGame() { }
     function createPlayer() { }
     function createRound() {
-        if (isDay) {
+        // if (isDay) {
             //addDay()
             //createDayRound()
-        } else {
+        // } else {
             //createNightRound()
-        }
+        // }
     }
 
     function getNightRound(gameid, day) { }
