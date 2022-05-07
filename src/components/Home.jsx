@@ -20,13 +20,13 @@ const Home = ({ setHeadline, mode }) => {
     console.log(game);
   }
 
-  function closeChat() {
+/*   function closeChat() {
     document.getElementById("mobileChatForm").style.visibility = "hidden";
   }
 
   function openChat() {
     document.getElementById("mobileChatForm").style.visibility = "visibile";
-  }
+  } */
 
 
   return (
