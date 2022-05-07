@@ -38,7 +38,7 @@ const GamepinPage = () => {
       navigate(`/join_game/${data.room}`, { state: data });
       //TODO: get user and game id
       //fetch gameByPincode
-      facade.createPlayer(2, { userName: "user_admin", userPass: "test123" });
+      facade.createPlayer(2, { userName: "user", userPass: "test123" });
     }
   }
   return (
