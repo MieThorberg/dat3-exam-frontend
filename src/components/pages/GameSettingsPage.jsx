@@ -47,6 +47,12 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
         }
 
     }
+
+    const generatePin = () => {
+        const newPin = Math.floor(100000 + Math.random() * 900000).toString().substring(1);
+        // setPin(newPin)
+        return setData({...data, room: newPin})
+    }
     return (
 
         <>
@@ -67,8 +73,8 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
                         <div className='content' style={{ justifyContent: "start", gridTemplateRows: "100%" }}>
 
                             <form onSubmit={handleSubmit}>
-                                <input type="text" name="name" placeholder="Game name" onChange={handleChange} />
-                                <input type="text" name="room" placeholder="Enter pin" onChange={handleChange} /><br></br>
+                                <input readOnly type="name" name="room" placeholder="Generate pin" value={data.room}  onChange={handleChange} /><br></br>
+                                <button onClick={generatePin}>Generate pin</button>
                                 <button type="submit">Enter</button>
                                 {/* If you dont have type in values for the inputs */}
                                 {error ? <small>{error}</small> : ""}
