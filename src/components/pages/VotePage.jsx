@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom'
 
 const VotePage = ({ mode, setVoteresult}) => {
     const navigate = useNavigate();
+
+    // MUST HAVE:sends location to the next page
     const location = useLocation()
     const [data, setData] = useState({})
     useEffect(() => {

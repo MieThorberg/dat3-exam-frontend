@@ -23,6 +23,7 @@ const Chat = () => {
       const socket = io("https://react-chat-werewolf-server.herokuapp.com")
       setSocket(socket)
 
+      //connects to server and joins room
       socket.on("connect", () => {
           console.log("socket Connected")
           socket.emit("joinRoom", location.state.room)
