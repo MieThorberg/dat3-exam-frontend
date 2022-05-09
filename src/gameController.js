@@ -3,6 +3,24 @@ import facade from "./apiFacade";
 function GameController() {
     function createGame() { }
     function createPlayer() { }
+
+    function round(state) {
+
+        switch (state){
+            case "createRound": 
+                createRound();
+                break;
+            case "vote":
+                cleanVotes();
+                // stuff
+                break;
+            case "getRoundResult":
+                getRoundResult();
+                break;
+        }
+
+    }
+
     
     function createRound() {
 
@@ -19,23 +37,16 @@ function GameController() {
             
         
         */
-
-        // if (isDay) {
-            //addDay()
-            //createDayRound()
-        // } else {
-            //createNightRound()
-        // }
     }
 
     function getRoundResult() {
         /* 
         const current = facade.getCurrentRound()
 
-        if (current.isday){
+        if (!(current.isday)){
             facade.nightRoundResult()
         } else {
-            facade.dayRoundResult()
+            facade.dayRoundResult() 
         } 
         */
     }
