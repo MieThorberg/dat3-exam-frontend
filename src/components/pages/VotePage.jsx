@@ -9,6 +9,11 @@ import { useNavigate } from 'react-router-dom'
 
 const VotePage = ({ mode, setVoteresult}) => {
     const navigate = useNavigate();
+    const location = useLocation()
+    const [data, setData] = useState({})
+    useEffect(() => {
+        setData(location.state)
+    }, [location])
     /* // const players = []
     const navigate = useNavigate();
     const location = useLocation()
@@ -59,7 +64,7 @@ const VotePage = ({ mode, setVoteresult}) => {
         gameController.getVotingResult(2).then(data => setVoteresult(data));
         // setVoteresult(player);
 
-        navigate(`/game/voteresult`);
+        navigate(`/game/${data.room}/voteresult`, { state: data })
 
 
         //TODO: fix this - make it check if has ended is true then navigate to result page

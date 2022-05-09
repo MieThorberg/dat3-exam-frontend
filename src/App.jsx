@@ -71,8 +71,8 @@ export default function App() {
 
           {/* Playing game links */}
           <Route path="/game/:roomid/village" element={<Village mode={mode} />}></Route>
-          <Route path="/game/vote" element={<VotePage mode={mode} setVoteresult={setVoteresult}/>}></Route>
-          <Route path="/game/voteresult" element={<VoteResultPage mode={mode} voteresult={voteresult}/>}></Route>
+          <Route path="/game/:roomid/vote" element={<VotePage mode={mode} setVoteresult={setVoteresult}/>}></Route>
+          <Route path="/game/:roomid/voteresult" element={<VoteResultPage mode={mode} voteresult={voteresult}/>}></Route>
           
           {/* TODO: just showing a result from voteresult, change to get the actual winners with a fetch function */}
           <Route path="/game/ending" element={<EndedGamePage mode={mode} winners={voteresult}/>}></Route>

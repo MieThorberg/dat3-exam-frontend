@@ -3,10 +3,11 @@ import "../../styles/App.css"
 import { useRef, useState } from 'react'
 import { useEffect } from 'react'
 import gameController from '../../gameController'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate , useLocation} from 'react-router-dom'
 
 const Village = ({ mode }) => {
     const navigate = useNavigate();
+    const location = useLocation()
     //Testing timer
     const seconds = 0;
     const minutes = 0;
@@ -14,6 +15,7 @@ const Village = ({ mode }) => {
     const [timer, setTimer] = useState('00:00');
     const [timerColor, setTimerColor] = useState('white');
     const [timerHasStopped, setTimerHasStopped] = useState(true);
+    const [data, setData] = useState({})
     const [hasEnded, setHasEnded] = useState(false);
 
 
@@ -25,6 +27,10 @@ const Village = ({ mode }) => {
             total, minutes, seconds
         };
     }
+
+    useEffect(() => {
+        setData(location.state)
+    }, [location])
 
     const start = (e) => {
         let { total, minutes, seconds } = getTimeRemaining(e);
@@ -83,7 +89,9 @@ const Village = ({ mode }) => {
         gameController.getVotingResult(2).then(data => setVoteresult(data));
         // setVoteresult(player);
 
-        navigate(`/game/voteresult`);
+        // navigate(`/game/voteresult`);
+        console.log("hello:"+data.room);
+        navigate(`/game/${data.room}/voteresult`, { state: data })
 
 
         //TODO: fix this - make it check if has ended is true then navigate to result page
@@ -98,7 +106,8 @@ const Village = ({ mode }) => {
     }
 
     function showVotepage() {
-        navigate(`/game/vote`);
+        // navigate(`/game/vote`);
+        navigate(`/game/${data.room}/vote`, { state: data })
     }
 
     return (
