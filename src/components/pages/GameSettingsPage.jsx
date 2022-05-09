@@ -84,7 +84,7 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
               <form >
                 <div>
                   <input
-                    type="name"
+                    type="text"
                     name="name"
                     placeholder="Game name"
                     onChange={handleChange}
@@ -93,13 +93,13 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
                 <div>
                   <input
                     readOnly
-                    type="name"
+                    type="text"
                     name="room"
                     placeholder="Generate pin"
                     value={data.room}
                     onChange={handleChange}
                   />
-                  <br></br>
+                  
                   <button onClick={generatePin}>Generate pin</button>
                 </div>
                 <button onClick={handleSubmit}>Enter</button>
