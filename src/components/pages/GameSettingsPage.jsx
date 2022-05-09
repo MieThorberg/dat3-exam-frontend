@@ -47,6 +47,12 @@ const GameSettingsPage = ({ setHeadline }) => {
         }
 
     }
+
+    const generatePin = () => {
+        const newPin = Math.floor(100000 + Math.random() * 900000).toString().substring(1);
+        // setPin(newPin)
+        return setData({...data, room: newPin})
+    }
     return (
         <div className='main2'>
             <div className='scroll-container'>
@@ -83,7 +89,8 @@ const GameSettingsPage = ({ setHeadline }) => {
                                 <input type="name" name="name" placeholder="Game name" onChange={handleChange} />
                             </div>
                             <div>
-                                <input type="name" name="room" placeholder="Enter pin" onChange={handleChange} /><br></br>
+                                <input readOnly type="name" name="room" placeholder="Generate pin" value={data.room}  onChange={handleChange} /><br></br>
+                                <button onClick={generatePin}>Generate pin</button>
                             </div>
                             <button type="submit">Create game</button>
                             {/* If you dont have type in values for the inputs */}

@@ -43,6 +43,12 @@ const CreateGame = ({ loggedIn}) => {
 
   }
 
+  const generatePin = () => {
+    const newPin = Math.floor(100000 + Math.random() * 900000).toString().substring(1);
+    setPin(newPin)
+    return setData({...data, room: newPin})
+}
+
 console.log('room:'+data.room);
 console.log('name:'+data.name);
   return (
@@ -57,7 +63,7 @@ console.log('name:'+data.name);
               </div>
               <div>
               <input type="name" className='joinInput' name="room" placeholder="Enter pin" value={pin} onChange={handleChange}  /><br></br>
-              <input type='button' onClick={() => setPin((pin) => `${pin}1`)} value="Generate"></input>
+              <input type='button' onClick={generatePin} value="Generate"></input>
 
               </div>
               <button  type="submit">Create game</button>
