@@ -17,6 +17,7 @@ const Village = ({ mode }) => {
     const [timerHasStopped, setTimerHasStopped] = useState(true);
     const [data, setData] = useState({})
     const [hasEnded, setHasEnded] = useState(false);
+    const [current, setCurrent] = useState({});
 
 
     const getTimeRemaining = (e) => {
@@ -53,7 +54,7 @@ const Village = ({ mode }) => {
     const clear = (e) => {
 
         //change time here
-        setTimer('00:30');
+        setTimer('00:05');
         if (Ref.current) clearInterval(Ref.current);
         setTimerHasStopped(false);
         const id = setInterval(() => {
@@ -66,7 +67,7 @@ const Village = ({ mode }) => {
         let deadline = new Date();
 
         //change time here
-        deadline.setSeconds(deadline.getSeconds() + 30)
+        deadline.setSeconds(deadline.getSeconds() + 5)
         /* deadline.setSeconds(deadline.getSeconds() + 10); */
         return deadline;
     }
@@ -80,6 +81,14 @@ const Village = ({ mode }) => {
         clear(getDeadTime());
     }
 
+    function getCurrentRound() {
+        gameController.getCurrentRound(16).then(data => setCurrent(data));
+    }
+
+    useEffect(() => {
+        gameController.getCurrentRound(16).then(data => setCurrent(data));
+        console.log(current);
+    }, [])
 
     function vote() {
         //TODO: change and get the gameid, userid & playerid
@@ -124,7 +133,7 @@ const Village = ({ mode }) => {
 
                         <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
                             
-                            <p>Day 1</p>
+                            <p>Day {current.day}, {current.isDay ? "Day" : "night"}</p>
                             <h1 style={{ color: timerColor }}>{timer}</h1>
                         </div>
                         <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>

@@ -131,6 +131,24 @@ function apiFacade() {
       .then(handleHttpErrors)
       .then(res => { setToken(res.token) })
   }
+
+  const getCurrentRound = (id) => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + `/api/games/${id}/rounds/current`, options).then(handleHttpErrors);
+  }
+
+  const createNightRound = (id) => {
+    const options = makeOptions("POST", true); //True add's the token
+    return fetch(URL + `/api/games/${id}/createnightround`, options).then(handleHttpErrors);
+  }
+
+  const createDayRound = (id) => {
+    const options = makeOptions("POST", true); //True add's the token
+    return fetch(URL + `/api/games/${id}/createdayround`, options).then(handleHttpErrors);
+  }
+
+  
+
   
   const makeOptions = (method, addToken, body) => {
     var opts = {
@@ -171,6 +189,9 @@ function apiFacade() {
     getVictimLatest,
     getDay,
     addDay,
+    getCurrentRound,
+    createNightRound,
+    createDayRound,
   }
 }
 const facade = apiFacade();

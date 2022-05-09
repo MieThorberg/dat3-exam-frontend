@@ -1,3 +1,4 @@
+
 import facade from "./apiFacade";
 
 function GameController() {
@@ -6,8 +7,8 @@ function GameController() {
 
     function round(state) {
 
-        switch (state){
-            case "createRound": 
+        switch (state) {
+            case "createRound":
                 createRound();
                 break;
             case "vote":
@@ -21,22 +22,35 @@ function GameController() {
 
     }
 
-    
-    function createRound() {
+    function getCurrentRound(id) {
+        return facade.getCurrentRound(id);
+    }
 
-        /* 
-            const current = facade.getCurrentRound()
+    //TODO: refactor method later...
+    function setCurrent(data) {
+        return data.isDay;
+    }
 
-            if (current.isDay){
-                facade.createNightRound()
+    function createRound(id) {
+        /*   facade.getCurrentRound(id).then(data => setCurrent(data));
+          console.log(current);
+   */
+
+        facade.getCurrentRound(id).then(data => {
+
+            if (data.isDay) {
+                const night = facade.createNightRound(id);
+                console.log("night");
+                console.log(night);
             } else {
-                addDay()
-                facade.createDayRound()
+                addDay(id);
+                console.log("day");
+                const day = facade.createDayRound(id);
+                console.log(day);
             }
-            
-            
-        
-        */
+        });
+
+       
     }
 
     function getRoundResult() {
@@ -52,9 +66,12 @@ function GameController() {
     }
 
 
-
-    function getNightRound(gameid, day) { }
-    function getDayRound(gameid, day) { }
+    /*     function getNightRound(gameid, day) {
+            facade.getNightRound(gameid, day);
+        }
+        function getDayRound(gameid, day) {
+            facade.getDayRound(gameid, day);
+        } */
 
     function assignCharacters(id) {
         facade.assignCharacters(id);
@@ -117,6 +134,8 @@ function GameController() {
         getVictimLatest,
         getDay,
         addDay,
+        createRound,
+        getCurrentRound,
     }
 }
 

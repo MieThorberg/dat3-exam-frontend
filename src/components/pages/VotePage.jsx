@@ -66,6 +66,7 @@ const VotePage = ({ mode, setVoteresult}) => {
         gameController.getVotingResult(2).then(data => setVoteresult(data));
         // setVoteresult(player);
 
+        gameController.createRound(1);
         navigate(`/game/${data.room}/voteresult`, { state: data })
 
 
