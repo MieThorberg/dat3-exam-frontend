@@ -3,7 +3,7 @@ import "../../styles/App.css"
 import { useEffect, useState } from 'react'
 import gameController from '../../gameController'
 
-const VoteResultPage = ({ voteresult }) => {
+const VoteResultPage = ({ mode, voteresult }) => {
     const [result, setResult] = useState("");
     const [victim, setVictim] = useState({});
     const [day, setDay] = useState("");
@@ -33,12 +33,39 @@ const VoteResultPage = ({ voteresult }) => {
 
     return (
         <>
-            {/* TODO: make background image work */}
-            <div className="main">
+            <div className='background-container'>
+                <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
+                <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
+            </div>
+            <div className='main'>
+                <div className='main-container'>
+                    <div style={{ gridTemplateRows: "60% auto" }}>
+                    </div>
+                    <div className='section' style={{ gridTemplateRows: "40% auto" }}>
+
+                        <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
+                            <h1>Last night..</h1>
+                        </div>
+                        <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
+                            <img className='big-profile-img'></img>
+                            <h1 className='voteresult-player'>{victim.username}</h1>
+                            <p className='voteresult-description'>was killed by werewolves</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </>
+    )
+}
+
+export default VoteResultPage;
+
+{/* <div className="main">
                 <div className="home">
-                    {/* <!-- Column 1 (empty) --> */}
+        
                     <div></div>
-                    {/* <!-- Column 2 (start section) --> */}
+                    
                     <div className="section">
                         <div className="header">
                             <p>Voting result:</p>
@@ -48,12 +75,7 @@ const VoteResultPage = ({ voteresult }) => {
                             <p>Day {day}</p>
                         </div>
                     </div>
-                    {/* <!-- Column 3 (empty) --> */}
+
                     <div></div>
                 </div>
-            </div>
-        </>
-    )
-}
-
-export default VoteResultPage;
+            </div> */}

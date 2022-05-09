@@ -1,18 +1,48 @@
 import React from 'react'
 import { Outlet, Link, NavLink } from "react-router-dom";
+import { useState } from 'react';
 import "../styles/Header.css"
+import Chat from './Chat';
 
 function logout() {
   apiFacade.logout();
 }
 
 const Header = ({ loggedIn, headline }) => {
-  function openNav(id) {
-    document.getElementById(id).style.width = "100%";
+  const [showChat, setShowChat] = useState(false);
+
+  function openBurgerMenu() {
+    document.getElementById("mobileNav").style.width = "100%";
   }
-  function closeNav(id) {
-    document.getElementById(id).style.width = "0%";
+  function closeBurgerMenuNav() {
+    document.getElementById("mobileNav").style.width = "0%";
   }
+
+/*   function openChatGroup(chatid) {
+    document.getElementById(chatid).style.display = "block";
+  }
+
+  function closeChatGroup(chatid) {
+    document.getElementById(chatid).style.display = "none";
+  } */
+
+
+
+ /*  function setChat() {
+    setShowChat(!showChat);
+    if (showChat) {
+
+      document.getElementById("left").style.display = "block"; */
+
+      /*       document.getElementById("rows").style.gridTemplateColumns = "auto 60%";
+            document.getElementById("chat").style.display = "block"; */
+   /*  } else {
+      document.getElementById("left").style.display = "none"; */
+      /*       document.getElementById("rows").style.gridTemplateColumns = "100%";
+            document.getElementById("chat").style.display = "none";
+            document.getElementById("chat").style.backgroundColor = "green"; */
+/*     }
+  } */
 
   /* nav links when logged in */
   const getHomeNavLinks = () => {
@@ -20,8 +50,8 @@ const Header = ({ loggedIn, headline }) => {
       <>
         <div><a href="/home">Home</a></div>
         <div><a href="/rules">About</a></div>
-        <div><a href="/village">Characters</a></div>
-        <div><a href="edit_user">Settings</a></div>
+        <div><a href="/create_user/">Characters</a></div>
+        <div><a href="/edit_user/:room">Settings <i className="fa fa-cog" style={{ paddingLeft: "5px" }}></i></a></div>
       </>
     )
   }
@@ -46,56 +76,60 @@ const Header = ({ loggedIn, headline }) => {
   }
 
 
+
+
   return (
-    <div className='nav'>
-      {/* SCREEN*/}
-      <div className='topnav'>
-        <div className='left'>
-          {/* TODO: insert player image here instead of link */}
-          {/* TODO: insert player name if screen is min 900px width */}
+    <>
+      <div className='nav'>
+        {/* SCREEN*/}
+        <div className='topnav'>
+          <div className='left'>
+            {/* TODO: insert player image here instead of link */}
+            {/* TODO: insert player name if screen is min 900px width */}
 
-          {/* Check if we should show profile image */}
-          {loggedIn ? <div><a>image</a></div> : <></>}
-
-        </div>
-        <div className='right'>
-          {/* gets the links to show */}
-          {getLinks()}
-        </div>
-      </div>
-
-      {/* MOBILE - topnavigation */}
-      <div className='mobile-topnav'>
-        <div className='left'>
-          {/* Checks if we should show profile image */}
-          {loggedIn ? <div><a>image</a></div> : <></>}
-        </div>
-        <div className='center'>
-          <a>{headline}</a>
-        </div>
-        <div className='right'>
-          {/* burger icon */}
-          <a className="icon" onClick={function () {
-            openNav("mobileNav");
-          }}>
-            <i className="fa fa-navicon"></i>
-          </a>
-        </div>
-
-        {/* displaying this content when clicked on the burger icon*/}
-        <div id="mobileNav" className="mobile-nav">
-          <a className="icon" onClick={function () {
-            closeNav("mobileNav");
-          }}>
-            <i className="fa fa-navicon"></i>
-          </a>
-          <div className="mobile-nav-content">
+            {/* Check if we should show profile image */}
+            {/* {loggedIn ? <div> */}<a /* onClick={setChat} */>image</a>{/* </div> : <></>}
+ */}
+          </div>
+          <div className='right'>
             {/* gets the links to show */}
             {getLinks()}
           </div>
         </div>
+
+        {/* MOBILE - topnavigation */}
+        <div className='mobile-topnav'>
+          <div className='left'>
+            {/* Checks if we should show profile image */}
+            {loggedIn ? <div><a /* onClick={setChat} */>image</a></div> : <></>}
+          </div>
+          <div className='center'>
+            <a>{headline}</a>
+          </div>
+          <div className='right'>
+            {/* burger icon */}
+            <a className="icon" onClick={openBurgerMenu}>
+              <i className="fa fa-navicon"></i>
+            </a>
+          </div>
+
+          {/* displaying this content when clicked on the burger icon*/}
+          <div id="mobileNav" className="mobile-nav">
+            <a className="icon" onClick={closeBurgerMenuNav}>
+              <i className="fa fa-navicon"></i>
+            </a>
+            <div className="mobile-nav-content">
+              {/* gets the links to show */}
+              {getLinks()}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+
+
+
+    </>
+
 
 
 

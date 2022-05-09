@@ -1,13 +1,18 @@
 import React from 'react'
 import "../../styles/App.css"
 
-const StartPage = ({mode}) => {
+const StartPage = ({ mode }) => {
     return (
         <div>
-            <div id='background-img' style={{backgroundImage: `url(${mode.image})`}}></div>
-            <div className='main' style={{ backgroundColor: "rgba(16, 5, 30, 0.685)" }}>
+
+            <div className='background-container'>
+                <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
+                <div id='background-img-blur' style={{backgroundColor: `${mode.blur}`}}></div>
+            </div>
+
+            <div className='main'>
                 {/* TODO: make background image work */}
-                
+
                 <div className="main-container">
                     {/* <!-- Column 1 (empty) --> */}
                     <div></div>

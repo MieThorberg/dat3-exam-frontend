@@ -4,7 +4,7 @@ import { useNavigate, NavLink } from 'react-router-dom'
 import "../../styles/App.css"
 import facade from '../../apiFacade'
 
-const GamepinPage = () => {
+const GamepinPage = ({ mode }) => {
   let navigate = useNavigate();
 
   const [error, setError] = useState("")
@@ -42,30 +42,36 @@ const GamepinPage = () => {
     }
   }
   return (
-    <div className='main'>
-      <div className='main-container'>
-        <div style={{ gridTemplateRows: "50% auto" }}></div>
-
-        <div className='section' style={{ gridTemplateRows: "50% auto" }}>
-          <div className='header'>
-            <h1>Gamepin</h1>
-          </div>
-          <div className='content' style={{ gridTemplateRows: "60% auto" }}>
-            <form className='form-box center-text' onSubmit={handleSubmit}>
-              <input type="name" name="name" placeholder="Enter name" onChange={handleChange} />
-              <input type="name" name="room" placeholder="Enter pin" onChange={handleChange} />
-              {/* <input type="text" placeholder='type gamepin' /> */}
-              <button type="submit" className='btn-lightpurple' style={{ maxWidth: "200px" }}>Join game</button>
-              {error ? <small>{error}</small> : ""}
-            </form>
-          </div>
-          <div></div>
-        </div>
-
-
+    <>
+      <div className='background-container'>
+        <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
+        <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
       </div>
+      <div className='main'>
+        <div className='main-container'>
+          <div style={{ gridTemplateRows: "60% auto" }}>
+          </div>
+          <div className='section' style={{ gridTemplateRows: "50% auto" }}>
 
-    </div>
+            <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
+              <h1>Gamepin</h1>
+            </div>
+
+            <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
+
+              <form onSubmit={handleSubmit}>
+                {/* TODO: delete name input and only have a room input */}
+                <input type="text" name="name" placeholder="Enter name" onChange={handleChange} />
+                <input type="text" name="room" placeholder="Enter pin" onChange={handleChange} />
+                <button className='btn-lightpurple' style={{ maxWidth: "200px" }} onClick={handleSubmit}>Enter</button>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+
   )
 }
 

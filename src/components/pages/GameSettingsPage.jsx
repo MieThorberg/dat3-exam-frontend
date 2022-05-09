@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, NavLink } from 'react-router-dom'
 import facade from '../../apiFacade'
 
-const GameSettingsPage = ({ setHeadline }) => {
+const GameSettingsPage = ({ mode, setHeadline }) => {
     //title i topnav
     useEffect(() => {
         setHeadline("Game settings");
@@ -48,51 +48,38 @@ const GameSettingsPage = ({ setHeadline }) => {
 
     }
     return (
-        <div className='main2'>
-            <div className='scroll-container'>
-                <div className='full-scroll-section'>
-                    <div className='box'>
-                        <div className='text-section'>
-                            <h2>Type amount of wolves</h2>
-                            <input type="text" />
-                        </div>
-                    </div>
 
-                    <div className='box'>
-                        <div className='text-section'>
-                            <h2>Time for each day round</h2>
-                            <input type="text" />
-                        </div>
-                    </div>
-                    <div className='box'>
-                        <div className='text-section'>
-                            <h2>Time for each day voting</h2>
-                            <input type="text" />
-                        </div>
-                    </div>
-                    <div className='box'>
-                        <div className='text-section'>
-                            <h2>Time for each night round</h2>
-                            <input type="text" />
-                        </div>
-                    </div>
+        <>
+            <div className='background-container'>
+                <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
+                <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
+            </div>
 
-                    <div className='box'>
-                        <form onSubmit={handleSubmit}>
-                            <div >
-                                <input type="name" name="name" placeholder="Game name" onChange={handleChange} />
-                            </div>
-                            <div>
-                                <input type="name" name="room" placeholder="Enter pin" onChange={handleChange} /><br></br>
-                            </div>
-                            <button type="submit">Create game</button>
-                            {/* If you dont have type in values for the inputs */}
-                            {error ? <small>{error}</small> : ""}
-                        </form>
+            <div className='main'>
+                <div className='main-container'>
+                    <div style={{ gridTemplateRows: "auto" }}>
+                    </div>
+                    <div className='section' style={{ gridTemplateRows: "auto 90%" }}>
+
+                        <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
+                            <h1>Game settings</h1>
+                        </div>
+                        <div className='content' style={{ justifyContent: "start", gridTemplateRows: "100%" }}>
+
+                            <form onSubmit={handleSubmit}>
+                                <input type="text" name="name" placeholder="Game name" onChange={handleChange} />
+                                <input type="text" name="room" placeholder="Enter pin" onChange={handleChange} /><br></br>
+                                <button type="submit">Enter</button>
+                                {/* If you dont have type in values for the inputs */}
+                                {error ? <small>{error}</small> : ""}
+                            </form>
+
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

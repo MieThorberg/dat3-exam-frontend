@@ -1,12 +1,12 @@
 
-import React, { useState, useEffect, useRef } from 'react'
+import Reactm, { useState, useEffect, useRef } from 'react'
 import { io } from 'socket.io-client'
 import { useLocation, useNavigate } from 'react-router-dom'
 import "../../styles/App.css"
 import facade from '../../apiFacade'
 import gameController from '../../gameController'
 
-const JoinPage = () => {
+const JoinPage = ({ mode }) => {
     // const players = []
     const navigate = useNavigate();
     const location = useLocation()
@@ -36,7 +36,7 @@ const JoinPage = () => {
         facade.getPlayers(2).then(data => setPlayers(data));
     }, [players]);
 
-
+ 
     const startGame = () => {
         const players = [{ userName: "user", userPass: "test123" },
         { userName: "admin", userPass: "test123" },
@@ -50,47 +50,54 @@ const JoinPage = () => {
     }
 
     return (
-        <>
-            {/* TODO: make background image work */}
-            <div className="main">
-                <div className="home">
-                    {/* <!-- Column 1 (empty) --> */}
-                    <div></div>
-                    {/* <!-- Column 2 (start section) --> */}
-                    <div className="section">
-                        <div className="header">
-                            <p>Welcome to</p>
-                            <h1>Werewolf</h1>
-                            {/* <h3>{data.name}</h3> */}
+        <div>
 
-                            <div style={{ backgroundColor: "red" }}>
-                                {players.map((player) => {
-                                    return <div key={player.id}>
-                                        <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                    </div>
-                                })}
-                            </div>
-                            <button className='btn-purple' onClick={start}>Start game</button>
-
-
-
-                            {/* {users.map((index, user) => {
-                                return <div key={index}>
-                                    <h3 style={{ color: 'white' }}>{user.username}</h3>
-                                </div>
-                            })} */}
-                        </div>
-                        {/* <div className="content">
-                            <button className="btn-purple" onClick={event => window.location.href = "/home"}>Login</button>
-                            <button className="btn-purple">About</button>
-                            <button className="btn-purple">Credits</button>
-                        </div> */}
-                    </div>
-                    {/* <!-- Column 3 (empty) --> */}
-                    <div></div>
-                </div>
+            <div className='background-container'>
+                <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
+                <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
             </div>
-        </>
+            <div className="fixed-header">
+                <h1>Gamepin: 1234</h1>
+                {/* <h3>{data.name}</h3> */}
+
+                {/* {users.map((index, user) => {
+                        return <div key={index}>
+                            <h3 style={{ color: 'white' }}>{user.username}</h3>
+                        </div>
+                    })} */}
+            </div>
+
+
+            <div className='joined-players-section'>
+                <div className='joined-players-scroll'>
+
+                    <div className='list-grid'>
+
+                        {players.map((player) => {
+                            return <div key={player.id}>
+                                <div>
+                                    <img className="profile-img" />
+                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                </div>
+                            </div>
+                        })}
+
+                    </div>
+                </div>
+                {/* <!-- Column 3 (empty) --> */}
+                <div></div>
+            </div>
+            <div className='fixed-btn' /* style={{ display: "none" }} */>
+
+
+                {/* TODO: only user host shall see this button */}
+                <button className='btn-purple' onClick={start}>Start game</button>
+
+
+            </div>
+
+        </div>
+
     )
 }
 

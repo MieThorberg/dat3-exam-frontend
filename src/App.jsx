@@ -19,32 +19,42 @@ import Chat from "./components/Chat";
 import Join from "./components/Join";
 import CreateGame from "./components/CreateGame";
 import { useState } from "react";
+import "./styles/App.css";
+import VotePage from "./components/pages/VotePage";
+import EndedGamePage from "./components/pages/EndedGamePage";
 
 
 export default function App() {
   const nightMode = {
-    image: "src\images\night.jpg"
+    image: "/../src/images/night.jpg",
+    blur: "rgba(16, 5, 30, 0.685)",
+    topnavColor: "#4141414b",
+    topnavLinkColor: "#d6ced9"
     /* TODO: add colors for font, navigation, btn, background-color */
   }
   
   const dayMode = {
-    image: "src/images/day.jpg"
+    image: "/../src/images/day.jpg",
+    blur: "rgba(16, 5, 30, 0.3)",
+    topnavColor: "#e0dede4b",
+    topnavLinkColor: "black"
+
     /* TODO: add colors for font, navigation, btn, background-color */
   }
+
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [headline, setHeadline] = useState("");
   const [mode, setMode] = useState(nightMode);
-
 
   const [voteresult, setVoteresult] = useState({});
   
   return (
     <div>
       <BrowserRouter>
-        <Header loggedIn={loggedIn} headline={headline} />
+        <Header mode={mode} loggedIn={loggedIn} headline={headline} />
         <Routes>
-          <Route path="/" element={<StartPage mode={nightMode}/>}></Route>
+          <Route path="/" element={<StartPage mode={mode}/>}></Route>
 
           {/* TODO: make frontend */}
           <Route path="/login" element={<LoginPage loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
@@ -54,14 +64,19 @@ export default function App() {
           <Route path="/credits" element={<CreditsPage />}></Route>
 
           {/* Logged as user links */}
-          <Route path="/home" element={<Home setHeadline={setHeadline} mode={nightMode}/>}></Route>
-          <Route path="/game_settings" element={<GameSettingsPage setHeadline={setHeadline} />}></Route>
-          <Route path="/join_game/:roomId" element={<JoinPage />}></Route>
-          <Route path="/gamepin" element={<GamepinPage />}></Route>
+          <Route path="/home" element={<Home setHeadline={setHeadline} mode={mode}/>}></Route>
+          <Route path="/game_settings" element={<GameSettingsPage mode={mode} setHeadline={setHeadline} />}></Route>
+          <Route path="/join_game/:roomId" element={<JoinPage mode={mode}/>}></Route>
+          <Route path="/gamepin" element={<GamepinPage mode={mode}/>}></Route>
 
           {/* Playing game links */}
-          <Route path="/game/:roomid/village" element={<Village setVoteresult={setVoteresult}/>}></Route>
-          <Route path="/game/voteresult" element={<VoteResultPage voteresult={voteresult}/>}></Route>
+          <Route path="/game/:roomid/village" element={<Village mode={mode} />}></Route>
+          <Route path="/game/vote" element={<VotePage mode={mode} setVoteresult={setVoteresult}/>}></Route>
+          <Route path="/game/voteresult" element={<VoteResultPage mode={mode} voteresult={voteresult}/>}></Route>
+          
+          {/* TODO: just showing a result from voteresult, change to get the actual winners with a fetch function */}
+          <Route path="/game/ending" element={<EndedGamePage mode={mode} winners={voteresult}/>}></Route>
+
 
           <Route path="chat/:roomId" element={<Chat loggedIn={loggedIn} />} />
           <Route path="create" element={<CreateGame />} />

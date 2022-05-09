@@ -5,33 +5,31 @@ import { useEffect } from 'react'
 import gameController from '../../gameController'
 import { useNavigate } from 'react-router-dom'
 
-const Village = ({setVoteresult}) => {
+const Village = ({ mode }) => {
     const navigate = useNavigate();
     //Testing timer
     const seconds = 0;
     const minutes = 0;
-    const hours = 0;
     const Ref = useRef(null);
-    const [timer, setTimer] = useState('00:00:00');
+    const [timer, setTimer] = useState('00:00');
     const [timerColor, setTimerColor] = useState('white');
     const [timerHasStopped, setTimerHasStopped] = useState(true);
-    
+    const [hasEnded, setHasEnded] = useState(false);
+
 
     const getTimeRemaining = (e) => {
         const total = Date.parse(e) - Date.parse(new Date());
         const seconds = Math.floor((total / 1000) % 60);
         const minutes = Math.floor((total / 1000 / 60) % 60);
-        const hours = Math.floor((total / 1000 * 60 * 60) % 24);
         return {
-            total, hours, minutes, seconds
+            total, minutes, seconds
         };
     }
 
     const start = (e) => {
-        let { total, hours, minutes, seconds } = getTimeRemaining(e);
+        let { total, minutes, seconds } = getTimeRemaining(e);
         if (total >= 0) {
             setTimer(
-                (hours > 9 ? hours : '0' + hours) + ":" +
                 (minutes > 9 ? minutes : '0' + minutes) + ":" +
                 (seconds > 9 ? seconds : '0' + seconds)
             )
@@ -49,7 +47,7 @@ const Village = ({setVoteresult}) => {
     const clear = (e) => {
 
         //change time here
-        setTimer('00:00:01');
+        setTimer('00:30');
         if (Ref.current) clearInterval(Ref.current);
         setTimerHasStopped(false);
         const id = setInterval(() => {
@@ -62,7 +60,7 @@ const Village = ({setVoteresult}) => {
         let deadline = new Date();
 
         //change time here
-        deadline.setSeconds(deadline.getSeconds() + 1)
+        deadline.setSeconds(deadline.getSeconds() + 30)
         /* deadline.setSeconds(deadline.getSeconds() + 10); */
         return deadline;
     }
@@ -80,49 +78,63 @@ const Village = ({setVoteresult}) => {
     function vote() {
         //TODO: change and get the gameid, userid & playerid
         gameController.vote(2, 3, 8);
-        
-       
+
+        //TODO: wait on all players to vote before checking the result and hasended game
         gameController.getVotingResult(2).then(data => setVoteresult(data));
         // setVoteresult(player);
-        
+
         navigate(`/game/voteresult`);
+
+
+        //TODO: fix this - make it check if has ended is true then navigate to result page
+        /* gameController.hasEnded(2).then(data => setHasEnded(data));
+        console.log(hasEnded)
+        if(true) {
+            navigate(`/game/ending`);
+        } else {
+            navigate(`/game/voteresult`);
+        } */
+
+    }
+
+    function showVotepage() {
+        navigate(`/game/vote`);
     }
 
     return (
         <>
-            {/* TODO: make background image work */}
-            <div className="main">
-                <div className="home">
-                    {/* <!-- Column 1 (empty) --> */}
-                    <div></div>
-                    {/* <!-- Column 2 (start section) --> */}
-                    <div className="section">
-                        <div className="header">
-                            <p>Day 1</p>
-                            <h1>
-                                {
-                                    timerHasStopped ? "Time to vote" : ""
-                                }
-                            </h1>
-                            <h1 style={{ color: timerColor }}>{timer}</h1>
-                            <button onClick={onClickReset}>Reset</button>
-                        </div>
-                        {
-                            timerHasStopped ? 
-                            
-                            //isDay() check who is allowed to vote, and only show vote button for them
+            <div className='background-container'>
+                <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
+                <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
+            </div>
+            <div className='main'>
+                <div className='main-container'>
+                    <div style={{ gridTemplateRows: "60% auto" }}>
+                    </div>
+                    <div className='section' style={{ gridTemplateRows: "50% auto" }}>
 
-                            <div className="content">
-                                <input type="text" placeholder="type name to vote on" />
-                                <button className="btn-purple" onClick={vote}>Vote</button>
-                            </div> : <></>
+                        <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
+                            
+                            <p>Day 1</p>
+                            <h1 style={{ color: timerColor }}>{timer}</h1>
+                        </div>
+                        <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
+                            <p>Discuss who you think are a werewolf!</p>
+                        </div>
+
+
+
+                        {/* Check if times stop, if it has then is navigate to votepage
+                         so we can start voting */}
+                         {/* TODO: if night, then only werewolf are allowed to vote */}
+                        {
+                            timerHasStopped ? showVotepage() : <></>
                         }
 
                     </div>
-                    {/* <!-- Column 3 (empty) --> */}
-                    <div></div>
                 </div>
             </div>
+     
         </>
     )
 }

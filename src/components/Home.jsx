@@ -5,7 +5,7 @@ import "../styles/App.css";
 import facade from '../apiFacade';
 import { useState } from 'react';
 import { useEffect } from 'react';
-const Home = ({ setHeadline, mode }) => {
+const Home = ({ mode, setHeadline }) => {
   const [game, setGame] = useState("");
 
   //title i topnav
@@ -20,20 +20,24 @@ const Home = ({ setHeadline, mode }) => {
     console.log(game);
   }
 
-/*   function closeChat() {
-    document.getElementById("mobileChatForm").style.visibility = "hidden";
-  }
-
-  function openChat() {
-    document.getElementById("mobileChatForm").style.visibility = "visibile";
-  } */
+  /*   function closeChat() {
+      document.getElementById("mobileChatForm").style.visibility = "hidden";
+    }
+  
+    function openChat() {
+      document.getElementById("mobileChatForm").style.visibility = "visibile";
+    } */
 
 
   return (
 
     <div>
-      <div id='background-img'></div>
-      <div className='main' style={{ backgroundColor: "rgba(16, 5, 30, 0.685)" }}>
+
+      <div className='background-container'>
+        <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
+        <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
+      </div>
+      <div className='main'>
         <div className='main-container'>
           <div style={{ gridTemplateRows: "60% auto" }}>
           </div>
@@ -50,31 +54,8 @@ const Home = ({ setHeadline, mode }) => {
             </div>
           </div>
         </div>
-        {/* <div className='mobile-chat'>
-          <button className='btn-chat' onClick={openChat}>Chat</button>
-          <div className='chat-popup' id='mobileChatForm'>
-            <form className='form-container'>
-              <button onClick={closeChat}>Close</button>
-            </form>
-          </div>
-        </div> */}
       </div>
     </div>
-
-
-
-    /* <main>
-      <div className='row'>
-        <div className='column'>
-          <div className='image-container'>
-            <div className='centered'>
-              <h2>startcode!</h2>
-              <button onClick={createGame}>Create game</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main> */
   )
 }
 
