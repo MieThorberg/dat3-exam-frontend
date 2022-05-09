@@ -36,13 +36,16 @@ const JoinPage = ({ mode }) => {
         facade.getPlayers(2).then(data => setPlayers(data));
     }, [players]);
 
- 
+ console.log("room:" +data.room);
     const startGame = () => {
         const players = [{ userName: "user", userPass: "test123" },
         { userName: "admin", userPass: "test123" },
         { userName: "user_admin", userPass: "test123" }]
         facade.createPlayers(players, 1)
     }
+    useEffect(() => {
+        setData(location.state)
+    }, [location])
 
     function start() {
         gameController.startGame(2);
