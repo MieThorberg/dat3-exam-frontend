@@ -86,7 +86,7 @@ const Village = ({ mode }) => {
     }
 
     useEffect(() => {
-        gameController.getCurrentRound(16).then(data => setCurrent(data));
+        gameController.getCurrentRound(1).then(data => setCurrent(data));
         console.log(current);
     }, [])
 
