@@ -86,36 +86,11 @@ const Village = ({ mode }) => {
     }
 
     useEffect(() => {
-        gameController.getCurrentRound(1).then(data => setCurrent(data));
+        gameController.getCurrentRound(16).then(data => setCurrent(data));
         console.log(current);
     }, [])
 
-    function vote() {
-        //TODO: change and get the gameid, userid & playerid
-        gameController.vote(2, 3, 8);
-
-        //TODO: wait on all players to vote before checking the result and hasended game
-        gameController.getVotingResult(2).then(data => setVoteresult(data));
-        // setVoteresult(player);
-
-        // navigate(`/game/voteresult`);
-        console.log("hello:"+data.room);
-        navigate(`/game/${data.room}/voteresult`, { state: data })
-
-
-        //TODO: fix this - make it check if has ended is true then navigate to result page
-        /* gameController.hasEnded(2).then(data => setHasEnded(data));
-        console.log(hasEnded)
-        if(true) {
-            navigate(`/game/ending`);
-        } else {
-            navigate(`/game/voteresult`);
-        } */
-
-    }
-
     function showVotepage() {
-        // navigate(`/game/vote`);
         navigate(`/game/${data.room}/vote`, { state: data })
     }
 

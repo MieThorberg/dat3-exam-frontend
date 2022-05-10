@@ -149,14 +149,14 @@ function apiFacade() {
 
   const nightRoundResult = (id) => {
     const options = makeOptions("PUT", true); //True add's the token
-    return fetch(URL + `/api/games/${id}/nightroundresult`, options)
+    return fetch(URL + `/api/games/${id}/rounds/nightroundresult`, options)
       .then(handleHttpErrors)
       .then(res => { setToken(res.token) })
   }
 
   const dayRoundResult = (id) => {
     const options = makeOptions("PUT", true); //True add's the token
-    return fetch(URL + `/api/games/${id}/dayroundresult`, options)
+    return fetch(URL + `/api/games/${id}/rounds/dayroundresult`, options)
       .then(handleHttpErrors)
       .then(res => { setToken(res.token) })
   }
