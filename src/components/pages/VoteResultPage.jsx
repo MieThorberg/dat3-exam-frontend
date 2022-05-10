@@ -18,13 +18,17 @@ const VoteResultPage = ({ mode, voteresult }) => {
     }, [location])
 
     useEffect(() => {
-        if (voteresult.id != null) {
-            gameController.killPlayer(2, voteresult.id).then(data => { setResult(data) });
+       /*  if (voteresult.id != null) { */
+
+            gameController.getRoundResult(16);
+            getVictim();
+
+           /*  gameController.killPlayer(2, voteresult.id).then(data => { setResult(data) });
             getVictim();
             gameController.addDay(2);
-            getDay();
-        }
-    }, [voteresult])
+            getDay(); */
+       /*  } */
+    }, [/* voteresult */])
 
 
 
@@ -33,7 +37,8 @@ const VoteResultPage = ({ mode, voteresult }) => {
     }
 
     function getVictim() {
-        const v = gameController.getVictimLatest(2).then(data => setVictim(data));
+        const v = gameController.getVictimLatest(16).then(data => setVictim(data));
+        console.log("hello!" + v);
     }
 
     function getDay() {
@@ -41,7 +46,7 @@ const VoteResultPage = ({ mode, voteresult }) => {
     }
 
     function nextRound() {
-        gameController.createRound(1);
+        gameController.createRound(16);
         navigate(`/game/${data.room}/village`, { state: data })
     }
 

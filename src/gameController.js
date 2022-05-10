@@ -49,15 +49,12 @@ function GameController() {
                 console.log(day);
             }
         });
-
-       
     }
 
     function getRoundResult(gameId) {
-
-        facade.getCurrentRound(id).then(data => {
+        facade.getCurrentRound(gameId).then(data => {
             if (data.isDay) {
-                facade.dayRoundResult(gameId) 
+                facade.dayRoundResult(gameId)
             } else {
                 facade.nightRoundResult(gameId)
             }
@@ -135,6 +132,7 @@ function GameController() {
         addDay,
         createRound,
         getCurrentRound,
+        getRoundResult,
     }
 }
 

@@ -36,7 +36,6 @@ const JoinPage = ({ mode }) => {
         facade.getPlayers(2).then(data => setPlayers(data));
     }, [players]);
 
- console.log("room:" +data.room);
     const startGame = () => {
         const players = [{ userName: "user", userPass: "test123" },
         { userName: "admin", userPass: "test123" },

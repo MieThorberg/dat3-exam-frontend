@@ -1,5 +1,5 @@
 import URL from "./settings";
-
+import jwtDecode from "jwt-decode";
 function handleHttpErrors(res) {
   if (!res.ok) {
     return Promise.reject({ status: res.status, fullError: res.json() })
@@ -149,14 +149,14 @@ function apiFacade() {
 
   const nightRoundResult = (id) => {
     const options = makeOptions("PUT", true); //True add's the token
-    return fetch(URL + `/api/games/${id}/nightroundresult`, options)
+    return fetch(URL + `/api/games/${id}/rounds/nightroundresult`, options)
       .then(handleHttpErrors)
       .then(res => { setToken(res.token) })
   }
 
   const dayRoundResult = (id) => {
     const options = makeOptions("PUT", true); //True add's the token
-    return fetch(URL + `/api/games/${id}/dayroundresult`, options)
+    return fetch(URL + `/api/games/${id}/rounds/dayroundresult`, options)
       .then(handleHttpErrors)
       .then(res => { setToken(res.token) })
   }
@@ -166,7 +166,11 @@ function apiFacade() {
     return fetch(URL + `/api/games/${id}/getwerewolves`, options).then(handleHttpErrors);
   }
   
-
+const decodeToken = () => {
+    const token = getToken()
+    const decode = decodeToken(token)
+    return decode
+}
   
   const makeOptions = (method, addToken, body) => {
     var opts = {
@@ -213,6 +217,7 @@ function apiFacade() {
     nightRoundResult,
     dayRoundResult,
     getWereWolves,
+    decodeToken,
   }
 }
 const facade = apiFacade();

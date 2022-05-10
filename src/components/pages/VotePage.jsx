@@ -60,10 +60,10 @@ const VotePage = ({ mode, setVoteresult}) => {
 
       function vote() {
         //TODO: change and get the gameid, userid & playerid
-        gameController.vote(2, 3, 8);
+        gameController.vote(16, 23, 24);
 
         //TODO: wait on all players to vote before checking the result and hasended game
-        gameController.getVotingResult(2).then(data => setVoteresult(data));
+        /* gameController.getVotingResult(2).then(data => setVoteresult(data)); */
         // setVoteresult(player);
 
         navigate(`/game/${data.room}/voteresult`, { state: data })
