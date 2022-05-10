@@ -57,7 +57,7 @@ export default function App() {
           <Route path="/" element={<StartPage mode={mode}/>}></Route>
 
           {/* TODO: make frontend */}
-          <Route path="/login" element={<LoginPage mode={mode} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
+          <Route path="/login" element={<LoginPage loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
           <Route path="/create_user" element={<CreateUserPage />}></Route>
           <Route path="/edit_user" element={<EditUserPage />}></Route>
           <Route path="/rules" element={<RulesPage setHeadline={setHeadline} />}></Route>

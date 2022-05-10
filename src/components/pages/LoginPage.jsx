@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import facade from "../../apiFacade";
 import "../../styles/LoginPage.css";
 
-function LogIn({ mode, login, creatingUser }) {
+function LogIn({login, creatingUser }) {
   const init = { username: "", password: "" };
   const [loginCredentials, setLoginCredentials] = useState(init);
 
@@ -53,7 +53,7 @@ function LogIn({ mode, login, creatingUser }) {
 }
 
 
-function CreateUser({mode, create }) {
+function CreateUser({create }) {
   const init = { username: "", password: "" };
   const [loginCredentials, setLoginCredentials] = useState(init);
 
@@ -128,7 +128,7 @@ function LoggedIn() {
 
 }
 
-function LoginPage({ mode, loggedIn, setLoggedIn }) {
+function LoginPage({loggedIn, setLoggedIn }) {
   const [creatingUser, setCreatingUser] = useState(false);
 
   const logout = () => {
@@ -150,7 +150,7 @@ function LoginPage({ mode, loggedIn, setLoggedIn }) {
 
   return (
     <main>
-      {!loggedIn ? (!creatingUser ? (<LogIn mode={mode} login={login} creatingUser={createUser} />) : (<CreateUser mode={mode} create={create} />)) :
+      {!loggedIn ? (!creatingUser ? (<LogIn login={login} creatingUser={createUser} />) : (<CreateUser create={create} />)) :
         (<div>
           <LoggedIn />
           <button onClick={logout}>Logout</button>
