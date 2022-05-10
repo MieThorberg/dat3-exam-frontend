@@ -33,7 +33,7 @@ const JoinPage = ({ mode }) => {
 
     useEffect(() => {
         //TODO: change to gameid
-        facade.getPlayers(2).then(data => setPlayers(data));
+        facade.getPlayers(8).then(data => setPlayers(data));
     }, [players]);
 
     const startGame = () => {
@@ -47,7 +47,7 @@ const JoinPage = ({ mode }) => {
     }, [location])
 
     function start() {
-        gameController.startGame(2);
+        gameController.startGame(8);
         navigate(`/game/${data.room}/village`, { state: data });
     }
 

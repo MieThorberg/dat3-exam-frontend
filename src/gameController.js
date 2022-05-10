@@ -52,11 +52,11 @@ function GameController() {
     }
 
     function getRoundResult(gameId) {
-        facade.getCurrentRound(gameId).then(data => {
+        return facade.getCurrentRound(gameId).then(data => {
             if (data.isDay) {
-                facade.dayRoundResult(gameId)
+                return facade.dayRoundResult(gameId);
             } else {
-                facade.nightRoundResult(gameId)
+                return facade.nightRoundResult(gameId);
             }
         });
     }
