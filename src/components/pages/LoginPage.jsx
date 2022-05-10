@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react"
 import facade from "../../apiFacade";
 import "../../styles/LoginPage.css";
 
-function LogIn({ login, creatingUser}) {
+function LogIn({ mode, login, creatingUser }) {
   const init = { username: "", password: "" };
   const [loginCredentials, setLoginCredentials] = useState(init);
 
   const performLogin = (evt) => {
     evt.preventDefault();
     login(loginCredentials.username, loginCredentials.password);
-    window.scroll(0,0);
+    window.scroll(0, 0);
   }
   const onChange = (evt) => {
     setLoginCredentials({ ...loginCredentials, [evt.target.id]: evt.target.value })
@@ -17,24 +17,43 @@ function LogIn({ login, creatingUser}) {
 
   return (
 
-    <div className="smaller-container">
-      <div className="login-section">
-        <h2>Log in</h2>
-        <form onChange={onChange} >
-          <input type="text" placeholder="User Name" id="username" />
-          <input type="password" placeholder="Password" id="password" />
-          <button className="login-button" onClick={performLogin}>Login</button>
-          <button className="login-button" onClick={creatingUser}>Create</button>
-        </form>
+    <>
+      <div className="color-background-container">
+        <div id="background-img"></div>
+        <div id="background-img-blur"></div>
       </div>
-    </div>
+      <div className="login">
+        <div className="login-container">
+          <div className="section">
+            <div
+              className="header"
+              style={{ justifyContent: "end", paddingBottom: "20px" }}>
+              <h1>Login</h1>
+              <p>Please login to continue</p>
+            </div>
+            <div
+              className="content"
+              style={{ justifyContent: "start", gridTemplateRows: "100%" }}
+            >
+              <form onChange={onChange} >
 
+                <input type="text" placeholder="Enter username" id="username" />
+                <input type="password" placeholder="Enter password" id="password" />
+                <button className="btn-purple" onClick={performLogin}>Login</button>
+                <p style={{ padding: "2px 0 2px 0" }}>or</p>
+                <button onClick={creatingUser}>Create</button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   )
-
 }
 
 
-function CreateUser({create}) {
+function CreateUser({mode, create }) {
   const init = { username: "", password: "" };
   const [loginCredentials, setLoginCredentials] = useState(init);
 
@@ -48,7 +67,38 @@ function CreateUser({create}) {
 
   return (
 
-    <div className="smaller-container">
+    <>
+      <div className="color-background-container">
+        <div id="background-img"></div>
+        <div id="background-img-blur"></div>
+      </div>
+      <div className="login">
+        <div className="login-container">
+          <div className="section">
+            <div
+              className="header"
+              style={{ justifyContent: "end", paddingBottom: "20px" }}>
+              <h1>Create account</h1>
+              <p>Please enter the following</p>
+            </div>
+            <div
+              className="content"
+              style={{ justifyContent: "start", gridTemplateRows: "100%" }}
+            >
+              <form onChange={onChange} >
+
+                <input type="text" placeholder="Enter username" id="username" />
+                <input type="password" style={{marginTop: "20px"}} placeholder="Enter password" id="password" />
+                <input type="password" style={{marginBottom: "30px"}} placeholder="Enter password again" id="password" />
+                <button className="btn-purple" onClick={performLogin}>Create</button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+    /* <div className="smaller-container">
       <div className="login-section">
         <h2>Create user</h2>
         <form onChange={onChange} >
@@ -57,7 +107,7 @@ function CreateUser({create}) {
           <button className="login-button" onClick={performLogin}>Create</button>
         </form>
       </div>
-    </div>
+    </div> */
 
   )
 
@@ -78,7 +128,7 @@ function LoggedIn() {
 
 }
 
-function LoginPage( { loggedIn, setLoggedIn } ) {
+function LoginPage({ mode, loggedIn, setLoggedIn }) {
   const [creatingUser, setCreatingUser] = useState(false);
 
   const logout = () => {
@@ -90,7 +140,7 @@ function LoginPage( { loggedIn, setLoggedIn } ) {
       .then(res => setLoggedIn(true));
   }
 
-  function createUser () {
+  function createUser() {
     setCreatingUser(!creatingUser);
   }
 
@@ -100,7 +150,7 @@ function LoginPage( { loggedIn, setLoggedIn } ) {
 
   return (
     <main>
-      {!loggedIn ? (!creatingUser? (<LogIn login={login} creatingUser={createUser}/>) : (<CreateUser create={create}/>)) :
+      {!loggedIn ? (!creatingUser ? (<LogIn mode={mode} login={login} creatingUser={createUser} />) : (<CreateUser mode={mode} create={create} />)) :
         (<div>
           <LoggedIn />
           <button onClick={logout}>Logout</button>

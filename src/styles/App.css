@@ -1,3 +1,5 @@
+/* rgb(17, 8, 21); */
+
 * {
     margin: 0;
     padding: 0;
@@ -42,34 +44,34 @@ p {
 ::-webkit-scrollbar {
     width: 10px;
     display: none;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #888; 
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555; 
-  }
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
 
 .background-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
-  /*   background-color: black; */
+    /*   background-color: black; */
     /* height: 100vh; */
 }
 
 #background-img {
-    background-image: url("../images/night.jpg");
+    /* background-image: url("../images/night.jpg"); */
     background-position: center;
     background-attachment: fixed;
 
@@ -86,7 +88,17 @@ p {
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: rgba(16, 5, 30, 0.249);
+    /* background-color: rgba(16, 5, 30, 0.685); */
+}
+
+
+.color-background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    /*   background-color: black; */
+    /* height: 100vh; */
 }
 
 .main {
@@ -101,6 +113,115 @@ p {
     width: 100%;
     padding: 0 20px 0 20px;
 }
+
+
+.login {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /* padding: 0 30% 0 30%; */
+    /* border: 1px solid red; */
+}
+
+.login-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 30% auto 30%;
+    /* border: 1px solid red; */
+}
+
+.login-container .section {
+
+    width: 100%;
+    max-width: 550px;
+    background-color: white;
+    padding: 20px 0 50px 0;
+}
+
+.login-container .section div {
+    /*  border: 1px solid red; */
+
+}
+
+.login-container .section div input[type=text],
+.login-container .section div input[type=password] {
+    background-color: rgba(235, 208, 248, 0.44);
+}
+
+
+::-webkit-input-placeholder {
+    color: #901ff38a;
+}
+
+:-ms-input-placeholder {
+    color: #901ff38a;
+}
+
+::placeholder {
+    color: #901ff38a;
+}
+
+.login-container .section .header {
+    text-align: center;
+    color: rgb(215, 213, 218);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container .section p {
+    font-size: 12px;
+    color: #4443448a;
+}
+
+.login-container .section .header {
+    padding: 0px 10px 0px 10px;
+}
+
+.login-container .section .header h1 {
+    padding-top: 10px;
+    font-size: 30px;
+    color: #000000;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+}
+
+.login-container .section .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    align-items: center;
+}
+
+.login-container .section .content button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0 10px 0;
+}
+
+.login-container .section .content form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container .btn-purple:hover {
+    background-color: grey;
+}
+
+
 
 .main2 {
     position: relative;
@@ -170,8 +291,7 @@ p {
 
 input[type=text],
 input[type=password] {
-    background-color: rgb(246, 246, 246);
-    color: black;
+    color: #901ff3;
     border-radius: 25px;
     padding: 14px 20px;
     width: 100%;
@@ -182,16 +302,9 @@ input[type=password] {
     max-width: 300px;
 }
 
-input[type=text]:hover,
-input[type=password]:hover {
-    /* border: 1px solid #40446c57; */
-}
-
 input[type=text]:focus,
 input[type=password]:focus {
-    /*   border: 3px solid #2f335c;
-  background-color: #977f9d;
- */
+    border: 1px solid #901ff3;
 }
 
 input,
@@ -283,9 +396,9 @@ button:hover {
 .main-container .section .content {
     display: flex;
     flex-direction: column;
-    justify-content:baseline;
+    justify-content: baseline;
     align-items: center;
-   /*  border: 1px solid red; */
+    /*  border: 1px solid red; */
     /*   padding: 0 15% 0 15%; */
 }
 
@@ -295,8 +408,8 @@ button:hover {
     justify-content: center;
     align-items: center;
     margin: 10px 0 10px 0;
-    
-    
+
+
     /* border: 2px solid orange; */
 }
 
@@ -422,9 +535,7 @@ button:hover {
     border: 5px solid #1ff39e;
 }
 
-.list-grid div .vote h3:hover {
-    
-}
+.list-grid div .vote h3:hover {}
 
 #rows {
     position: fixed;
@@ -533,6 +644,14 @@ button:hover {
 }
 
 @media only screen and (min-width: 450px) {
+
+    .color-background-container #background-img {
+        background-image: url("../images/night.jpg");
+    }
+
+    .color-background-container #background-img-blur {
+        background-color: rgba(16, 5, 30, 0.685);
+    }
     .fixed-header {
         top: 60px;
     }
@@ -540,7 +659,8 @@ button:hover {
     .fixed-header h1 {
         font-size: 30px;
     }
-     .joined-players-section {
+
+    .joined-players-section {
         top: 150px;
     }
 
@@ -555,7 +675,7 @@ button:hover {
         border-radius: 50%;
         background-color: white;
     }
-    
+
     .big-profile-img {
         height: 100px;
         width: 100px;
@@ -569,7 +689,7 @@ button:hover {
         padding-top: 20px;
         font-size: 20px;
     }
-    
+
 
     button {
         width: 100%;
@@ -601,12 +721,13 @@ button:hover {
         grid-template-columns: auto auto auto auto;
     }
 
-   
+
 }
 
 @media only screen and (min-width: 900px) {
     .main-container .section .header-large h1 {
         font-size: 90px;
+        margin-bottom: 20px;
     }
 
     .main-container .section .header p {

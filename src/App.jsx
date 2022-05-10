@@ -29,7 +29,7 @@ export default function App() {
     image: "/../src/images/night.jpg",
     blur: "rgba(16, 5, 30, 0.685)",
     topnavColor: "#4141414b",
-    topnavLinkColor: "#d6ced9"
+    topnavLinkColor: "#d6ced9",
     /* TODO: add colors for font, navigation, btn, background-color */
   }
   
@@ -37,7 +37,7 @@ export default function App() {
     image: "/../src/images/day.jpg",
     blur: "rgba(16, 5, 30, 0.3)",
     topnavColor: "#e0dede4b",
-    topnavLinkColor: "black"
+    topnavLinkColor: "black",
 
     /* TODO: add colors for font, navigation, btn, background-color */
   }
@@ -57,7 +57,7 @@ export default function App() {
           <Route path="/" element={<StartPage mode={mode}/>}></Route>
 
           {/* TODO: make frontend */}
-          <Route path="/login" element={<LoginPage loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
+          <Route path="/login" element={<LoginPage mode={mode} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
           <Route path="/create_user" element={<CreateUserPage />}></Route>
           <Route path="/edit_user" element={<EditUserPage />}></Route>
           <Route path="/rules" element={<RulesPage setHeadline={setHeadline} />}></Route>
