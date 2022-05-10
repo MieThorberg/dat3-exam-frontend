@@ -1,5 +1,5 @@
 import URL from "./settings";
-
+import jwtDecode from "jwt-decode";
 function handleHttpErrors(res) {
   if (!res.ok) {
     return Promise.reject({ status: res.status, fullError: res.json() })
@@ -162,7 +162,11 @@ function apiFacade() {
   }
 
   
-
+const decodeToken = () => {
+    const token = getToken()
+    const decode = decodeToken(token)
+    return decode
+}
   
   const makeOptions = (method, addToken, body) => {
     var opts = {
@@ -208,6 +212,7 @@ function apiFacade() {
     createDayRound,
     nightRoundResult,
     dayRoundResult,
+    decodeToken,
   }
 }
 const facade = apiFacade();
