@@ -33,7 +33,7 @@ const JoinPage = ({ mode }) => {
 
     useEffect(() => {
         //TODO: change to gameid
-        facade.getPlayers(8).then(data => setPlayers(data));
+        facade.getPlayers(16).then(data => setPlayers(data));
     }, [players]);
 
     const startGame = () => {
@@ -42,6 +42,7 @@ const JoinPage = ({ mode }) => {
         { userName: "user_admin", userPass: "test123" }]
         facade.createPlayers(players, 1)
     }
+
     useEffect(() => {
         setData(location.state)
     }, [location])

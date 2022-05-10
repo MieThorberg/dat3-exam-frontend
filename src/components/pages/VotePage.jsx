@@ -7,7 +7,7 @@ import facade from '../../apiFacade'
 import gameController from '../../gameController'
 import { useNavigate } from 'react-router-dom'
 
-const VotePage = ({ mode, setVoteresult}) => {
+const VotePage = ({ mode}) => {
     const navigate = useNavigate();
 
     // MUST HAVE:sends location to the next page
@@ -60,7 +60,7 @@ const VotePage = ({ mode, setVoteresult}) => {
 
       function vote() {
         //TODO: change and get the gameid, userid & playerid
-        gameController.vote(8, 16, 17);
+        gameController.vote(16, 24, 23);
 
         //TODO: wait on all players to vote before checking the result and hasended game
         /* gameController.getVotingResult(2).then(data => setVoteresult(data)); */

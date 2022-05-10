@@ -13,7 +13,7 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   let navigate = useNavigate();
 
   const [error, setError] = useState("");
-  const [data, setData] = useState({ name: "", room: "" });
+  const [data, setData] = useState({ name: "", room: "", gameid: 0 });
   const [pin, setPin] = useState("");
   const [game, setGame] = useState("");
 
@@ -42,9 +42,13 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
     const isValid = validation();
     if (isValid) {
       navigate(`/join_game/${data.room}`, { state: data });
-      facade.createGame("user", "test123").then((data) => setGame(data));
+      facade.createGame("user", "test123").then((data) => console.log(data));
+     console.log(game);
+      return setData({ ...data, gameid: game.id });
+      
     }
   };
+  console.log(data);
 
   const generatePin = (e) => {
     e.preventDefault();
