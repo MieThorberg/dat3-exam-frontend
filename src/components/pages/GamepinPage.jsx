@@ -9,7 +9,7 @@ const GamepinPage = ({ mode }) => {
 
   const [error, setError] = useState("")
   //Todo: change so its a user we send to the next page
-  const [data, setData] = useState({ name: "", room: "", role: "" })
+  const [data, setData] = useState({ name: "", room: "", gameid: "" })
 
   const handleChange = e => {
     setData({
@@ -31,14 +31,28 @@ const GamepinPage = ({ mode }) => {
     return true
   }
 
+  useEffect(() => {
+    console.log(data.gameid);
+    if (data.gameid != "") {
+      navigate(`/join_game/${data.room}`, { state: data });
+    }
+  }, [data])
+
   const handleSubmit = e => {
     e.preventDefault()
     const isValid = validation()
     if (isValid) {
-      navigate(`/join_game/${data.room}`, { state: data });
+     /*  navigate(`/join_game/${data.room}`, { state: data }); */
       //TODO: get user and game id
       //fetch gameByPincode
-      facade.createPlayer(2, { userName: "user", userPass: "test123" });
+
+
+
+      facade.getGameByPin(data.room).then(fetchdata => {
+        facade.createPlayer(fetchdata.id, { userName: "admin", userPass: "test123" });
+        setData({ ...data, gameid: fetchdata.id });
+      })
+
     }
   }
   return (

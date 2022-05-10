@@ -43,10 +43,10 @@ function apiFacade() {
       .then(res => { setToken(res.token) })
   }
 
-  const createGame = (username, password) => {
-    const options = makeOptions("POST", true, { userName: username, userPass: password }); //True add's the token
+  const createGame = (id, pin) => {
+    const options = makeOptions("POST", true, {gamePin: pin}); //True add's the token
     // console.log(username + " " + password);
-    return fetch(URL + "/api/games/creategame", options)
+    return fetch(URL + `/api/games/creategame/${id}`, options)
       .then(handleHttpErrors)
   }
 
@@ -83,7 +83,7 @@ function apiFacade() {
 
   //playerid is the vote
   const vote = (gameid, userid, playerid) => {
-    const options = makeOptions("PUT", true, {id: playerid}); //True add's the token
+    const options = makeOptions("PUT", true, { id: playerid }); //True add's the token
     return fetch(URL + `/api/games/${gameid}/${userid}/vote`, options)
       .then(handleHttpErrors)
       .then(res => { setToken(res.token) })
@@ -96,12 +96,12 @@ function apiFacade() {
 
 
   const killPlayer = (gameid, playerid) => {
-    const options = makeOptions("PUT", true, {id: playerid}); //True add's the token
+    const options = makeOptions("PUT", true, { id: playerid }); //True add's the token
     return fetch(URL + `/api/games/${gameid}/killplayer`, options)
       .then(handleHttpErrors)
       .then(res => { setToken(res.token) })
   }
-  
+
   const cleanVotes = (id) => {
     const options = makeOptions("PUT", true); //True add's the token
     return fetch(URL + `/api/games/${id}/cleanvotes`, options)
@@ -150,7 +150,7 @@ function apiFacade() {
     const options = makeOptions("PUT", true); //True add's the token
     return fetch(URL + `/api/games/${id}/rounds/nightroundresult`, options)
       .then(handleHttpErrors)
-      
+
   }
 
   const dayRoundResult = (id) => {
@@ -163,13 +163,18 @@ function apiFacade() {
     const options = makeOptions("GET", true); //True add's the token
     return fetch(URL + `/api/games/${id}/getwerewolves`, options).then(handleHttpErrors);
   }
-  
-const decodeToken = () => {
+
+  const decodeToken = () => {
     const token = getToken()
     const decode = decodeToken(token)
     return decode
-}
-  
+  }
+
+  const getGameByPin = (pin) => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + `/api/games/gamepin/${pin}`, options).then(handleHttpErrors);
+  }
+
   const makeOptions = (method, addToken, body) => {
     var opts = {
       method: method,
@@ -216,6 +221,7 @@ const decodeToken = () => {
     dayRoundResult,
     getWereWolves,
     decodeToken,
+    getGameByPin,
   }
 }
 const facade = apiFacade();

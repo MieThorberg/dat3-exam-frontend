@@ -48,8 +48,9 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = validation();
+    console.log(data.room);
     if (isValid) {
-      facade.createGame("user", "test123").then((fetchdata) => {
+      facade.createGame("user", data.room).then((fetchdata) => {
         setGame(fetchdata)
         setData({ ...data, gameid: fetchdata.id });
       });

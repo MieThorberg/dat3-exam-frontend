@@ -121,6 +121,10 @@ function GameController() {
         //createRound in loop
     }
 
+
+    function getGameByPin(pin) {
+        return facade.getGameByPin(pin);
+    } 
     return {
         startGame,
         vote,
@@ -133,6 +137,7 @@ function GameController() {
         createRound,
         getCurrentRound,
         getRoundResult,
+        getGameByPin,
     }
 }
 

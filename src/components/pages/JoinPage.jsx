@@ -37,8 +37,12 @@ const JoinPage = ({ mode }) => {
 
     useEffect(() => {
         //TODO: change to gameid
-        facade.getPlayers(16).then(data => setPlayers(data));
-    }, [players]);
+        if(data.gameid != undefined) {
+            facade.getPlayers(data.gameid).then(data => setPlayers(data))
+        }
+        
+
+    }, [data, players]);
 
     const startGame = () => {
         const players = [{ userName: "user", userPass: "test123" },
