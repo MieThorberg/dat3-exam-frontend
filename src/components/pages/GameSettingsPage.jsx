@@ -48,13 +48,15 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = validation();
-    console.log(data.room);
     if (isValid) {
+      // TODO: set to logged in user;
       facade.createGame("user", data.room).then((fetchdata) => {
         setGame(fetchdata)
         setData({ ...data, gameid: fetchdata.id });
+        console.log(fetchdata);
+        facade.createPlayer(fetchdata.id, {userName: fetchdata.hostName});
+        // TODO: set the player info, some where to use
       });
-     
     }
   };
 
