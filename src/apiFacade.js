@@ -167,6 +167,11 @@ const decodeToken = () => {
     const decode = decodeToken(token)
     return decode
 }
+
+const getRules = () => {
+  const options = makeOptions("GET", true); //True add's the token
+  return fetch(URL + '/api/games/rules', options).then(handleHttpErrors);
+}
   
   const makeOptions = (method, addToken, body) => {
     var opts = {
@@ -213,6 +218,7 @@ const decodeToken = () => {
     nightRoundResult,
     dayRoundResult,
     decodeToken,
+    getRules,
   }
 }
 const facade = apiFacade();
