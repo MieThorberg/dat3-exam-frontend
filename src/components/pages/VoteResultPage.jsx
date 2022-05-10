@@ -2,11 +2,20 @@ import React from 'react'
 import "../../styles/App.css"
 import { useEffect, useState } from 'react'
 import gameController from '../../gameController'
+import { useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const VoteResultPage = ({ mode, voteresult }) => {
     const [result, setResult] = useState("");
     const [victim, setVictim] = useState({});
     const [day, setDay] = useState("");
+    const navigate = useNavigate();
+
+    const location = useLocation()
+    const [data, setData] = useState({})
+    useEffect(() => {
+        setData(location.state)
+    }, [location])
 
     useEffect(() => {
         if (voteresult.id != null) {
@@ -31,6 +40,11 @@ const VoteResultPage = ({ mode, voteresult }) => {
         return gameController.getDay(2).then(data => setDay(data));
     }
 
+    function nextRound() {
+        gameController.createRound(1);
+        navigate(`/game/${data.room}/village`, { state: data })
+    }
+
     return (
         <>
             <div className='background-container'>
@@ -53,6 +67,10 @@ const VoteResultPage = ({ mode, voteresult }) => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className='fixed-btn' /* style={{ display: "none" }} */>
+                {/* TODO: only user host shall see this button */}
+                <button className='btn-purple' onClick={nextRound}>Next</button>
             </div>
 
         </>
