@@ -161,6 +161,10 @@ function apiFacade() {
       .then(res => { setToken(res.token) })
   }
 
+  const getWereWolves = (id) => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + `/api/games/${id}/getwerewolves`, options).then(handleHttpErrors);
+  }
   
 
   
@@ -208,6 +212,7 @@ function apiFacade() {
     createDayRound,
     nightRoundResult,
     dayRoundResult,
+    getWereWolves,
   }
 }
 const facade = apiFacade();
