@@ -19,6 +19,10 @@ const JoinPage = ({ mode }) => {
     // const [players, setPlayers] = useState([])
 
     useEffect(() => {
+        setData(location.state)
+    }, [location])
+
+    useEffect(() => {
         const socket = io("https://react-chat-werewolf-server.herokuapp.com")
         setSocket(socket)
 
@@ -43,10 +47,6 @@ const JoinPage = ({ mode }) => {
         facade.createPlayers(players, 1)
     }
 
-    useEffect(() => {
-        setData(location.state)
-    }, [location])
-
     function start() {
         gameController.startGame(8);
         navigate(`/game/${data.room}/village`, { state: data });
@@ -60,7 +60,7 @@ const JoinPage = ({ mode }) => {
                 <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
             </div>
             <div className="fixed-header">
-                <h1>Gamepin: 1234</h1>
+                <h1>Gamepin: {data.room}</h1>
                 {/* <h3>{data.name}</h3> */}
 
                 {/* {users.map((index, user) => {

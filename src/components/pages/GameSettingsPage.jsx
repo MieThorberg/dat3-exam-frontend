@@ -13,9 +13,9 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   let navigate = useNavigate();
 
   const [error, setError] = useState("");
-  const [data, setData] = useState({ name: "", room: "", gameid: 0 });
+  const [data, setData] = useState({ name: "", room: "", gameid: "" });
   const [pin, setPin] = useState("");
-  const [game, setGame] = useState("");
+  const [game, setGame] = useState({});
 
   const handleChange = (e) => {
     setData({
@@ -37,18 +37,27 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
     return true;
   };
 
+  useEffect(() => {
+    if (data.gameid != ""){
+      console.log(data.gameid);
+      console.log(data);
+      navigate(`/join_game/${data.room}`, { state: data });
+      }
+  },[data])
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = validation();
     if (isValid) {
-      navigate(`/join_game/${data.room}`, { state: data });
-      facade.createGame("user", "test123").then((data) => console.log(data));
-     console.log(game);
-      return setData({ ...data, gameid: game.id });
-      
+      facade.createGame("user", "test123").then((fetchdata) => {
+        setGame(fetchdata)
+        setData({ ...data, gameid: fetchdata.id });
+      });
+     
     }
   };
-  console.log(data);
+
+  
 
   const generatePin = (e) => {
     e.preventDefault();

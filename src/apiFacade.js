@@ -48,7 +48,6 @@ function apiFacade() {
     // console.log(username + " " + password);
     return fetch(URL + "/api/games/creategame", options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
   }
 
   const createPlayers = (players, id) => {
