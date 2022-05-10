@@ -53,16 +53,15 @@ function GameController() {
        
     }
 
-    function getRoundResult() {
-        /* 
-        const current = facade.getCurrentRound()
+    function getRoundResult(gameId) {
 
-        if (!(current.isday)){
-            facade.nightRoundResult()
-        } else {
-            facade.dayRoundResult() 
-        } 
-        */
+        facade.getCurrentRound(id).then(data => {
+            if (data.isDay) {
+                facade.dayRoundResult(gameId) 
+            } else {
+                facade.nightRoundResult(gameId)
+            }
+        });
     }
 
 

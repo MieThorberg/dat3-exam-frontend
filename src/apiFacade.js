@@ -147,6 +147,20 @@ function apiFacade() {
     return fetch(URL + `/api/games/${id}/createdayround`, options).then(handleHttpErrors);
   }
 
+  const nightRoundResult = (id) => {
+    const options = makeOptions("PUT", true); //True add's the token
+    return fetch(URL + `/api/games/${id}/nightroundresult`, options)
+      .then(handleHttpErrors)
+      .then(res => { setToken(res.token) })
+  }
+
+  const dayRoundResult = (id) => {
+    const options = makeOptions("PUT", true); //True add's the token
+    return fetch(URL + `/api/games/${id}/dayroundresult`, options)
+      .then(handleHttpErrors)
+      .then(res => { setToken(res.token) })
+  }
+
   
 
   
@@ -192,6 +206,8 @@ function apiFacade() {
     getCurrentRound,
     createNightRound,
     createDayRound,
+    nightRoundResult,
+    dayRoundResult,
   }
 }
 const facade = apiFacade();
