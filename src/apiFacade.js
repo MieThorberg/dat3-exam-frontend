@@ -47,7 +47,7 @@ function apiFacade() {
     const options = makeOptions("POST", true, {gamePin: pin}); //True add's the token
     // console.log(username + " " + password);
     return fetch(URL + `/api/games/creategame/${id}`, options)
-      .then(handleHttpErrors)
+      .then(handleHttpErrors).then(res => { setToken(res.token)})
   }
 
   const createPlayers = (players, id) => {

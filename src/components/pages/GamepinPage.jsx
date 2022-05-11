@@ -49,7 +49,9 @@ const GamepinPage = ({ mode }) => {
 
 
       facade.getGameByPin(data.room).then(fetchdata => {
+        // TODO: set to logged in user;
         facade.createPlayer(fetchdata.id, { userName: "admin", userPass: "test123" });
+        // TODO: set the player info, some where to use
         setData({ ...data, gameid: fetchdata.id });
       })
 
