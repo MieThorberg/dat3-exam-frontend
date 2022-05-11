@@ -15,16 +15,14 @@ const VoteResultPage = ({ mode, changeMode }) => {
     const [data, setData] = useState({})
     useEffect(() => {
         setData(location.state)
-   /*      gameController.getRoundResult(16).then(data => setResult(data));
-        
-                */
+        gameController.getRoundResult(16).then(data => setResult(data));
     }, [location])
 
 
     useEffect(() => {
         // TODO: delayed victim display
         console.log(result);
-/*         gameController.getVictimLatest(16).then(data => setVictim(data)); */
+         gameController.getVictimLatest(16).then(data => setVictim(data));
     }, [result])
 
     function hasEnded() {
@@ -41,7 +39,7 @@ const VoteResultPage = ({ mode, changeMode }) => {
     }
 
     function nextRound() {
-       /*  gameController.createRound(16); */
+       gameController.createRound(16);
        changeMode(mode);
         navigate(`/game/${data.room}/village`, { state: data })
     }

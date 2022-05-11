@@ -21,7 +21,7 @@ const VotePage = ({ mode }) => {
         if (data.gameid != undefined) {
             facade.getPlayers(data.gameid).then(data => setPlayers(data))
         }
-         console.log("first choosen player: " + choosenPlayer);
+        /*  console.log("first choosen player: " + choosenPlayer); */
         /*  facade.getPlayers(data.gameid).then(data => setPlayers(data)); */
     }, [data, location, players])
     /* // const players = []
@@ -68,7 +68,7 @@ const VotePage = ({ mode }) => {
 
     function vote() {
         //TODO: change and get the gameid, userid & playerid
-        /* gameController.vote(16, 24, 23); */
+        gameController.vote(16, 24, 23);
 
         //TODO: wait on all players to vote before checking the result and hasended game
         /* gameController.getVotingResult(2).then(data => setVoteresult(data)); */
