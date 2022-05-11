@@ -71,7 +71,7 @@ p {
 }
 
 #background-img {
-    /* background-image: url("../images/night.jpg"); */
+    background-image: url("src/images/night.jpg"); 
     background-position: center;
     background-attachment: fixed;
 

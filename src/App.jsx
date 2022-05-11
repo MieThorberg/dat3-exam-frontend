@@ -22,12 +22,13 @@ import { useState } from "react";
 import "./styles/App.css";
 import VotePage from "./components/pages/VotePage";
 import EndedGamePage from "./components/pages/EndedGamePage";
+import night from"./images/night.jpg"
 
 
 export default function App() {
   const nightMode = {
     name: "night",
-    image: "/../src/images/night.jpg",
+    image: night,
     blur: "rgba(16, 5, 30, 0.685)",
     topnavColor: "#4141414b",
     topnavLinkColor: "#d6ced9",
