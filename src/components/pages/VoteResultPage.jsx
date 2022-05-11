@@ -15,31 +15,22 @@ const VoteResultPage = ({ mode, changeMode }) => {
     const [data, setData] = useState({})
     useEffect(() => {
         setData(location.state)
-        gameController.getRoundResult(16).then(data => setResult(data));
-    }, [location])
+
+        if (data.gameid != undefined){
+             gameController.getRoundResult(data.gameid).then(data => setResult(data));
+        }
+    }, [location,data])
 
 
     useEffect(() => {
-        // TODO: delayed victim display
         console.log(result);
-         gameController.getVictimLatest(16).then(data => setVictim(data));
-    }, [result])
-
-    function hasEnded() {
-        return gameController.hasEnded(2);
-    }
-
-    function getVictim() {
-        console.log("bobo");
-    
-    }
-
-    function getDay() {
-        return gameController.getDay(2).then(data => setDay(data));
-    }
+        if (data.gameid != undefined){
+         gameController.getVictimLatest(data.gameid).then(data => setVictim(data));
+        }
+    }, [result, data])
 
     function nextRound() {
-       gameController.createRound(16);
+       gameController.createRound(data.gameid);
        changeMode(mode);
         navigate(`/game/${data.room}/village`, { state: data })
     }

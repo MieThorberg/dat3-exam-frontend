@@ -23,7 +23,7 @@ const StartPage = ({ mode }) => {
                             <h1>Werewolf</h1>
                         </div>
                         <div className="content">
-                            <button className="btn-purple" style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/home"}>Login</button>
+                            <button className="btn-purple" style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/login"}>Login</button>
                             <button className="btn-purple" style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/rules"}>About</button>
                             <button className="btn-purple" style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/credits"}>Credits</button>
                         </div>

@@ -68,7 +68,7 @@ const VotePage = ({ mode }) => {
 
     function vote() {
         //TODO: change and get the gameid, userid & playerid
-        gameController.vote(16, 24, 23);
+        gameController.vote(data.gameid, facade.getPlayerToken(), choosenPlayer);
 
         //TODO: wait on all players to vote before checking the result and hasended game
         /* gameController.getVotingResult(2).then(data => setVoteresult(data)); */
@@ -134,20 +134,20 @@ const VotePage = ({ mode }) => {
                             if (index == 0) {
                                 {
                                     if (choosenPlayer == "") {
-                                        setChoosenPlayer(player.username);
+                                        setChoosenPlayer(player.id);
                                     }
 
                                 }
                                 return <div key={player.id}>
                                     <div className='vote'>
-                                        <img id={player.username} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                        <img id={player.id} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
                                         <h3 style={{ color: 'white' }}>{player.username}</h3>
                                     </div>
                                 </div>
                             }
                             return <div key={player.id}>
                                 <div className='vote'>
-                                    <img id={player.username} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                    <img id={player.id} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
                                     <h3 style={{ color: 'white' }}>{player.username}</h3>
                                 </div>
                             </div>
