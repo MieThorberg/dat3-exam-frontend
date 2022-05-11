@@ -21,6 +21,14 @@ function apiFacade() {
   }
   const logout = () => {
     localStorage.removeItem("jwtToken");
+    localStorage.removeItem("player");
+  }
+
+  const setPlayerToken = (token) => {
+    localStorage.setItem('player', token)
+  }
+  const getPlayerToken = () => {
+    return localStorage.getItem('player')
   }
 
 
@@ -217,6 +225,8 @@ function apiFacade() {
     getWereWolves,
     decodeToken,
     getGameByPin,
+    setPlayerToken,
+    getPlayerToken,
   }
 }
 const facade = apiFacade();
