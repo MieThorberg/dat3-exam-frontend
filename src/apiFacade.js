@@ -166,7 +166,11 @@ function apiFacade() {
 
   const decodeToken = () => {
     const token = getToken()
-    const decode = decodeToken(token)
+    const decodeToken = token;
+    const decode = jwtDecode(decodeToken)
+    console.log(decode);
+    console.log(token);
+    setToken(token);
     return decode
   }
 

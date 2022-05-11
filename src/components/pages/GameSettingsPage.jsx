@@ -13,6 +13,7 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   let navigate = useNavigate();
 
   const [error, setError] = useState("");
+  const [user, setUser] = useState({});
   const [data, setData] = useState({ name: "", room: "", gameid: "" });
   const [pin, setPin] = useState("");
   const [game, setGame] = useState({});
@@ -48,6 +49,8 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
     const isValid = validation();
     if (isValid) {
       // TODO: set to logged in user;
+      const host = facade.decodeToken();
+      console.log(host.username);
       facade.createGame("user", data.room).then((fetchdata) => {
         setGame(fetchdata)
         setData({ ...data, gameid: fetchdata.id });
