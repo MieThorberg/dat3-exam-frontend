@@ -23,6 +23,7 @@ import "./styles/App.css";
 import VotePage from "./components/pages/VotePage";
 import EndedGamePage from "./components/pages/EndedGamePage";
 import night from"./images/night.jpg"
+import day from"./images/day.jpg"
 
 
 export default function App() {
@@ -37,7 +38,7 @@ export default function App() {
 
   const dayMode = {
     name: "day",
-    image: "/../src/images/day.jpg",
+    image: day,
     blur: "rgba(16, 5, 30, 0.3)",
     topnavColor: "#e0dede4b",
     topnavLinkColor: "black",
