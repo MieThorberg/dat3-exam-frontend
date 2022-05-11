@@ -26,10 +26,10 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   };
 
   const validation = () => {
-    if (!data.name) {
-      setError("Please enter your name.");
-      return false;
-    }
+    // if (!data.name) {
+    //   setError("Please enter your name.");
+    //   return false;
+    // }
     // if (!data.room) {
     //     setError("Please enter pin code.")
     //     return false
@@ -49,9 +49,8 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
     const isValid = validation();
     if (isValid) {
       // TODO: set to logged in user;
-      const host = facade.decodeToken();
-      console.log(host.username);
-      facade.createGame("user", data.room).then((fetchdata) => {
+      const host = facade.decodeToken().username;
+      facade.createGame(host, data.room).then((fetchdata) => {
         setGame(fetchdata)
         setData({ ...data, gameid: fetchdata.id });
         console.log(fetchdata);
@@ -99,14 +98,6 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
               style={{ justifyContent: "start", gridTemplateRows: "100%" }}
             >
               <form >
-                <div>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Game name"
-                    onChange={handleChange}
-                  />
-                </div>
                 <div>
                   <input
                     readOnly

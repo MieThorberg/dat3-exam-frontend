@@ -54,7 +54,6 @@ function apiFacade() {
     const options = makeOptions("POST", true, players); //True add's the token
     return fetch(URL + `/api/games/${id}/createplayers`, options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
   }
 
   const getPlayers = (id) => {
@@ -66,7 +65,6 @@ function apiFacade() {
     const options = makeOptions("POST", true, user); //True add's the token
     return fetch(URL + `/api/games/${id}/createplayer`, options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
   }
 
   const getGameById = (id) => {
@@ -78,7 +76,6 @@ function apiFacade() {
     const options = makeOptions("PUT", true, id); //True add's the token
     return fetch(URL + `/api/games/${id}/assigncharacters`, options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
   }
 
   //playerid is the vote
@@ -86,7 +83,6 @@ function apiFacade() {
     const options = makeOptions("PUT", true, { id: playerid }); //True add's the token
     return fetch(URL + `/api/games/${gameid}/${userid}/vote`, options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
   }
 
   const getVoteResult = (id) => {
@@ -99,14 +95,12 @@ function apiFacade() {
     const options = makeOptions("PUT", true, { id: playerid }); //True add's the token
     return fetch(URL + `/api/games/${gameid}/killplayer`, options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
   }
 
   const cleanVotes = (id) => {
     const options = makeOptions("PUT", true); //True add's the token
     return fetch(URL + `/api/games/${id}/cleanvotes`, options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
   }
 
   const hasEnded = (id) => {
@@ -128,7 +122,6 @@ function apiFacade() {
     const options = makeOptions("PUT", true); //True add's the token
     return fetch(URL + `/api/games/${id}/addday`, options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
   }
 
   const getCurrentRound = (id) => {
@@ -168,8 +161,6 @@ function apiFacade() {
     const token = getToken()
     const decodeToken = token;
     const decode = jwtDecode(decodeToken)
-    console.log(decode);
-    console.log(token);
     setToken(token);
     return decode
   }

@@ -19,10 +19,10 @@ const GamepinPage = ({ mode }) => {
   }
 
   const validation = () => {
-    if (!data.name) {
-      setError("Please enter your name.")
-      return false
-    }
+    // if (!data.name) {
+    //   setError("Please enter your name.")
+    //   return false
+    // }
     if (!data.room) {
       setError("Please select room.")
       return false
@@ -43,14 +43,12 @@ const GamepinPage = ({ mode }) => {
     const isValid = validation()
     if (isValid) {
      /*  navigate(`/join_game/${data.room}`, { state: data }); */
-      //TODO: get user and game id
       //fetch gameByPincode
 
-
+      const user = facade.decodeToken().username;
 
       facade.getGameByPin(data.room).then(fetchdata => {
-        // TODO: set to logged in user;
-        facade.createPlayer(fetchdata.id, { userName: "admin", userPass: "test123" });
+      facade.createPlayer(fetchdata.id, {userName: user});
         // TODO: set the player info, some where to use
         setData({ ...data, gameid: fetchdata.id });
       })
@@ -77,7 +75,6 @@ const GamepinPage = ({ mode }) => {
 
               <form onSubmit={handleSubmit}>
                 {/* TODO: delete name input and only have a room input */}
-                <input type="text" name="name" placeholder="Enter name" onChange={handleChange} />
                 <input type="text" name="room" placeholder="Enter pin" onChange={handleChange} />
                 <button className='btn-lightpurple' style={{ maxWidth: "200px" }} onClick={handleSubmit}>Enter</button>
               </form>
