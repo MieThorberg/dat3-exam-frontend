@@ -530,7 +530,7 @@ button:hover {
 
 
 
-.list-grid div .vote .profile-img:hover {
+.active, .list-grid div .vote .profile-img:hover {
     cursor: pointer;
     border: 5px solid #1ff39e;
 }

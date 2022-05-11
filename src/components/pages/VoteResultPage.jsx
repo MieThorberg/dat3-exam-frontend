@@ -5,7 +5,7 @@ import gameController from '../../gameController'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
-const VoteResultPage = ({ mode, voteresult }) => {
+const VoteResultPage = ({ mode, changeMode }) => {
     const [result, setResult] = useState({});
     const [victim, setVictim] = useState({});
     const [day, setDay] = useState("");
@@ -15,16 +15,16 @@ const VoteResultPage = ({ mode, voteresult }) => {
     const [data, setData] = useState({})
     useEffect(() => {
         setData(location.state)
-        gameController.getRoundResult(16).then(data => setResult(data));
+   /*      gameController.getRoundResult(16).then(data => setResult(data));
         
-               
+                */
     }, [location])
 
 
     useEffect(() => {
         // TODO: delayed victim display
         console.log(result);
-        gameController.getVictimLatest(16).then(data => setVictim(data));
+/*         gameController.getVictimLatest(16).then(data => setVictim(data)); */
     }, [result])
 
     function hasEnded() {
@@ -41,7 +41,8 @@ const VoteResultPage = ({ mode, voteresult }) => {
     }
 
     function nextRound() {
-        gameController.createRound(16);
+       /*  gameController.createRound(16); */
+       changeMode(mode);
         navigate(`/game/${data.room}/village`, { state: data })
     }
 

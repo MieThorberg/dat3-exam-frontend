@@ -7,15 +7,23 @@ import facade from '../../apiFacade'
 import gameController from '../../gameController'
 import { useNavigate } from 'react-router-dom'
 
-const VotePage = ({ mode}) => {
+const VotePage = ({ mode }) => {
     const navigate = useNavigate();
+    const [choosenPlayer, setChoosenPlayer] = useState("");
+    const [players, setPlayers] = useState([]);
 
     // MUST HAVE:sends location to the next page
     const location = useLocation()
     const [data, setData] = useState({})
     useEffect(() => {
         setData(location.state)
-    }, [location])
+        setActiveBtn();
+        if (data.gameid != undefined) {
+            facade.getPlayers(data.gameid).then(data => setPlayers(data))
+        }
+         console.log("first choosen player: " + choosenPlayer);
+        /*  facade.getPlayers(data.gameid).then(data => setPlayers(data)); */
+    }, [data, location, players])
     /* // const players = []
     const navigate = useNavigate();
     const location = useLocation()
@@ -58,9 +66,9 @@ const VotePage = ({ mode}) => {
           navigate(`/game/${data.room}/village`, { state: data });
       } */
 
-      function vote() {
+    function vote() {
         //TODO: change and get the gameid, userid & playerid
-        gameController.vote(16, 24, 23);
+        /* gameController.vote(16, 24, 23); */
 
         //TODO: wait on all players to vote before checking the result and hasended game
         /* gameController.getVotingResult(2).then(data => setVoteresult(data)); */
@@ -80,6 +88,28 @@ const VotePage = ({ mode}) => {
 
     }
 
+
+
+    /* making the active btn */
+    function setActiveBtn() {
+        var headerdiv = document.getElementById("playerlist");
+        /* all html elements which have a classname named "vote" */
+        var btns = headerdiv.getElementsByClassName("vote");
+
+        for (var i = 0; i < btns.length; i++) {
+            /* every vote has an img called profile-img which we are making an listner to */
+            btns[i].getElementsByClassName("profile-img")[0].addEventListener("click", function (e) {
+                var current = document.getElementsByClassName("active");
+                /* are adding to the current img style, so we still can see its active */
+                current[0].className = current[0].className.replace(" active", "");
+                this.className += " active";
+                /* the selected player's index (div id) are saved with usestate */
+                setChoosenPlayer(e.target.id);
+                /* console.log(choosenPlayer) */
+            });
+        }
+    }
+
     return (
         <div>
 
@@ -96,103 +126,53 @@ const VotePage = ({ mode}) => {
             <div className='joined-players-section'>
                 <div className='joined-players-scroll'>
 
-                    <div className='list-grid'>
+                    <div className='list-grid' id="playerlist">
 
-                        {/* {players.map((player) => {
+                        {players.map((player, index) => {
+
+
+                            if (index == 0) {
+                                {
+                                    if (choosenPlayer == "") {
+                                        setChoosenPlayer(player.username);
+                                    }
+
+                                }
+                                return <div key={player.id}>
+                                    <div className='vote'>
+                                        <img id={player.username} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                        <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                    </div>
+                                </div>
+                            }
                             return <div key={player.id}>
+                                <div className='vote'>
+                                    <img id={player.username} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                </div>
+                            </div>
+
+
+
+
+
+                            {/* <div key={player.id}>
                                 <div>
                                     <img className="profile-img" />
                                     <h3 style={{ color: 'white' }}>{player.username}</h3>
                                 </div>
-                            </div>
-                        })} */}
+                            </div> */}
+                        })}
 
 
-                        <div>
+                        {/* <div>
                             <div className='vote'>
-                                <img className="profile-img" />
-                                <h3 style={{ color: 'white' }}>player</h3>
+                                <img id="1" className="profile-img active" /> */} {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                        {/*      <h3 style={{ color: 'white' }}>player</h3>
                             </div>
-                        </div>
-                        <div>
-                            <div className='vote'>
-                                <img className="profile-img" />
-                                <h3 style={{ color: 'white' }}>player</h3>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='vote'>
-                                <img className="profile-img" />
-                                <h3 style={{ color: 'white' }}>player</h3>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='vote'>
-                                <img className="profile-img" />
-                                <h3 style={{ color: 'white' }}>player</h3>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='vote'>
-                                <img className="profile-img" />
-                                <h3 style={{ color: 'white' }}>player</h3>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='vote'>
-                                <img className="profile-img" />
-                                <h3 style={{ color: 'white' }}>player</h3>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='vote'>
-                                <img className="profile-img" />
-                                <h3 style={{ color: 'white' }}>player</h3>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='vote'>
-                                <img className="profile-img" />
-                                <h3 style={{ color: 'white' }}>player</h3>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='vote'>
-                                <img className="profile-img" />
-                                <h3 style={{ color: 'white' }}>player</h3>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='vote'>
-                                <img className="profile-img" />
-                                <h3 style={{ color: 'white' }}>player</h3>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='vote'>
-                                <img className="profile-img" />
-                                <h3 style={{ color: 'white' }}>player</h3>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='vote'>
-                                <img className="profile-img" />
-                                <h3 style={{ color: 'white' }}>player</h3>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='vote'>
-                                <img className="profile-img" />
-                                <h3 style={{ color: 'white' }}>player</h3>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='vote'>
-                                <img className="profile-img" />
-                                <h3 style={{ color: 'white' }}>player</h3>
-                            </div>
-                        </div>
-                        
+                        </div> */}
+
+
                     </div>
                 </div>
                 {/* <!-- Column 3 (empty) --> */}
