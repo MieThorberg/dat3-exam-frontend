@@ -39,8 +39,6 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
 
   useEffect(() => {
     if (data.gameid != ""){
-      console.log(data.gameid);
-      console.log(data);
       navigate(`/join_game/${data.room}`, { state: data });
       }
   },[data])
