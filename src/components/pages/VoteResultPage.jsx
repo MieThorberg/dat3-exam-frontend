@@ -23,25 +23,11 @@ const VoteResultPage = ({ mode, changeMode }) => {
 
 
     useEffect(() => {
-        // TODO: delayed victim display
         console.log(result);
         if (data.gameid != undefined){
          gameController.getVictimLatest(data.gameid).then(data => setVictim(data));
         }
     }, [result, data])
-
-    function hasEnded() {
-        return gameController.hasEnded(2);
-    }
-
-    function getVictim() {
-        console.log("bobo");
-    
-    }
-
-    function getDay() {
-        return gameController.getDay(data.gameid).then(data => setDay(data));
-    }
 
     function nextRound() {
        gameController.createRound(data.gameid);
