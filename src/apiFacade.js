@@ -241,6 +241,7 @@ function apiFacade() {
     setPlayerToken,
     getPlayerToken,
     setPlayerHost,
+    getAlivePlayers,
   }
 }
 const facade = apiFacade();
