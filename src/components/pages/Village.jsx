@@ -18,6 +18,7 @@ const Village = ({ mode }) => {
     const [data, setData] = useState({})
     const [hasEnded, setHasEnded] = useState(false);
     const [current, setCurrent] = useState({});
+    
 
 
     const getTimeRemaining = (e) => {
