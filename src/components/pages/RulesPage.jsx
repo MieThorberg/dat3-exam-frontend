@@ -21,7 +21,9 @@ const RulesPage = ({ setHeadline }) => {
                         <h1>How to play</h1>
                        {rules.map( rule => {
                            return <div key={rule.id}>
+                               <ul>
                                <li>{rule.rule}</li>
+                               </ul>
                            </div>
                        })}
                     </div>
