@@ -19,7 +19,7 @@ const VotePage = ({ mode }) => {
         setData(location.state)
         setActiveBtn();
         if (data.gameid != undefined) {
-            facade.getPlayers(data.gameid).then(data => setPlayers(data))
+            facade.getAlivePlayers(data.gameid).then(data => setPlayers(data))
         }
         if(facade.getToken() == undefined) {
             navigate("/login");
@@ -132,8 +132,6 @@ const VotePage = ({ mode }) => {
                     <div className='list-grid' id="playerlist">
 
                         {players.map((player, index) => {
-
-
                             if (index == 0) {
                                 {
                                     if (choosenPlayer == "") {
