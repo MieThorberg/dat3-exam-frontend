@@ -141,10 +141,13 @@ const VotePage = ({ mode }) => {
             </div>
             <div className='fixed-btn' /* style={{ display: "none" }} */>
                 {
+                    // if it is day or night
                     currentRound.isDay ? 
                     (
+                        // if player is alive
                         playerToken.isAlive && <button className='btn-purple' onClick={vote}>Vote</button>
                     ) : (
+                        // checks if player is alive and is a werewolf
                         playerToken.isAlive && (playerToken.characterName == "werewolf") && <button className='btn-purple' onClick={vote}>Vote</button>
                     )
 
