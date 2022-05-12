@@ -2,54 +2,65 @@ import React, {useState, useEffect, useRef} from 'react'
 import { io } from 'socket.io-client'
 import { useLocation } from 'react-router-dom'
 
-const Room = () => {
+const Room = ({room, chatHeader}) => {
     const location = useLocation()
-    const msgBoxRefw = useRef()
+    const msgBoxRef = useRef()
     const [ data, setData ] = useState({})
-    const [ msgw, setMsgw ] = useState("")
+    const [ msg, setMsg ] = useState("")
     const [ role, setrole ] = useState("")
+    const [userNumber, setUserNumber] = useState([])
     const [ loading, setLoading ] = useState(false)
 
-    const [ allWerewolfMessages, setWerewolfMessages ] = useState([])
+    const [ allMessages, setMessages ] = useState([])
     const [ socket, setSocket ] = useState()
 
     useEffect(() => {
-        const socket = io("http://localhost:9000/")
+        const socket = io("https://react-chat-werewolf-server.herokuapp.com/")
         setSocket(socket)
   
         socket.on("connect", () => {
             console.log("socket Connected")
-            socket.emit("joinWRoom", 'werewolf')
+            socket.emit("joinRoom", room)
+            // when a new user enters the room we add the new user to the total number in the room
+            socket.on("newclientconnect", (newClient) => {
+                setUserNumber(newClient)
+                // console.log(newClient)
+               
+            })
         }) 
-         
+  
     }, [])
+
+ 
 
     useEffect(() => {
         //recieves the latest message from the server and sets our useStates
         if(socket){
-            socket.on("getLatestWMessage", (newMessage) => {
-                console.log(allWerewolfMessages)
-                console.log(newMessage)
-                setWerewolfMessages([ ...allWerewolfMessages,  newMessage ])
-                msgBoxRefw.current.scrollIntoView({behavior: "smooth"})
-                setMsgw("")
+            socket.on("getLatestMessage", (newMessage) => {
+                // console.log(allMessages)
+                // console.log(newMessage)
+                setMessages([ ...allMessages,  newMessage ])
+                msgBoxRef.current.scrollIntoView({behavior: "smooth"})
+                setMsg("")
                 setLoading(false)
             })
-        }
-    }, [socket, allWerewolfMessages]) 
+            
     
+        }
+    }, [socket, allMessages]) 
+    
+    //sets the location data
       useEffect(() => {
           setData(location.state)
       }, [location])
 
-       //werewolf role
-  const handleChangew = e => setMsgw(e.target.value)
-  const handleEnterw = e => e.keyCode===13 ? onSubmitw() : ""
-  const onSubmitw = () => {
-      if(msgw){
+  const handleChange = e => setMsg(e.target.value)
+  const handleEnter = e => e.keyCode===13 ? onSubmit() : ""
+  const onSubmit = () => {
+      if(msg){
           setLoading(true)
-          const newWMessage = { time:new Date(), msgw, name: data.name }
-          socket.emit("newWMessage", {newWMessage, room: 'werewolf'})
+          const newMessage = { time:new Date(), msg, name: data.name }
+          socket.emit("newMessage", {newMessage, room: room})
       }
   }
 
@@ -58,17 +69,18 @@ const Room = () => {
     <div >
         <div className='card'>
         <div className='render-chat'>
-        <h2>Wolf chat</h2>
+        <h2>{chatHeader} </h2>
+        <h2>Users in chat: {userNumber.description} </h2>
                   {
-                      allWerewolfMessages.map(msgw => {
-                          return data.name === msgw.name
+                      allMessages.map(msg => {
+                          return data.name === msg.name
                           ?
                           <div >
                               <div>
                                   <div>
-                                      <strong className='name-color'>{msgw.name}:</strong>
+                                      <strong className='name-color'>{msg.name}:</strong>
                                   </div>
-                                  <h4>{msgw.msgw}</h4>
+                                  <h4>{msg.msg}</h4>
                               </div>
                           </div>
                           :
@@ -76,18 +88,18 @@ const Room = () => {
                           <div>
                               <div>
                                   <div>
-                                      <strong className='name-color-resp'>{msgw.name}:</strong>
+                                      <strong className='name-color-resp'>{msg.name}:</strong>
                                   </div>
-                                  <h4>{msgw.msgw}</h4>
+                                  <h4>{msg.msg}</h4>
                               </div>
                           </div>
                       })
                   }
-                  <div ref={msgBoxRefw} ></div>
+                  <div ref={msgBoxRef} ></div>
               </div><br></br>
               <div className='form'>
-                  <input type="text"  name="messagew" onKeyDown={handleEnterw} placeholder="Type your message" value={msgw} onChange={handleChangew} />
-                  <button type="button"  disabled={loading} onClick={onSubmitw}>
+                  <input type="text"  name="message" onKeyDown={handleEnter} placeholder="Type your message" value={msg} onChange={handleChange} />
+                  <button type="button"  disabled={loading} onClick={onSubmit}>
                       {
                           loading
                           ?

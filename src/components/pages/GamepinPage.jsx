@@ -5,7 +5,7 @@ import "../../styles/App.css"
 import facade from '../../apiFacade'
 
 const GamepinPage = ({ mode }) => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [error, setError] = useState("")
   //Todo: change so its a user we send to the next page
@@ -19,10 +19,10 @@ const GamepinPage = ({ mode }) => {
   }
 
   const validation = () => {
-    if (!data.name) {
-      setError("Please enter your name.")
-      return false
-    }
+    // if (!data.name) {
+    //   setError("Please enter your name.")
+    //   return false
+    // }
     if (!data.room) {
       setError("Please select room.")
       return false
@@ -36,28 +36,32 @@ const GamepinPage = ({ mode }) => {
     if (data.gameid != "") {
       navigate(`/join_game/${data.room}`, { state: data });
     }
+
+    if (facade.getToken() == undefined) {
+      navigate("/login")
+    }
   }, [data])
 
   const handleSubmit = e => {
     e.preventDefault()
     const isValid = validation()
     if (isValid) {
-     /*  navigate(`/join_game/${data.room}`, { state: data }); */
-      //TODO: get user and game id
+      /*  navigate(`/join_game/${data.room}`, { state: data }); */
       //fetch gameByPincode
 
-
+      const user = facade.decodeToken().username;
 
       facade.getGameByPin(data.room).then(fetchdata => {
-        // TODO: set to logged in user;
-        facade.createPlayer(fetchdata.id, { userName: "admin", userPass: "test123" });
+        facade.createPlayer(fetchdata.id, { userName: user }).then(data => facade.setPlayerToken(data));
         // TODO: set the player info, some where to use
         setData({ ...data, gameid: fetchdata.id });
       })
 
     }
   }
+
   return (
+
     <>
       <div className='background-container'>
         <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
@@ -77,7 +81,6 @@ const GamepinPage = ({ mode }) => {
 
               <form onSubmit={handleSubmit}>
                 {/* TODO: delete name input and only have a room input */}
-                <input type="text" name="name" placeholder="Enter name" onChange={handleChange} />
                 <input type="text" name="room" placeholder="Enter pin" onChange={handleChange} />
                 <button className='btn-lightpurple' style={{ maxWidth: "200px" }} onClick={handleSubmit}>Enter</button>
               </form>
@@ -87,6 +90,13 @@ const GamepinPage = ({ mode }) => {
         </div>
       </div>
     </>
+
+
+
+
+
+
+
 
   )
 }

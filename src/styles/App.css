@@ -1,5 +1,3 @@
-/* rgb(17, 8, 21); */
-
 * {
     margin: 0;
     padding: 0;
@@ -10,7 +8,6 @@
 body {
     width: 100%;
     height: 100%;
-    /* background-color: rgba(16, 5, 30); */
 }
 
 a {
@@ -66,19 +63,13 @@ p {
     top: 0;
     left: 0;
     width: 100vw;
-    /*   background-color: black; */
-    /* height: 100vh; */
 }
 
 #background-img {
-    background-image: url("src/images/night.jpg"); 
     background-position: center;
     background-attachment: fixed;
-
     background-size: cover;
     background-repeat: no-repeat;
-    /* filter: blur(1.5px);
-    -webkit-filter: blur(1.5px); */
     height: 100vh;
 }
 
@@ -88,7 +79,6 @@ p {
     left: 0;
     height: 100%;
     width: 100%;
-    /* background-color: rgba(16, 5, 30, 0.685); */
 }
 
 
@@ -97,8 +87,6 @@ p {
     top: 0;
     left: 0;
     width: 100vw;
-    /*   background-color: black; */
-    /* height: 100vh; */
 }
 
 .main {
@@ -125,8 +113,6 @@ p {
     justify-content: center;
     align-items: center;
     width: 100%;
-    /* padding: 0 30% 0 30%; */
-    /* border: 1px solid red; */
 }
 
 .login-container {
@@ -136,7 +122,6 @@ p {
     justify-content: center;
     align-items: center;
     grid-template-columns: 30% auto 30%;
-    /* border: 1px solid red; */
 }
 
 .login-container .section {
@@ -147,16 +132,10 @@ p {
     padding: 20px 0 50px 0;
 }
 
-.login-container .section div {
-    /*  border: 1px solid red; */
-
-}
-
 .login-container .section div input[type=text],
 .login-container .section div input[type=password] {
     background-color: rgba(235, 208, 248, 0.44);
 }
-
 
 ::-webkit-input-placeholder {
     color: #901ff38a;
@@ -175,8 +154,21 @@ p {
     color: rgb(215, 213, 218);
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
+}
+
+.login-container .section .header .back-arrow {
+    position: fixed;
+    top: 20px;
+    color: #901ff38a;
+    text-align: left;
+    font-size: 16px;
+    padding-left: 10px;
+}
+
+.login-container .section .header .back-arrow:hover {
+    cursor: pointer;
+    color: gray;
 }
 
 .login-container .section p {
@@ -221,8 +213,6 @@ p {
     background-color: grey;
 }
 
-
-
 .main2 {
     position: relative;
     top: 0;
@@ -234,7 +224,6 @@ p {
     align-items: center;
     width: 100%;
     padding: 20px 15px 50px 15px;
-    border: 1px solid yellow;
 }
 
 .scroll-container {
@@ -245,29 +234,18 @@ p {
     align-items: left;
     width: 100%;
     height: 100%;
-    /* border: 1px solid blue; */
-
 }
 
 .full-scroll-section {
     height: auto;
     width: auto;
     overflow: auto;
-    /* border: 1px solid green;   */
 }
 
-.box {
-    /* border: 1px solid green; */
-}
-
-.full-scroll-section div {
-    /* border: 1px solid red; */
-}
 
 .text-section {
     text-align: left;
     padding: 0 10px 0 10px;
-    /* border: 1px solid red; */
 }
 
 .text-section h2 {
@@ -354,7 +332,6 @@ button:hover {
 }
 
 .main-container {
-    /* border: 2px solid blue; */
     height: 100%;
     width: 100%;
     display: grid;
@@ -362,7 +339,6 @@ button:hover {
 }
 
 .main-container div {
-    /* border: 2px solid green; */
     height: 100%;
     display: grid;
     grid-template-rows: auto 60%;
@@ -371,7 +347,6 @@ button:hover {
 .main-container .section div {
     height: 100%;
     width: 100%;
-    /* border: 2px solid orange; */
 }
 
 .main-container .section .header,
@@ -398,8 +373,6 @@ button:hover {
     flex-direction: column;
     justify-content: baseline;
     align-items: center;
-    /*  border: 1px solid red; */
-    /*   padding: 0 15% 0 15%; */
 }
 
 .main-container .section .content button {
@@ -408,9 +381,6 @@ button:hover {
     justify-content: center;
     align-items: center;
     margin: 10px 0 10px 0;
-
-
-    /* border: 2px solid orange; */
 }
 
 
@@ -448,7 +418,6 @@ button:hover {
     z-index: 0;
 }
 
-
 .fixed-header h1 {
     font-family: 'New Rocker', cursive;
     font-size: 25px;
@@ -460,7 +429,6 @@ button:hover {
     bottom: 0;
     left: 0;
     width: 100%;
-
     height: 110px;
     display: flex;
     flex-direction: column;
@@ -473,6 +441,28 @@ button:hover {
     max-width: 350px;
 }
 
+.fixed-character-btn {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    /* width: 100%;
+    height: 80px; */
+/*     display: flex; */
+/*     flex-direction: row;
+    justify-content: center;
+    align-items: right; */
+    border: 1px solid red;
+}
+
+.fixed-character-btn button {
+    position: fixed;
+    bottom: 25px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid red;
+}
 
 .list-grid {
     display: grid;
@@ -488,7 +478,6 @@ button:hover {
     width: 100%;
     margin-top: 10px;
     padding: 2px;
-    /* border: 1px solid red; */
 }
 
 .list-grid div div {
@@ -496,7 +485,6 @@ button:hover {
     width: 100%;
     font-size: 11px;
     text-align: center;
-
 }
 
 .list-grid div div h3 {
@@ -527,15 +515,11 @@ button:hover {
     padding-top: 10px;
 }
 
-
-
-
-.active, .list-grid div .vote .profile-img:hover {
+.active,
+.list-grid div .vote .profile-img:hover {
     cursor: pointer;
     border: 5px solid #1ff39e;
 }
-
-.list-grid div .vote h3:hover {}
 
 #rows {
     position: fixed;
@@ -645,6 +629,15 @@ button:hover {
 
 @media only screen and (min-width: 450px) {
 
+    .login-container .section .header .back-arrow {
+        position: relative;
+        top: 0;
+        color: #901ff38a;
+        text-align: left;
+        font-size: 16px;
+        padding-left: 20px;
+    }
+
     .color-background-container #background-img {
         background-image: url("../images/night.jpg");
     }
@@ -652,6 +645,7 @@ button:hover {
     .color-background-container #background-img-blur {
         background-color: rgba(16, 5, 30, 0.685);
     }
+
     .fixed-header {
         top: 60px;
     }
@@ -690,10 +684,8 @@ button:hover {
         font-size: 20px;
     }
 
-
     button {
         width: 100%;
-        /* max-width: 250px; */
     }
 
     .main-container .section .header h1,
@@ -720,8 +712,6 @@ button:hover {
         display: grid;
         grid-template-columns: auto auto auto auto;
     }
-
-
 }
 
 @media only screen and (min-width: 900px) {

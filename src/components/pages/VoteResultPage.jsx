@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import gameController from '../../gameController'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import facade from '../../apiFacade'
 
 const VoteResultPage = ({ mode, changeMode }) => {
     const [result, setResult] = useState({});
@@ -15,35 +16,37 @@ const VoteResultPage = ({ mode, changeMode }) => {
     const [data, setData] = useState({})
     useEffect(() => {
         setData(location.state)
-        gameController.getRoundResult(16).then(data => setResult(data));
-    }, [location])
+
+        if (data.gameid != undefined) {
+            gameController.getRoundResult(data.gameid).then(data => setResult(data));
+        }
+        if (facade.getToken() == undefined) {
+            navigate("/login");
+        }
+    }, [location, data])
 
 
     useEffect(() => {
-        // TODO: delayed victim display
-        console.log(result);
-         gameController.getVictimLatest(16).then(data => setVictim(data));
-    }, [result])
-
-    function hasEnded() {
-        return gameController.hasEnded(2);
-    }
-
-    function getVictim() {
-        console.log("bobo");
-    
-    }
-
-    function getDay() {
-        return gameController.getDay(2).then(data => setDay(data));
-    }
+        if (data.gameid != undefined) {
+            gameController.getVictimLatest(data.gameid).then(data => {
+                console.log(data);
+                setVictim(data);
+                if (facade.getPlayerToken().username == data.username) {
+                    facade.setPlayerToken(data);
+                }
+            });
+        }
+    }, [result, data])
 
     function nextRound() {
-       gameController.createRound(16);
-       changeMode(mode);
+        // TODO: if day and hasEnded is true, navigate to hasEnded page..
+        gameController.createRound(data.gameid);
+        changeMode(mode);
         navigate(`/game/${data.room}/village`, { state: data })
     }
 
+
+    // TODO: make night result,... and day result
     return (
         <>
             <div className='background-container'>

@@ -4,6 +4,7 @@ import { useRef, useState } from 'react'
 import { useEffect } from 'react'
 import gameController from '../../gameController'
 import { useNavigate , useLocation} from 'react-router-dom'
+import facade from '../../apiFacade'
 
 const Village = ({ mode }) => {
     const navigate = useNavigate();
@@ -18,6 +19,7 @@ const Village = ({ mode }) => {
     const [data, setData] = useState({})
     const [hasEnded, setHasEnded] = useState(false);
     const [current, setCurrent] = useState({});
+    
 
 
     const getTimeRemaining = (e) => {
@@ -81,13 +83,13 @@ const Village = ({ mode }) => {
         clear(getDeadTime());
     }
 
-    function getCurrentRound() {
-        gameController.getCurrentRound(16).then(data => setCurrent(data));
-    }
-
     useEffect(() => {
-        gameController.getCurrentRound(16).then(data => setCurrent(data));
+        gameController.getCurrentRound(data.gameid).then(data => setCurrent(data));
         console.log(current);
+
+        if(facade.getToken() == undefined) {
+            navigate("/login");
+        }
     }, [])
 
     function showVotepage() {
@@ -108,7 +110,7 @@ const Village = ({ mode }) => {
 
                         <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
                             
-                            <p>Day {current.day}, {current.isDay ? "Day" : "night"}</p>
+                        <p>Day {current.day}, {current.isDay ? "Day" : "night"}</p>
                             <h1 style={{ color: timerColor }}>{timer}</h1>
                         </div>
                         <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>

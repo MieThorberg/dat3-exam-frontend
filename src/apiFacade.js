@@ -21,6 +21,14 @@ function apiFacade() {
   }
   const logout = () => {
     localStorage.removeItem("jwtToken");
+    localStorage.removeItem("player");
+  }
+
+  const setPlayerToken = (token) => {
+    localStorage.setItem('player', JSON.stringify(token))
+  }
+  const getPlayerToken = () => {
+    return JSON.parse(localStorage.getItem('player'))
   }
 
 
@@ -44,7 +52,7 @@ function apiFacade() {
   }
 
   const createGame = (id, pin) => {
-    const options = makeOptions("POST", true, {gamePin: pin}); //True add's the token
+    const options = makeOptions("POST", true, { gamePin: pin }); //True add's the token
     // console.log(username + " " + password);
     return fetch(URL + `/api/games/creategame/${id}`, options)
       .then(handleHttpErrors)
@@ -54,7 +62,6 @@ function apiFacade() {
     const options = makeOptions("POST", true, players); //True add's the token
     return fetch(URL + `/api/games/${id}/createplayers`, options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
   }
 
   const getPlayers = (id) => {
@@ -62,11 +69,21 @@ function apiFacade() {
     return fetch(URL + `/api/games/${id}/players`, options).then(handleHttpErrors);
   }
 
+  const getPlayer = (id) => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + `/api/players/${id}`, options).then(handleHttpErrors)
+    .then(data => setPlayerToken(data));
+  }
+
+  const getAlivePlayers = (id) => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + `/api/games/${id}/aliveplayers`, options).then(handleHttpErrors);
+  }
+
   const createPlayer = (id, user) => {
     const options = makeOptions("POST", true, user); //True add's the token
     return fetch(URL + `/api/games/${id}/createplayer`, options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
   }
 
   const getGameById = (id) => {
@@ -78,7 +95,6 @@ function apiFacade() {
     const options = makeOptions("PUT", true, id); //True add's the token
     return fetch(URL + `/api/games/${id}/assigncharacters`, options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
   }
 
   //playerid is the vote
@@ -86,7 +102,6 @@ function apiFacade() {
     const options = makeOptions("PUT", true, { id: playerid }); //True add's the token
     return fetch(URL + `/api/games/${gameid}/${userid}/vote`, options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
   }
 
   const getVoteResult = (id) => {
@@ -99,14 +114,12 @@ function apiFacade() {
     const options = makeOptions("PUT", true, { id: playerid }); //True add's the token
     return fetch(URL + `/api/games/${gameid}/killplayer`, options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
   }
 
   const cleanVotes = (id) => {
     const options = makeOptions("PUT", true); //True add's the token
     return fetch(URL + `/api/games/${id}/cleanvotes`, options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
   }
 
   const hasEnded = (id) => {
@@ -128,7 +141,6 @@ function apiFacade() {
     const options = makeOptions("PUT", true); //True add's the token
     return fetch(URL + `/api/games/${id}/addday`, options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
   }
 
   const getCurrentRound = (id) => {
@@ -166,13 +178,32 @@ function apiFacade() {
 
   const decodeToken = () => {
     const token = getToken()
-    const decode = decodeToken(token)
+    const decodeToken = token;
+    const decode = jwtDecode(decodeToken)
+    setToken(token);
     return decode
   }
 
   const getGameByPin = (pin) => {
     const options = makeOptions("GET", true); //True add's the token
     return fetch(URL + `/api/games/gamepin/${pin}`, options).then(handleHttpErrors);
+  }
+
+  const setPlayerHost = (id, player) => {
+    console.log(player);
+    const options = makeOptions("PUT", true, player); //True add's the token
+    return fetch(URL + `/api/games/${id}/setplayerhost`, options)
+      .then(handleHttpErrors)
+      .then(data => { setPlayerToken(data) });
+  }
+
+  const getPlayerById = (id) => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + `/api/players/${id}`, options).then(handleHttpErrors);
+  }
+  const getRules = () => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + '/api/games/rules', options).then(handleHttpErrors);
   }
 
   const makeOptions = (method, addToken, body) => {
@@ -204,6 +235,7 @@ function apiFacade() {
     getGameById,
     createPlayers,
     getPlayers,
+    getPlayer,
     createPlayer,
     assignCharacters,
     vote,
@@ -222,6 +254,12 @@ function apiFacade() {
     getWereWolves,
     decodeToken,
     getGameByPin,
+    setPlayerToken,
+    getPlayerToken,
+    setPlayerHost,
+    getRules,
+    getAlivePlayers,
+    getPlayerById,
   }
 }
 const facade = apiFacade();

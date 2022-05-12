@@ -1,5 +1,6 @@
 import React from 'react'
 import "../../styles/App.css"
+import facade from '../../apiFacade'
 
 const StartPage = ({ mode }) => {
     return (
@@ -7,7 +8,7 @@ const StartPage = ({ mode }) => {
 
             <div className='background-container'>
                 <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
-                <div id='background-img-blur' style={{backgroundColor: `${mode.blur}`}}></div>
+                <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
             </div>
 
             <div className='main'>
@@ -23,8 +24,14 @@ const StartPage = ({ mode }) => {
                             <h1>Werewolf</h1>
                         </div>
                         <div className="content">
-                            <button className="btn-purple" style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/home"}>Login</button>
-                            <button className="btn-purple" style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/rules"}>About</button>
+
+                            {facade.getToken() != undefined ?
+                                <></>
+                                :
+                                <button className="btn-purple" style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/login"}>Login</button>
+                            }
+
+                            <button className="btn-purple" style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/rules"}>How to play ?</button>
                             <button className="btn-purple" style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/credits"}>Credits</button>
                         </div>
                     </div>

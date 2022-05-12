@@ -7,68 +7,114 @@ import facade from '../../apiFacade'
 import gameController from '../../gameController'
 import { useNavigate } from 'react-router-dom'
 
+
 const VotePage = ({ mode }) => {
     const navigate = useNavigate();
     const [choosenPlayer, setChoosenPlayer] = useState("");
     const [players, setPlayers] = useState([]);
+    const [playerToken, setPlayerToken] = useState({});
+    const [currentRound, setCurrentRound] = useState({});
+
 
     // MUST HAVE:sends location to the next page
     const location = useLocation()
     const [data, setData] = useState({})
+    const Ref = useRef(null);
+    const [timer, setTimer] = useState('00:00');
+    const [timerColor, setTimerColor] = useState('white');
+    const [timerHasStopped, setTimerHasStopped] = useState(true);
+
+    const getTimeRemaining = (e) => {
+        const total = Date.parse(e) - Date.parse(new Date());
+        const seconds = Math.floor((total / 1000) % 60);
+        const minutes = Math.floor((total / 1000 / 60) % 60);
+        return {
+            total, minutes, seconds
+        };
+    }
+
+    const start = (e) => {
+        let { total, minutes, seconds } = getTimeRemaining(e);
+        if (total >= 0) {
+            setTimer(
+                (minutes > 9 ? minutes : '0' + minutes) + ":" +
+                (seconds > 9 ? seconds : '0' + seconds)
+            )
+            if (seconds < 31) {
+                setTimerColor("red");
+
+                if (seconds == 0) {
+                    setTimerHasStopped(true);
+                }
+
+            }
+        }
+    }
+
+    const clear = (e) => {
+
+        //change time here
+        setTimer('00:05');
+        if (Ref.current) clearInterval(Ref.current);
+        setTimerHasStopped(false);
+        const id = setInterval(() => {
+            start(e);
+        }, 1000)
+        Ref.current = id;
+    }
+
+    const getDeadTime = () => {
+        let deadline = new Date();
+
+        //change time here
+        deadline.setSeconds(deadline.getSeconds() + 5)
+        /* deadline.setSeconds(deadline.getSeconds() + 10); */
+        return deadline;
+    }
+
+    useEffect(() => {
+        clear(getDeadTime());
+    }, []);
+
+    const onClickReset = () => {
+        setTimerColor("white")
+        clear(getDeadTime());
+    }
+
+
+    function showVoteResultpage() {
+        navigate(`/game/${data.room}/voteresult`, { state: data })
+    }
+
+
+
+
+
+
+
     useEffect(() => {
         setData(location.state)
         setActiveBtn();
         if (data.gameid != undefined) {
-            facade.getPlayers(data.gameid).then(data => setPlayers(data))
+            if (players.length == 0) {
+                facade.getAlivePlayers(data.gameid).then(data => setPlayers(data))
+            }
+            if (facade.getPlayerToken() != null) {
+                facade.getPlayer(facade.getPlayerToken().id)
+                setPlayerToken(facade.getPlayerToken());
+            }
+            facade.getCurrentRound(data.gameid).then(data => setCurrentRound(data))
         }
-        /*  console.log("first choosen player: " + choosenPlayer); */
-        /*  facade.getPlayers(data.gameid).then(data => setPlayers(data)); */
+        if (facade.getToken() == undefined) {
+            navigate("/login");
+        }
     }, [data, location, players])
-    /* // const players = []
-    const navigate = useNavigate();
-    const location = useLocation()
-    const msgBoxRef = useRef()
-    const [data, setData] = useState({})
-    const [role, setRole] = useState("")
-    const [socket, setSocket] = useState()
-    const [users, setUsers] = useState([])
-    const [players, setPlayers] = useState([]); */
-    // const [players, setPlayers] = useState([])
 
-    /*   useEffect(() => {
-          const socket = io("https://react-chat-werewolf-server.herokuapp.com")
-          setSocket(socket)
-  
-          socket.on("connect", () => {
-              console.log("socket Connected")
-              socket.emit("joinRoom", location.state.room)
-              socket.emit("joinWRoom", 'werewolf')
-              setRole(location.state.role)
-          })
-  
-      }, [])
-  
-      useEffect(() => {
-          //TODO: change to gameid
-          facade.getPlayers(2).then(data => setPlayers(data));
-      }, [players]);
-  
-     
-      const startGame = () => {
-          const players = [{ userName: "user", userPass: "test123" },
-          { userName: "admin", userPass: "test123" },
-          { userName: "user_admin", userPass: "test123" }]
-          facade.createPlayers(players, 1)
-      }
-  
-      function start() {
-          gameController.startGame(2);
-          navigate(`/game/${data.room}/village`, { state: data });
-      } */
 
     function vote() {
         //TODO: change and get the gameid, userid & playerid
-        gameController.vote(16, 24, 23);
+        //console.log(choosenplayer);
+        gameController.vote(data.gameid, facade.getPlayerToken().id, choosenPlayer);
 
         //TODO: wait on all players to vote before checking the result and hasended game
         /* gameController.getVotingResult(2).then(data => setVoteresult(data)); */
@@ -87,8 +133,6 @@ const VotePage = ({ mode }) => {
         } */
 
     }
-
-
 
     /* making the active btn */
     function setActiveBtn() {
@@ -110,6 +154,12 @@ const VotePage = ({ mode }) => {
         }
     }
 
+    function onClickCharacter() {
+        const id = facade.getPlayerToken().id;
+        console.log(id);
+        facade.getPlayerById(id).then(data => console.log(data.characterName));
+    }
+
     return (
         <div>
 
@@ -118,8 +168,19 @@ const VotePage = ({ mode }) => {
                 <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
             </div>
             <div className="fixed-header">
-                <h1>Vote</h1>
-                <p>Select the player you want to vote for</p>
+                {
+                    playerToken.isAlive ? (
+                        <>
+                            <h1>Vote</h1>
+                            <h1>Timer: {timer}</h1>
+                            <p>Select the player you want to vote for</p>
+                        </>
+                    ) : (
+                        <>
+                            <h1>You Are Dead</h1>
+                        </>)
+                }
+
             </div>
 
 
@@ -129,66 +190,56 @@ const VotePage = ({ mode }) => {
                     <div className='list-grid' id="playerlist">
 
                         {players.map((player, index) => {
-
-
                             if (index == 0) {
                                 {
                                     if (choosenPlayer == "") {
-                                        setChoosenPlayer(player.username);
+                                        setChoosenPlayer(player.id);
                                     }
-
                                 }
                                 return <div key={player.id}>
                                     <div className='vote'>
-                                        <img id={player.username} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                        <img id={player.id} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
                                         <h3 style={{ color: 'white' }}>{player.username}</h3>
                                     </div>
                                 </div>
                             }
                             return <div key={player.id}>
                                 <div className='vote'>
-                                    <img id={player.username} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                    <img id={player.id} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
                                     <h3 style={{ color: 'white' }}>{player.username}</h3>
                                 </div>
                             </div>
-
-
-
-
-
-                            {/* <div key={player.id}>
-                                <div>
-                                    <img className="profile-img" />
-                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                </div>
-                            </div> */}
                         })}
-
-
-                        {/* <div>
-                            <div className='vote'>
-                                <img id="1" className="profile-img active" /> */} {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                        {/*      <h3 style={{ color: 'white' }}>player</h3>
-                            </div>
-                        </div> */}
-
-
                     </div>
                 </div>
                 {/* <!-- Column 3 (empty) --> */}
                 <div></div>
             </div>
             <div className='fixed-btn' /* style={{ display: "none" }} */>
+                {
+                    // if it is day or night
+                    currentRound.isDay ?
+                        (
+                            // if player is alive
+                            playerToken.isAlive && <button className='btn-purple' onClick={vote}>Vote</button>
+                        ) : (
+                            // checks if player is alive and is a werewolf
+                            playerToken.isAlive && (playerToken.characterName == "werewolf") && <button className='btn-purple' onClick={vote}>Vote</button>
+                        )
 
 
-                {/* TODO: only user host shall see this button */}
-                <button className='btn-purple' onClick={vote}>Vote</button>
+                }
 
 
             </div>
+            <div className='fixed-character-btn'>
+                <button onClick={onClickCharacter}>?</button>
+            </div>
 
+            {
+                timerHasStopped ? showVoteResultpage() : <></>
+            }
         </div>
-
     )
 }
 

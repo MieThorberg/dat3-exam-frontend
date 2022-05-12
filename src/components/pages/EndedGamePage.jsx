@@ -6,6 +6,11 @@ import gameController from '../../gameController'
 const EndedGamePage = ({ mode, winners }) => {
     const [day, setDay] = useState("");
 
+    useEffect(() => {
+        if (facade.getToken() == undefined) {
+          navigate("/login")
+        }
+      }, [])
 
     function getDay() {
         return gameController.getDay(2).then(data => setDay(data));

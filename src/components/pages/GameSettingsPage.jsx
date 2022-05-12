@@ -13,6 +13,7 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   let navigate = useNavigate();
 
   const [error, setError] = useState("");
+  const [user, setUser] = useState({});
   const [data, setData] = useState({ name: "", room: "", gameid: "" });
   const [pin, setPin] = useState("");
   const [game, setGame] = useState({});
@@ -25,10 +26,10 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   };
 
   const validation = () => {
-    if (!data.name) {
-      setError("Please enter your name.");
-      return false;
-    }
+    // if (!data.name) {
+    //   setError("Please enter your name.");
+    //   return false;
+    // }
     // if (!data.room) {
     //     setError("Please enter pin code.")
     //     return false
@@ -38,29 +39,31 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   };
 
   useEffect(() => {
-    if (data.gameid != ""){
-      console.log(data.gameid);
-      console.log(data);
+    if (data.gameid != "") {
       navigate(`/join_game/${data.room}`, { state: data });
-      }
-  },[data])
+    }
+    if(facade.getToken() == undefined) {
+      navigate("/login")
+    }
+  }, [data])
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = validation();
     if (isValid) {
-      // TODO: set to logged in user;
-      facade.createGame("user", data.room).then((fetchdata) => {
+      const host = facade.decodeToken().username;
+      facade.createGame(host, data.room).then((fetchdata) => {
         setGame(fetchdata)
         setData({ ...data, gameid: fetchdata.id });
         console.log(fetchdata);
-        facade.createPlayer(fetchdata.id, {userName: fetchdata.hostName});
+        facade.createPlayer(fetchdata.id, {userName: fetchdata.hostName}).then(data => facade.setPlayerHost(fetchdata.id, data))
+        
         // TODO: set the player info, some where to use
       });
     }
   };
 
-  
+
 
   const generatePin = (e) => {
     e.preventDefault();
@@ -72,6 +75,7 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   };
   return (
     <>
+
       <div className="background-container">
         <div
           id="background-img"
@@ -100,14 +104,6 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
               <form >
                 <div>
                   <input
-                    type="text"
-                    name="name"
-                    placeholder="Game name"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <input
                     readOnly
                     type="text"
                     name="room"
@@ -115,7 +111,7 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
                     value={data.room}
                     onChange={handleChange}
                   />
-                  
+
                   <button onClick={generatePin}>Generate pin</button>
                 </div>
                 <button onClick={handleSubmit}>Enter</button>
@@ -127,6 +123,10 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
         </div>
       </div>
     </>
+
+
+
+
   );
 };
 

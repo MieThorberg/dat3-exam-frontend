@@ -5,12 +5,17 @@ import "../styles/App.css";
 import facade from '../apiFacade';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import LoginPage from './pages/LoginPage';
+import { useNavigate } from 'react-router-dom'
+
 const Home = ({ mode, setHeadline }) => {
+  const navigate = useNavigate();
   const [game, setGame] = useState("");
 
   //title i topnav
   useEffect(() => {
     setHeadline("Home");
+
   }, []);
 
 
@@ -33,28 +38,38 @@ const Home = ({ mode, setHeadline }) => {
 
     <div>
 
-      <div className='background-container'>
-        <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
-        <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
-      </div>
-      <div className='main'>
-        <div className='main-container'>
-          <div style={{ gridTemplateRows: "60% auto" }}>
+      {facade.getToken() != undefined ?
+        <>
+          <div className='background-container'>
+            <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
+            <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
           </div>
-          <div className='section' style={{ gridTemplateRows: "60% auto" }}>
+          <div className='main'>
+            <div className='main-container'>
+              <div style={{ gridTemplateRows: "60% auto" }}>
+              </div>
+              <div className='section' style={{ gridTemplateRows: "60% auto" }}>
 
-            <div className='header'>
-              <h1>Let's play</h1>
-              <h2>Create or join a game to start playing werewolf with your friends</h2>
-            </div>
+                <div className='header'>
+                  <h1>Let's play</h1>
+                  <h2>Create or join a game to start playing werewolf with your friends</h2>
+                </div>
 
-            <div className='content' style={{ gridTemplateRows: "60% auto" }}>
-              <button className='btn-lightpurple' style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/game_settings"}>Create</button>
-              <button className='btn-purple' style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/gamepin"}>Join</button>
+                <div className='content' style={{ gridTemplateRows: "60% auto" }}>
+                  <button className='btn-lightpurple' style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/game_settings"}>Create</button>
+                  <button className='btn-purple' style={{ maxWidth: "200px" }} onClick={event => window.location.href = "/gamepin"}>Join</button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </>
+        :
+        
+          navigate(`/login`)
+        
+
+      }
+
     </div>
   )
 }
