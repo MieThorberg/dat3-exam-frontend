@@ -69,6 +69,12 @@ function apiFacade() {
     return fetch(URL + `/api/games/${id}/players`, options).then(handleHttpErrors);
   }
 
+  const getPlayer = (id) => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + `/api/players/${id}`, options).then(handleHttpErrors)
+    .then(data => setPlayerToken(data));
+  }
+
   const getAlivePlayers = (id) => {
     const options = makeOptions("GET", true); //True add's the token
     return fetch(URL + `/api/games/${id}/aliveplayers`, options).then(handleHttpErrors);
@@ -220,6 +226,7 @@ function apiFacade() {
     getGameById,
     createPlayers,
     getPlayers,
+    getPlayer,
     createPlayer,
     assignCharacters,
     vote,
