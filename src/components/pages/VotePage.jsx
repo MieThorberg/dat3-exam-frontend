@@ -11,6 +11,7 @@ const VotePage = ({ mode }) => {
     const navigate = useNavigate();
     const [choosenPlayer, setChoosenPlayer] = useState("");
     const [players, setPlayers] = useState([]);
+    const [playerToken, setPlayerToken] = useState({});
 
     // MUST HAVE:sends location to the next page
     const location = useLocation()
@@ -20,9 +21,11 @@ const VotePage = ({ mode }) => {
         setData(location.state)
         setActiveBtn();
         if (data.gameid != undefined) {
-            console.log(players);
             if (players.length == 0) {
                 facade.getAlivePlayers(data.gameid).then(data => setPlayers(data))
+            }
+            if (facade.getPlayerToken() != null) {
+                setPlayerToken(facade.getPlayerToken());
             }
         }
         if (facade.getToken() == undefined) {
@@ -87,8 +90,18 @@ const VotePage = ({ mode }) => {
                 <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
             </div>
             <div className="fixed-header">
-                <h1>Vote</h1>
-                <p>Select the player you want to vote for</p>
+                {
+                    playerToken.isAlive ? (
+                        <>
+                            <h1>Vote</h1>
+                            <p>Select the player you want to vote for</p>
+                        </>
+                    ) : (
+                        <>
+                            <h1>You Are Dead</h1>
+                        </>)
+                }
+
             </div>
 
 
@@ -125,7 +138,11 @@ const VotePage = ({ mode }) => {
             </div>
             <div className='fixed-btn' /* style={{ display: "none" }} */>
                 {/* TODO: only user host shall see this button */}
-                <button className='btn-purple' onClick={vote}>Vote</button>
+                {
+                    playerToken.isAlive && <button className='btn-purple' onClick={vote}>Vote</button>
+                }
+
+
             </div>
             <div className='fixed-character-btn'>
                 <button onClick={onClickCharacter}>?</button>

@@ -195,6 +195,10 @@ function apiFacade() {
     const options = makeOptions("GET", true); //True add's the token
     return fetch(URL + `/api/players/${id}`, options).then(handleHttpErrors);
   }
+  const getRules = () => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + '/api/games/rules', options).then(handleHttpErrors);
+  }
 
   const makeOptions = (method, addToken, body) => {
     var opts = {
@@ -246,6 +250,7 @@ function apiFacade() {
     setPlayerToken,
     getPlayerToken,
     setPlayerHost,
+    getRules,
     getAlivePlayers,
     getPlayerById,
   }
