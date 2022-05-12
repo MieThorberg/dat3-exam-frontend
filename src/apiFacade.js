@@ -178,6 +178,14 @@ function apiFacade() {
     return fetch(URL + `/api/games/gamepin/${pin}`, options).then(handleHttpErrors);
   }
 
+  const setPlayerHost = (id,player) => {
+    console.log(player);
+    const options = makeOptions("PUT", true, player); //True add's the token
+    return fetch(URL + `/api/games/${id}/setplayerhost`, options)
+      .then(handleHttpErrors)
+      .then(data => {setPlayerToken(data)});
+  }
+
   const makeOptions = (method, addToken, body) => {
     var opts = {
       method: method,
@@ -227,6 +235,7 @@ function apiFacade() {
     getGameByPin,
     setPlayerToken,
     getPlayerToken,
+    setPlayerHost,
   }
 }
 const facade = apiFacade();
