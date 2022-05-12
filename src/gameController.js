@@ -96,11 +96,20 @@ function GameController() {
     function getVictimLatest(gameid) {
         return facade.getVictimLatest(gameid);
     }
+
     function getVictims() { }
 
-    function getAllPlayers() { }
-    function getAlivePlayers() { }
-    function getAllWerewolves() { }
+    function getAllPlayers(gameId) { 
+       return facade.getPlayers(gameId)
+    }
+
+    function getAlivePlayers(gameId) {
+       return facade.getAlivePlayers(gameId)
+     }
+
+    function getAllWerewolves(gameId) {
+       return facade.getWereWolves(gameId)
+     }
 
     function getDay(gameid) {
         return facade.getDay(gameid);

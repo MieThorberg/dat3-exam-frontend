@@ -52,7 +52,7 @@ function apiFacade() {
   }
 
   const createGame = (id, pin) => {
-    const options = makeOptions("POST", true, {gamePin: pin}); //True add's the token
+    const options = makeOptions("POST", true, { gamePin: pin }); //True add's the token
     // console.log(username + " " + password);
     return fetch(URL + `/api/games/creategame/${id}`, options)
       .then(handleHttpErrors)
@@ -67,6 +67,11 @@ function apiFacade() {
   const getPlayers = (id) => {
     const options = makeOptions("GET", true); //True add's the token
     return fetch(URL + `/api/games/${id}/players`, options).then(handleHttpErrors);
+  }
+
+  const getAlivePlayers = (id) => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + `/api/games/${id}/aliveplayers`, options).then(handleHttpErrors);
   }
 
   const createPlayer = (id, user) => {
@@ -178,12 +183,12 @@ function apiFacade() {
     return fetch(URL + `/api/games/gamepin/${pin}`, options).then(handleHttpErrors);
   }
 
-  const setPlayerHost = (id,player) => {
+  const setPlayerHost = (id, player) => {
     console.log(player);
     const options = makeOptions("PUT", true, player); //True add's the token
     return fetch(URL + `/api/games/${id}/setplayerhost`, options)
       .then(handleHttpErrors)
-      .then(data => {setPlayerToken(data)});
+      .then(data => { setPlayerToken(data) });
   }
 
   const getRules = () => {
@@ -242,6 +247,7 @@ function apiFacade() {
     getPlayerToken,
     setPlayerHost,
     getRules,
+    getAlivePlayers,
   }
 }
 const facade = apiFacade();
