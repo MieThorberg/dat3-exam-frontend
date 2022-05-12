@@ -17,31 +17,36 @@ const VoteResultPage = ({ mode, changeMode }) => {
     useEffect(() => {
         setData(location.state)
 
-        if (data.gameid != undefined){
-             gameController.getRoundResult(data.gameid).then(data => setResult(data));
+        if (data.gameid != undefined) {
+            gameController.getRoundResult(data.gameid).then(data => setResult(data));
         }
-        if(facade.getToken() == undefined) {
+        if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [location,data])
+    }, [location, data])
 
 
     useEffect(() => {
-        if (data.gameid != undefined){
-         gameController.getVictimLatest(data.gameid).then(data => {
-             console.log(data);
-             setVictim(data);
-             facade.setPlayerToken(data);
-        });
+        if (data.gameid != undefined) {
+            gameController.getVictimLatest(data.gameid).then(data => {
+                console.log(data);
+                setVictim(data);
+                if (facade.getPlayerToken().username == data.username) {
+                    facade.setPlayerToken(data);
+                }
+            });
         }
     }, [result, data])
 
     function nextRound() {
-       gameController.createRound(data.gameid);
-       changeMode(mode);
+        // TODO: if day and hasEnded is true, navigate to hasEnded page..
+        gameController.createRound(data.gameid);
+        changeMode(mode);
         navigate(`/game/${data.room}/village`, { state: data })
     }
 
+
+    // TODO: make night result,... and day result
     return (
         <>
             <div className='background-container'>
