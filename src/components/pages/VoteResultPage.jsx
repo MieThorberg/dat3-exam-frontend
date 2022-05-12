@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import gameController from '../../gameController'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import facade from '../../apiFacade'
 
 const VoteResultPage = ({ mode, changeMode }) => {
     const [result, setResult] = useState({});
@@ -23,9 +24,12 @@ const VoteResultPage = ({ mode, changeMode }) => {
 
 
     useEffect(() => {
-        console.log(result);
         if (data.gameid != undefined){
-         gameController.getVictimLatest(data.gameid).then(data => setVictim(data));
+         gameController.getVictimLatest(data.gameid).then(data => {
+             console.log(data);
+             setVictim(data);
+             facade.setPlayerToken(data);
+        });
         }
     }, [result, data])
 
