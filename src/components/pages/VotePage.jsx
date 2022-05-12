@@ -103,13 +103,14 @@ const VotePage = ({ mode }) => {
                 facade.getPlayer(facade.getPlayerToken().id)
                 setPlayerToken(facade.getPlayerToken());
             }
-            facade.getCurrentRound(data.gameid).then(data => setCurrentRound(data))
+
+            facade.getCurrentRound(data.gameid).then(data => {
+                setCurrentRound(data)})
         }
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [data, location, players])
-
+    }, [data, location, players, currentRound])
 
     function vote() {
         //TODO: change and get the gameid, userid & playerid
