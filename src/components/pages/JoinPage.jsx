@@ -13,6 +13,7 @@ const JoinPage = ({ mode }) => {
     const msgBoxRef = useRef()
     const [data, setData] = useState({})
     const [role, setRole] = useState("")
+    const [host, setHost] = useState(false)
     const [socket, setSocket] = useState()
     const [users, setUsers] = useState([])
     const [players, setPlayers] = useState([]);
@@ -36,13 +37,15 @@ const JoinPage = ({ mode }) => {
     }, [])
 
     useEffect(() => {
-        //TODO: change to gameid
         if(data.gameid != undefined) {
             facade.getPlayers(data.gameid).then(data => setPlayers(data))
         }
-        
 
-    }, [data, players]);
+        if (facade.getPlayerToken() != null){
+            setHost(facade.getPlayerToken().isHost);
+        }
+        
+    }, [data, players,host]);
 
     // const startGame = () => {
     //     const players = [{ userName: "user", userPass: "test123" },
@@ -98,7 +101,10 @@ const JoinPage = ({ mode }) => {
 
 
                 {/* TODO: only user host shall see this button */}
-                <button className='btn-purple' onClick={start}>Start game</button>
+                {
+                    host && <button className='btn-purple' onClick={start}>Start game</button>
+                }
+                
 
 
             </div>

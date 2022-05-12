@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react"
 import facade from "../../apiFacade";
 import { useLocation, useNavigate } from 'react-router-dom'
 
-function LogIn({ login, creatingUser }) {
+function LogIn({ login, error, creatingUser }) {
   const navigate = useNavigate();
   const init = { username: "", password: "" };
   const [loginCredentials, setLoginCredentials] = useState(init);
+  
 
   const performLogin = (evt) => {
     evt.preventDefault();
@@ -48,6 +49,7 @@ function LogIn({ login, creatingUser }) {
 
                 <input type="text" placeholder="Enter username" id="username" />
                 <input type="password" placeholder="Enter password" id="password" />
+                <div style={{color: 'red'}}>{error}</div>
                 <button className="btn-purple" onClick={performLogin}>Login</button>
                 <p style={{ padding: "2px 0 2px 0" }}>or</p>
                 <button onClick={creatingUser}>Create</button>
@@ -138,6 +140,7 @@ function CreateUser({ create }) {
 function LoginPage({ loggedIn, setLoggedIn }) {
   const [creatingUser, setCreatingUser] = useState(false);
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   const logout = () => {
     facade.logout()
@@ -145,7 +148,14 @@ function LoginPage({ loggedIn, setLoggedIn }) {
   }
   const login = (user, pass) => {
     facade.login(user, pass)
-      .then(res => setLoggedIn(true));
+      .then(res => setLoggedIn(true)).catch((err) => {
+        if(err.status == 403){
+          setError('Wrong username or Password')
+        }else {
+          setError('Something went wrong')
+        }
+      });
+      
   }
 
   function createUser() {
@@ -158,7 +168,7 @@ function LoginPage({ loggedIn, setLoggedIn }) {
 
   return (
     <main>
-      {!loggedIn ? (!creatingUser ? (<LogIn login={login} creatingUser={createUser} />) : (<CreateUser create={create} />)) :
+      {!loggedIn ? (!creatingUser ? (<LogIn login={login} error={error} creatingUser={createUser} />) : (<CreateUser create={create} />)) :
         navigate("/home")}
     </main>
   )

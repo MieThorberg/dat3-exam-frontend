@@ -50,8 +50,8 @@ export default function App() {
   }
 
   const dayMode = {
-    name: day,
-    image: "day",
+    name: "day",
+    image: day,
     blur: "rgba(16, 5, 30, 0.3)",
     color: "black",
     header: "000000ee",
@@ -115,7 +115,7 @@ export default function App() {
           {/* Playing game links */}
           <Route path="/game/:roomid/village" element={<Village mode={mode} />}></Route>
           <Route path="/game/:roomid/vote" element={<VotePage mode={mode} />}></Route>
-          <Route path="/game/:roomid/voteresult" element={<VoteResultPage mode={mode} setMode={setMode} />}></Route>
+          <Route path="/game/:roomid/voteresult" element={<VoteResultPage mode={mode} changeMode={changeMode} />}></Route>
 
           {/* TODO: just showing a result from voteresult, change to get the actual winners with a fetch function */}
           <Route path="/game/ending" element={<EndedGamePage mode={mode} winners={voteresult} />}></Route>
