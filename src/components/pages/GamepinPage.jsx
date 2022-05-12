@@ -42,13 +42,13 @@ const GamepinPage = ({ mode }) => {
     e.preventDefault()
     const isValid = validation()
     if (isValid) {
-     /*  navigate(`/join_game/${data.room}`, { state: data }); */
+      /*  navigate(`/join_game/${data.room}`, { state: data }); */
       //fetch gameByPincode
 
       const user = facade.decodeToken().username;
 
       facade.getGameByPin(data.room).then(fetchdata => {
-      facade.createPlayer(fetchdata.id, {userName: user}).then(data => facade.setPlayerToken(data));
+        facade.createPlayer(fetchdata.id, { userName: user }).then(data => facade.setPlayerToken(data));
         // TODO: set the player info, some where to use
         setData({ ...data, gameid: fetchdata.id });
       })
@@ -57,33 +57,46 @@ const GamepinPage = ({ mode }) => {
   }
   return (
     <>
-      <div className='background-container'>
-        <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
-        <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
-      </div>
-      <div className='main'>
-        <div className='main-container'>
-          <div style={{ gridTemplateRows: "60% auto" }}>
+
+      {facade.getToken() != undefined ?
+        <>
+          <div className='background-container'>
+            <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
+            <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
           </div>
-          <div className='section' style={{ gridTemplateRows: "50% auto" }}>
+          <div className='main'>
+            <div className='main-container'>
+              <div style={{ gridTemplateRows: "60% auto" }}>
+              </div>
+              <div className='section' style={{ gridTemplateRows: "50% auto" }}>
 
-            <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
-              <h1>Gamepin</h1>
-            </div>
+                <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
+                  <h1>Gamepin</h1>
+                </div>
 
-            <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
+                <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
 
-              <form onSubmit={handleSubmit}>
-                {/* TODO: delete name input and only have a room input */}
-                <input type="text" name="room" placeholder="Enter pin" onChange={handleChange} />
-                <button className='btn-lightpurple' style={{ maxWidth: "200px" }} onClick={handleSubmit}>Enter</button>
-              </form>
+                  <form onSubmit={handleSubmit}>
+                    {/* TODO: delete name input and only have a room input */}
+                    <input type="text" name="room" placeholder="Enter pin" onChange={handleChange} />
+                    <button className='btn-lightpurple' style={{ maxWidth: "200px" }} onClick={handleSubmit}>Enter</button>
+                  </form>
 
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </> :
+        <>
+          {navigate("/home")}
+        </>
+      }
+
     </>
+
+
+
+
 
   )
 }
