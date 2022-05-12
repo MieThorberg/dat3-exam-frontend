@@ -12,6 +12,7 @@ const VotePage = ({ mode }) => {
     const [choosenPlayer, setChoosenPlayer] = useState("");
     const [players, setPlayers] = useState([]);
     const [playerToken, setPlayerToken] = useState({});
+    const [currentRound, setCurrentRound] = useState({});
 
     // MUST HAVE:sends location to the next page
     const location = useLocation()
@@ -27,6 +28,7 @@ const VotePage = ({ mode }) => {
                 facade.getPlayer(facade.getPlayerToken().id)
                 setPlayerToken(facade.getPlayerToken());
             }
+            facade.getCurrentRound(data.gameid).then(data => setCurrentRound(data))
         }
         if (facade.getToken() == undefined) {
             navigate("/login");
@@ -96,7 +98,6 @@ const VotePage = ({ mode }) => {
                         <>
                             <h1>Vote</h1>
                             <p>Select the player you want to vote for</p>
-
                         </>
                     ) : (
                         <>
@@ -140,7 +141,14 @@ const VotePage = ({ mode }) => {
             </div>
             <div className='fixed-btn' /* style={{ display: "none" }} */>
                 {
-                    playerToken.isAlive && <button className='btn-purple' onClick={vote}>Vote</button>
+                    currentRound.isDay ? 
+                    (
+                        playerToken.isAlive && <button className='btn-purple' onClick={vote}>Vote</button>
+                    ) : (
+                        playerToken.isAlive && (playerToken.characterName == "werewolf") && <button className='btn-purple' onClick={vote}>Vote</button>
+                    )
+
+                    
                 }
 
 

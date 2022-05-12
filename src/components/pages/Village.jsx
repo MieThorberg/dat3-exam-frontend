@@ -82,12 +82,9 @@ const Village = ({ mode }) => {
         setTimerColor("white")
         clear(getDeadTime());
     }
-    function getCurrentRound() {
-        gameController.getCurrentRound(16).then(data => setCurrent(data));
-    }
 
     useEffect(() => {
-        gameController.getCurrentRound(16).then(data => setCurrent(data));
+        gameController.getCurrentRound(data.gameid).then(data => setCurrent(data));
         console.log(current);
 
         if(facade.getToken() == undefined) {
