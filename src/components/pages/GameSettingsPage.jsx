@@ -39,10 +39,10 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   };
 
   useEffect(() => {
-    if (data.gameid != ""){
+    if (data.gameid != "") {
       navigate(`/join_game/${data.room}`, { state: data });
-      }
-  },[data])
+    }
+  }, [data])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,14 +53,14 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
         setGame(fetchdata)
         setData({ ...data, gameid: fetchdata.id });
         console.log(fetchdata);
-        facade.createPlayer(fetchdata.id, {userName: fetchdata.hostName}).then(data => facade.setPlayerToken(data));
-        
+        facade.createPlayer(fetchdata.id, { userName: fetchdata.hostName }).then(data => facade.setPlayerToken(data));
+
         // TODO: set the player info, some where to use
       });
     }
   };
 
-  
+
 
   const generatePin = (e) => {
     e.preventDefault();
@@ -72,53 +72,60 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   };
   return (
     <>
-      <div className="background-container">
-        <div
-          id="background-img"
-          style={{ backgroundImage: `url(${mode.image})` }}
-        ></div>
-        <div
-          id="background-img-blur"
-          style={{ backgroundColor: `${mode.blur}` }}
-        ></div>
-      </div>
+      {facade.getToken() != undefined ? <>
+        <div className="background-container">
+          <div
+            id="background-img"
+            style={{ backgroundImage: `url(${mode.image})` }}
+          ></div>
+          <div
+            id="background-img-blur"
+            style={{ backgroundColor: `${mode.blur}` }}
+          ></div>
+        </div>
 
-      <div className="main">
-        <div className="main-container">
-          <div style={{ gridTemplateRows: "auto" }}></div>
-          <div className="section" style={{ gridTemplateRows: "auto 90%" }}>
-            <div
-              className="header"
-              style={{ justifyContent: "end", paddingBottom: "20px" }}
-            >
-              <h1>Game settings</h1>
-            </div>
-            <div
-              className="content"
-              style={{ justifyContent: "start", gridTemplateRows: "100%" }}
-            >
-              <form >
-                <div>
-                  <input
-                    readOnly
-                    type="text"
-                    name="room"
-                    placeholder="Generate pin"
-                    value={data.room}
-                    onChange={handleChange}
-                  />
-                  
-                  <button onClick={generatePin}>Generate pin</button>
-                </div>
-                <button onClick={handleSubmit}>Enter</button>
-                {/* If you dont have type in values for the inputs */}
-                {error ? <small>{error}</small> : ""}
-              </form>
+        <div className="main">
+          <div className="main-container">
+            <div style={{ gridTemplateRows: "auto" }}></div>
+            <div className="section" style={{ gridTemplateRows: "auto 90%" }}>
+              <div
+                className="header"
+                style={{ justifyContent: "end", paddingBottom: "20px" }}
+              >
+                <h1>Game settings</h1>
+              </div>
+              <div
+                className="content"
+                style={{ justifyContent: "start", gridTemplateRows: "100%" }}
+              >
+                <form >
+                  <div>
+                    <input
+                      readOnly
+                      type="text"
+                      name="room"
+                      placeholder="Generate pin"
+                      value={data.room}
+                      onChange={handleChange}
+                    />
+
+                    <button onClick={generatePin}>Generate pin</button>
+                  </div>
+                  <button onClick={handleSubmit}>Enter</button>
+                  {/* If you dont have type in values for the inputs */}
+                  {error ? <small>{error}</small> : ""}
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </> : <>
+        {navigate("/home")}
+      </>}
     </>
+
+
+
   );
 };
 
