@@ -44,15 +44,15 @@ const JoinPage = ({ mode }) => {
 
     }, [data, players]);
 
-    const startGame = () => {
-        const players = [{ userName: "user", userPass: "test123" },
-        { userName: "admin", userPass: "test123" },
-        { userName: "user_admin", userPass: "test123" }]
-        facade.createPlayers(players, 1)
-    }
+    // const startGame = () => {
+    //     const players = [{ userName: "user", userPass: "test123" },
+    //     { userName: "admin", userPass: "test123" },
+    //     { userName: "user_admin", userPass: "test123" }]
+    //     facade.createPlayers(players, 1)
+    // }
 
     function start() {
-        gameController.startGame(8);
+        gameController.startGame(data.gameid);
         navigate(`/game/${data.room}/village`, { state: data });
     }
 

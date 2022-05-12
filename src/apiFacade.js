@@ -25,10 +25,10 @@ function apiFacade() {
   }
 
   const setPlayerToken = (token) => {
-    localStorage.setItem('player', token)
+    localStorage.setItem('player', JSON.stringify(token))
   }
   const getPlayerToken = () => {
-    return localStorage.getItem('player')
+    return JSON.parse(localStorage.getItem('player'))
   }
 
 

@@ -68,7 +68,7 @@ const VotePage = ({ mode }) => {
 
     function vote() {
         //TODO: change and get the gameid, userid & playerid
-        gameController.vote(data.gameid, facade.getPlayerToken(), choosenPlayer);
+        gameController.vote(data.gameid, facade.getPlayerToken().id, choosenPlayer);
 
         //TODO: wait on all players to vote before checking the result and hasended game
         /* gameController.getVotingResult(2).then(data => setVoteresult(data)); */
