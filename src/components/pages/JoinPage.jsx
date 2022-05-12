@@ -40,7 +40,6 @@ const JoinPage = ({ mode }) => {
     }, [])
 
     useEffect(() => {
-<<<<<<< HEAD
         //TODO: change to gameid
         if (data.gameid != undefined) {
             facade.getPlayers(data.gameid).then(data => setPlayers(data))
@@ -50,11 +49,6 @@ const JoinPage = ({ mode }) => {
             navigate("/login");
         }
 
-=======
-        if(data.gameid != undefined) {
-            facade.getPlayers(data.gameid).then(data => setPlayers(data))
-        }
->>>>>>> ed6677066c0f64251daed2428c22a7ddebfa7868
 
         if (facade.getPlayerToken() != null){
             setHost(facade.getPlayerToken().isHost);
@@ -129,16 +123,13 @@ const JoinPage = ({ mode }) => {
                 </div>
 
 
-<<<<<<< HEAD
                 <div className='joined-players-section'>
                     <div className='joined-players-scroll'>
-=======
                 {/* TODO: only user host shall see this button */}
                 {
                     host && <button className='btn-purple' onClick={onStart}>Start game</button>
                 }
                 
->>>>>>> ed6677066c0f64251daed2428c22a7ddebfa7868
 
                         <div className='list-grid'>
 
