@@ -15,7 +15,7 @@ let clientsInRoom = 0;
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: ["GET", "POST"]
   }
 });
@@ -30,7 +30,8 @@ io.on("connection", (socket) => {
   
 
  // socket.on(eventName, listener) listener function
-  socket.on("joinRoom", ({name, room}) => {
+  socket.on("joinRoom", (room) => {
+    // console.log("joined room" + room);
     // console.log(addUser({ id: socket.id, name, room }));
 		socket.join(room)
 
@@ -43,20 +44,23 @@ if (io.sockets.adapter.rooms.has(room)) clientsInRoom = io.sockets.adapter.rooms
     socket.broadcast.emit('newclientconnect',{ description: clientsInRoom+ ' users'})
   })
 
-  socket.on("joinWRoom", room => {
-		socket.join(room)
+  // socket.on("joinWRoom", room => {
+  //   console.log("joined room" + room);
+	// 	socket.join(room)
 
-  })
+  // })
 
   // when someone disconnects from the chat
   socket.on('disconnect', () => {
     console.log('A disconnection has been made')
     clientsInRoom--
+    socket.broadcast.emit('newclientconnect',{ description: clientsInRoom+ ' users'})
     console.log(clientsInRoom);
   })
 
   // sends message to all clients in that specific room
   socket.on("newMessage", ({newMessage, room}) => {
+    console.log("in here");
     io.in(room).emit("getLatestMessage", newMessage)
   })
 
@@ -67,9 +71,9 @@ if (io.sockets.adapter.rooms.has(room)) clientsInRoom = io.sockets.adapter.rooms
 
 // console.log(getUsersInRoom(1));
 
-  socket.on("newWMessage", ({newWMessage, room}) => {
-    io.in(room).emit("getLatestWMessage", newWMessage)
-  })
+  // socket.on("newWMessage", ({newWMessage, room}) => {
+  //   io.in(room).emit("getLatestWMessage", newWMessage)
+  // })
 
 });
 

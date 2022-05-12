@@ -16,6 +16,7 @@ const VotePage = ({ mode }) => {
     // MUST HAVE:sends location to the next page
     const location = useLocation()
     const [data, setData] = useState({})
+    const [character, setCharacter] = useState("none")
     useEffect(() => {
         setData(location.state)
         setActiveBtn();
@@ -76,11 +77,10 @@ const VotePage = ({ mode }) => {
         }
     }
 
- /*    function onClickCharacter() {
+    function onClickCharacter() {
         const id = facade.getPlayerToken().id;
-        console.log(id);
-        facade.getPlayerById(id).then(data => console.log(data.characterName));
-    } */
+        facade.getPlayerById(id).then(data => setCharacter(data.characterName));
+    }
 
     return (
         <div>
@@ -144,9 +144,12 @@ const VotePage = ({ mode }) => {
 
 
             </div>
-            {/* <div className='fixed-character-btn'>
+            <div className='fixed-character-btn'>
                 <button onClick={onClickCharacter}>?</button>
-            </div> */}
+                <div className='character-container'>
+                    <p>{character}</p>
+                </div>
+            </div>
         </div>
     )
 }
