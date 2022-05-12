@@ -21,53 +21,11 @@ const VotePage = ({ mode }) => {
         if (data.gameid != undefined) {
             facade.getAlivePlayers(data.gameid).then(data => setPlayers(data))
         }
-        if(facade.getToken() == undefined) {
+        if (facade.getToken() == undefined) {
             navigate("/login");
         }
-        /*  console.log("first choosen player: " + choosenPlayer); */
-        /*  facade.getPlayers(data.gameid).then(data => setPlayers(data)); */
     }, [data, location, players])
-    /* // const players = []
-    const navigate = useNavigate();
-    const location = useLocation()
-    const msgBoxRef = useRef()
-    const [data, setData] = useState({})
-    const [role, setRole] = useState("")
-    const [socket, setSocket] = useState()
-    const [users, setUsers] = useState([])
-    const [players, setPlayers] = useState([]); */
-    // const [players, setPlayers] = useState([])
 
-    /*   useEffect(() => {
-          const socket = io("https://react-chat-werewolf-server.herokuapp.com")
-          setSocket(socket)
-  
-          socket.on("connect", () => {
-              console.log("socket Connected")
-              socket.emit("joinRoom", location.state.room)
-              socket.emit("joinWRoom", 'werewolf')
-              setRole(location.state.role)
-          })
-  
-      }, [])
-  
-      useEffect(() => {
-          //TODO: change to gameid
-          facade.getPlayers(2).then(data => setPlayers(data));
-      }, [players]);
-  
-     
-      const startGame = () => {
-          const players = [{ userName: "user", userPass: "test123" },
-          { userName: "admin", userPass: "test123" },
-          { userName: "user_admin", userPass: "test123" }]
-          facade.createPlayers(players, 1)
-      }
-  
-      function start() {
-          gameController.startGame(2);
-          navigate(`/game/${data.room}/village`, { state: data });
-      } */
 
     function vote() {
         //TODO: change and get the gameid, userid & playerid
@@ -91,8 +49,6 @@ const VotePage = ({ mode }) => {
 
     }
 
-
-
     /* making the active btn */
     function setActiveBtn() {
         var headerdiv = document.getElementById("playerlist");
@@ -112,6 +68,12 @@ const VotePage = ({ mode }) => {
             });
         }
     }
+
+ /*    function onClickCharacter() {
+        const id = facade.getPlayerToken().id;
+        console.log(id);
+        facade.getPlayerById(id).then(data => console.log(data.characterName));
+    } */
 
     return (
         <div>
@@ -137,7 +99,6 @@ const VotePage = ({ mode }) => {
                                     if (choosenPlayer == "") {
                                         setChoosenPlayer(player.id);
                                     }
-
                                 }
                                 return <div key={player.id}>
                                     <div className='vote'>
@@ -152,44 +113,20 @@ const VotePage = ({ mode }) => {
                                     <h3 style={{ color: 'white' }}>{player.username}</h3>
                                 </div>
                             </div>
-
-
-
-
-
-                            {/* <div key={player.id}>
-                                <div>
-                                    <img className="profile-img" />
-                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                </div>
-                            </div> */}
                         })}
-
-
-                        {/* <div>
-                            <div className='vote'>
-                                <img id="1" className="profile-img active" /> */} {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                        {/*      <h3 style={{ color: 'white' }}>player</h3>
-                            </div>
-                        </div> */}
-
-
                     </div>
                 </div>
                 {/* <!-- Column 3 (empty) --> */}
                 <div></div>
             </div>
             <div className='fixed-btn' /* style={{ display: "none" }} */>
-
-
                 {/* TODO: only user host shall see this button */}
                 <button className='btn-purple' onClick={vote}>Vote</button>
-
-
             </div>
-
+            {/* <div className='fixed-character-btn'>
+                <button onClick={onClickCharacter}>?</button>
+            </div> */}
         </div>
-
     )
 }
 
