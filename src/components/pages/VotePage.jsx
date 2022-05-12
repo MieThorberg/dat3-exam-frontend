@@ -138,15 +138,11 @@ const VotePage = ({ mode }) => {
             </div>
             <div className='fixed-btn' /* style={{ display: "none" }} */>
                 {/* TODO: only user host shall see this button */}
-<<<<<<< HEAD
                 {
                     playerToken.isAlive && <button className='btn-purple' onClick={vote}>Vote</button>
                 }
 
 
-=======
-                <button className='btn-purple' onClick={vote}>Vote</button>
->>>>>>> f63439f760e049d688f9b4f189778ffdaf81589a
             </div>
             {/* <div className='fixed-character-btn'>
                 <button onClick={onClickCharacter}>?</button>
