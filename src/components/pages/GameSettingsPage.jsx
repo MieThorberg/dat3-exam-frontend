@@ -42,6 +42,9 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
     if (data.gameid != "") {
       navigate(`/join_game/${data.room}`, { state: data });
     }
+    if(facade.getToken() == undefined) {
+      navigate("/login")
+    }
   }, [data])
 
   const handleSubmit = (e) => {
@@ -72,57 +75,55 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   };
   return (
     <>
-      {facade.getToken() != undefined ? <>
-        <div className="background-container">
-          <div
-            id="background-img"
-            style={{ backgroundImage: `url(${mode.image})` }}
-          ></div>
-          <div
-            id="background-img-blur"
-            style={{ backgroundColor: `${mode.blur}` }}
-          ></div>
-        </div>
 
-        <div className="main">
-          <div className="main-container">
-            <div style={{ gridTemplateRows: "auto" }}></div>
-            <div className="section" style={{ gridTemplateRows: "auto 90%" }}>
-              <div
-                className="header"
-                style={{ justifyContent: "end", paddingBottom: "20px" }}
-              >
-                <h1>Game settings</h1>
-              </div>
-              <div
-                className="content"
-                style={{ justifyContent: "start", gridTemplateRows: "100%" }}
-              >
-                <form >
-                  <div>
-                    <input
-                      readOnly
-                      type="text"
-                      name="room"
-                      placeholder="Generate pin"
-                      value={data.room}
-                      onChange={handleChange}
-                    />
+      <div className="background-container">
+        <div
+          id="background-img"
+          style={{ backgroundImage: `url(${mode.image})` }}
+        ></div>
+        <div
+          id="background-img-blur"
+          style={{ backgroundColor: `${mode.blur}` }}
+        ></div>
+      </div>
 
-                    <button onClick={generatePin}>Generate pin</button>
-                  </div>
-                  <button onClick={handleSubmit}>Enter</button>
-                  {/* If you dont have type in values for the inputs */}
-                  {error ? <small>{error}</small> : ""}
-                </form>
-              </div>
+      <div className="main">
+        <div className="main-container">
+          <div style={{ gridTemplateRows: "auto" }}></div>
+          <div className="section" style={{ gridTemplateRows: "auto 90%" }}>
+            <div
+              className="header"
+              style={{ justifyContent: "end", paddingBottom: "20px" }}
+            >
+              <h1>Game settings</h1>
+            </div>
+            <div
+              className="content"
+              style={{ justifyContent: "start", gridTemplateRows: "100%" }}
+            >
+              <form >
+                <div>
+                  <input
+                    readOnly
+                    type="text"
+                    name="room"
+                    placeholder="Generate pin"
+                    value={data.room}
+                    onChange={handleChange}
+                  />
+
+                  <button onClick={generatePin}>Generate pin</button>
+                </div>
+                <button onClick={handleSubmit}>Enter</button>
+                {/* If you dont have type in values for the inputs */}
+                {error ? <small>{error}</small> : ""}
+              </form>
             </div>
           </div>
         </div>
-      </> : <>
-        {navigate("/home")}
-      </>}
+      </div>
     </>
+
 
 
 

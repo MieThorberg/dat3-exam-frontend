@@ -5,7 +5,7 @@ import "../../styles/App.css"
 import facade from '../../apiFacade'
 
 const GamepinPage = ({ mode }) => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [error, setError] = useState("")
   //Todo: change so its a user we send to the next page
@@ -36,6 +36,10 @@ const GamepinPage = ({ mode }) => {
     if (data.gameid != "") {
       navigate(`/join_game/${data.room}`, { state: data });
     }
+
+    if (facade.getToken() == undefined) {
+      navigate("/login")
+    }
   }, [data])
 
   const handleSubmit = e => {
@@ -55,44 +59,40 @@ const GamepinPage = ({ mode }) => {
 
     }
   }
+
   return (
+
     <>
-
-      {facade.getToken() != undefined ?
-        <>
-          <div className='background-container'>
-            <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
-            <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
+      <div className='background-container'>
+        <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
+        <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
+      </div>
+      <div className='main'>
+        <div className='main-container'>
+          <div style={{ gridTemplateRows: "60% auto" }}>
           </div>
-          <div className='main'>
-            <div className='main-container'>
-              <div style={{ gridTemplateRows: "60% auto" }}>
-              </div>
-              <div className='section' style={{ gridTemplateRows: "50% auto" }}>
+          <div className='section' style={{ gridTemplateRows: "50% auto" }}>
 
-                <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
-                  <h1>Gamepin</h1>
-                </div>
+            <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
+              <h1>Gamepin</h1>
+            </div>
 
-                <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
+            <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
 
-                  <form onSubmit={handleSubmit}>
-                    {/* TODO: delete name input and only have a room input */}
-                    <input type="text" name="room" placeholder="Enter pin" onChange={handleChange} />
-                    <button className='btn-lightpurple' style={{ maxWidth: "200px" }} onClick={handleSubmit}>Enter</button>
-                  </form>
+              <form onSubmit={handleSubmit}>
+                {/* TODO: delete name input and only have a room input */}
+                <input type="text" name="room" placeholder="Enter pin" onChange={handleChange} />
+                <button className='btn-lightpurple' style={{ maxWidth: "200px" }} onClick={handleSubmit}>Enter</button>
+              </form>
 
-                </div>
-              </div>
             </div>
           </div>
-        </> :
-        <>
-          {navigate("/home")}
-        </>
-      }
-
+        </div>
+      </div>
     </>
+
+
+
 
 
 
