@@ -32,21 +32,14 @@ function GameController() {
     }
 
     function createRound(id) {
-        /*   facade.getCurrentRound(id).then(data => setCurrent(data));
-          console.log(current);
-   */
 
         facade.getCurrentRound(id).then(data => {
 
             if (data.isDay) {
                 const night = facade.createNightRound(id);
-                console.log("night");
-                console.log(night);
             } else {
                 addDay(id);
-                console.log("day");
                 const day = facade.createDayRound(id);
-                console.log(day);
             }
         });
     }
@@ -82,14 +75,19 @@ function GameController() {
         facade.vote(gameid, userid, playerid);
     }
 
+    
+    // not in use
     function getResult(id) {
         const player = facade.getVoteResult(id);
         return killPlayer(id, player.id);
     }
 
+    
     const getVotingResult = (id) => {
         return facade.getVoteResult(id);
     }
+
+    // not in use
     function killPlayer(gameid, playerid) {
         /*  cleanVotes(gameid); */
         return facade.killPlayer(gameid, playerid);
@@ -125,6 +123,7 @@ function GameController() {
     function getGameByPin(pin) {
         return facade.getGameByPin(pin);
     } 
+    
     return {
         startGame,
         vote,

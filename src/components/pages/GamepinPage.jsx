@@ -48,7 +48,7 @@ const GamepinPage = ({ mode }) => {
       const user = facade.decodeToken().username;
 
       facade.getGameByPin(data.room).then(fetchdata => {
-      facade.createPlayer(fetchdata.id, {userName: user}).then(data => facade.setPlayerToken(data.id));
+      facade.createPlayer(fetchdata.id, {userName: user}).then(data => facade.setPlayerToken(data));
         // TODO: set the player info, some where to use
         setData({ ...data, gameid: fetchdata.id });
       })

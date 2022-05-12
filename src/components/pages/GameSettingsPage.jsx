@@ -53,7 +53,7 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
         setGame(fetchdata)
         setData({ ...data, gameid: fetchdata.id });
         console.log(fetchdata);
-        facade.createPlayer(fetchdata.id, {userName: fetchdata.hostName}).then(data => facade.setPlayerToken(data.id) );
+        facade.createPlayer(fetchdata.id, {userName: fetchdata.hostName}).then(data => facade.setPlayerToken(data));
         
         // TODO: set the player info, some where to use
       });
