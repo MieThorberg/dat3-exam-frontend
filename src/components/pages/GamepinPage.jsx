@@ -5,7 +5,7 @@ import "../../styles/App.css"
 import facade from '../../apiFacade'
 
 const GamepinPage = ({ mode }) => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [error, setError] = useState("")
   //Todo: change so its a user we send to the next page
@@ -36,26 +36,32 @@ const GamepinPage = ({ mode }) => {
     if (data.gameid != "") {
       navigate(`/join_game/${data.room}`, { state: data });
     }
+
+    if (facade.getToken() == undefined) {
+      navigate("/login")
+    }
   }, [data])
 
   const handleSubmit = e => {
     e.preventDefault()
     const isValid = validation()
     if (isValid) {
-     /*  navigate(`/join_game/${data.room}`, { state: data }); */
+      /*  navigate(`/join_game/${data.room}`, { state: data }); */
       //fetch gameByPincode
 
       const user = facade.decodeToken().username;
 
       facade.getGameByPin(data.room).then(fetchdata => {
-      facade.createPlayer(fetchdata.id, {userName: user}).then(data => facade.setPlayerToken(data));
+        facade.createPlayer(fetchdata.id, { userName: user }).then(data => facade.setPlayerToken(data));
         // TODO: set the player info, some where to use
         setData({ ...data, gameid: fetchdata.id });
       })
 
     }
   }
+
   return (
+
     <>
       <div className='background-container'>
         <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
@@ -84,6 +90,13 @@ const GamepinPage = ({ mode }) => {
         </div>
       </div>
     </>
+
+
+
+
+
+
+
 
   )
 }

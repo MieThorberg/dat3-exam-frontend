@@ -4,6 +4,7 @@ import { useRef, useState } from 'react'
 import { useEffect } from 'react'
 import gameController from '../../gameController'
 import { useNavigate , useLocation} from 'react-router-dom'
+import facade from '../../apiFacade'
 
 const Village = ({ mode }) => {
     const navigate = useNavigate();
@@ -88,6 +89,10 @@ const Village = ({ mode }) => {
     useEffect(() => {
         gameController.getCurrentRound(16).then(data => setCurrent(data));
         console.log(current);
+
+        if(facade.getToken() == undefined) {
+            navigate("/login");
+        }
     }, [])
 
     function showVotepage() {

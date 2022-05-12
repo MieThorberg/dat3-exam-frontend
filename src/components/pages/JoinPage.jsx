@@ -40,9 +40,15 @@ const JoinPage = ({ mode }) => {
     }, [])
 
     useEffect(() => {
-        if(data.gameid != undefined) {
+        //TODO: change to gameid
+        if (data.gameid != undefined) {
             facade.getPlayers(data.gameid).then(data => setPlayers(data))
         }
+
+        if(facade.getToken() == undefined) {
+            navigate("/login");
+        }
+
 
         if (facade.getPlayerToken() != null){
             setHost(facade.getPlayerToken().isHost);
@@ -97,57 +103,62 @@ const JoinPage = ({ mode }) => {
     }
 
     return (
-        <div>
+        <>
 
-            <div className='background-container'>
-                <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
-                <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
-            </div>
-            <div className="fixed-header">
-                <h1>Gamepin: {data.room}</h1>
-                {/* <h3>{data.name}</h3> */}
+            <div>
 
-                {/* {users.map((index, user) => {
-                        return <div key={index}>
-                            <h3 style={{ color: 'white' }}>{user.username}</h3>
-                        </div>
-                    })} */}
-            </div>
-
-
-            <div className='joined-players-section'>
-                <div className='joined-players-scroll'>
-
-                    <div className='list-grid'>
-
-                        {players.map((player) => {
-                            return <div key={player.id}>
-                                <div>
-                                    <img className="profile-img" />
-                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                </div>
-                            </div>
-                        })}
-
-                    </div>
+                <div className='background-container'>
+                    <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
+                    <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
                 </div>
-                {/* <!-- Column 3 (empty) --> */}
-                <div></div>
-            </div>
-            <div className='fixed-btn' /* style={{ display: "none" }} */>
+                <div className="fixed-header">
+                    <h1>Gamepin: {data.room}</h1>
+                    {/* <h3>{data.name}</h3> */}
+
+                    {/* {users.map((index, user) => {
+                    return <div key={index}>
+                        <h3 style={{ color: 'white' }}>{user.username}</h3>
+                    </div>
+                })} */}
+                </div>
 
 
+                <div className='joined-players-section'>
+                    <div className='joined-players-scroll'>
                 {/* TODO: only user host shall see this button */}
                 {
                     host && <button className='btn-purple' onClick={onStart}>Start game</button>
                 }
                 
 
+                        <div className='list-grid'>
+
+                            {players.map((player) => {
+                                return <div key={player.id}>
+                                    <div>
+                                        <img className="profile-img" />
+                                        <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                    </div>
+                                </div>
+                            })}
+
+                        </div>
+                    </div>
+                    {/* <!-- Column 3 (empty) --> */}
+                    <div></div>
+                </div>
+                <div className='fixed-btn' /* style={{ display: "none" }} */>
+
+
+                    {/* TODO: only user host shall see this button */}
+                    <button className='btn-purple' onClick={start}>Start game</button>
+
+
+                </div>
 
             </div>
 
-        </div>
-
+        </>
     )
 }
 
