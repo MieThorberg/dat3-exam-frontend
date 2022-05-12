@@ -2,12 +2,8 @@ import React, { useState, useEffect } from "react"
 import facade from "../../apiFacade";
 import { useLocation, useNavigate } from 'react-router-dom'
 
-<<<<<<< HEAD
-function LogIn({login, error ,creatingUser }) {
-=======
-function LogIn({ login, creatingUser }) {
+function LogIn({ login, error, creatingUser }) {
   const navigate = useNavigate();
->>>>>>> d35b5d608211a5796c72580e2ca19d9f6eee54a7
   const init = { username: "", password: "" };
   const [loginCredentials, setLoginCredentials] = useState(init);
   
