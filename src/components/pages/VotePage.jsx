@@ -130,16 +130,16 @@ const VotePage = ({ mode }) => {
             <div className="fixed-header">
                 {
                     playerToken.isAlive ? (
-                    <>
-                    <h1>Vote</h1>
-                    <p>Select the player you want to vote for</p>
-                    </>
+                        <>
+                            <h1>Vote</h1>
+                            <p>Select the player you want to vote for</p>
+                        </>
                     ) : (
-                    <>
-                    <h1>You Are Dead</h1>
-                    </>)
+                        <>
+                            <h1>You Are Dead</h1>
+                        </>)
                 }
-               
+
             </div>
 
 
@@ -200,7 +200,7 @@ const VotePage = ({ mode }) => {
 
 
                 {/* TODO: only user host shall see this button */}
-                {   
+                {
                     playerToken.isAlive && <button className='btn-purple' onClick={vote}>Vote</button>
                 }
 
