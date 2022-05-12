@@ -80,7 +80,6 @@ const Village = ({ mode }) => {
         setTimerColor("white")
         clear(getDeadTime());
     }
-
     function getCurrentRound() {
         gameController.getCurrentRound(16).then(data => setCurrent(data));
     }
@@ -108,7 +107,7 @@ const Village = ({ mode }) => {
 
                         <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
                             
-                            <p>Day {current.day}, {current.isDay ? "Day" : "night"}</p>
+                        <p>Day {current.day}, {current.isDay ? "Day" : "night"}</p>
                             <h1 style={{ color: timerColor }}>{timer}</h1>
                         </div>
                         <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>

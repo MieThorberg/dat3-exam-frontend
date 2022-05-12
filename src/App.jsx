@@ -22,24 +22,42 @@ import { useState } from "react";
 import "./styles/App.css";
 import VotePage from "./components/pages/VotePage";
 import EndedGamePage from "./components/pages/EndedGamePage";
-
+/* blur: "rgba(16, 5, 30, 0.685)", */
+import night from "./images/night.jpg";
+import day from "./images/day.jpg";
 
 export default function App() {
   const nightMode = {
     name: "night",
-    image: "/../src/images/night.jpg",
+    image: night,
     blur: "rgba(16, 5, 30, 0.685)",
-    topnavColor: "#4141414b",
-    topnavLinkColor: "#d6ced9",
+    color: "white",
+    header: "000000ee",
+    votecolor: "#1ff39e",
+
+    /* topnavColor: "#4141414b",
+    topnavLinkColor: "#d6ced9", */
     /* TODO: add colors for font, navigation, btn, background-color */
   }
 
+  const werewolfMode = {
+    name: "werewolf",
+    image: night,
+    blur: "rgba(10, 0, 0, 0.8)",
+    color: "white",
+    header: "#da1313ee",
+    votecolor: "#1ff39e",
+  }
+
   const dayMode = {
-    name: "day",
-    image: "/../src/images/day.jpg",
+    name: day,
+    image: "day",
     blur: "rgba(16, 5, 30, 0.3)",
-    topnavColor: "#e0dede4b",
-    topnavLinkColor: "black",
+    color: "black",
+    header: "000000ee",
+    votecolor: "black",
+  /*   topnavColor: "#e0dede4b",
+    topnavLinkColor: "black", */
 
     /* TODO: add colors for font, navigation, btn, background-color */
   }
@@ -50,7 +68,6 @@ export default function App() {
   const [mode, setMode] = useState(nightMode);
 
   const [voteresult, setVoteresult] = useState({});
-
 
   function changeMode(m) {
     if(m.name == "night") {
@@ -63,13 +80,25 @@ export default function App() {
     }
   }
 
+  /* function setRoundMode(name) {
+    if(name == "night") {
+      setMode(nightMode)
+    }
+    else if(name == "day") {
+      setMode(dayMode)      
+    } else {
+      setMode(werewolfMode)
+    }
+  } */
+
   return (
     <div>
       <BrowserRouter>
-        <Header mode={mode} loggedIn={loggedIn} headline={headline} />
+        <Header mode={mode} headline={headline}/>
         <Routes>
           <Route path="/" element={<StartPage mode={mode} />}></Route>
 
+          
           {/* TODO: make frontend */}
           <Route path="/login" element={<LoginPage loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
           <Route path="/create_user" element={<CreateUserPage />}></Route>
@@ -78,7 +107,7 @@ export default function App() {
           <Route path="/credits" element={<CreditsPage />}></Route>
 
           {/* Logged as user links */}
-          <Route path="/home" element={<Home setHeadline={setHeadline} mode={mode} />}></Route>
+          <Route path="/home" element={<Home setHeadline={setHeadline} mode={mode}/>}></Route>
           <Route path="/game_settings" element={<GameSettingsPage mode={mode} setHeadline={setHeadline} />}></Route>
           <Route path="/join_game/:roomId" element={<JoinPage mode={mode} />}></Route>
           <Route path="/gamepin" element={<GamepinPage mode={mode} />}></Route>
@@ -86,7 +115,7 @@ export default function App() {
           {/* Playing game links */}
           <Route path="/game/:roomid/village" element={<Village mode={mode} />}></Route>
           <Route path="/game/:roomid/vote" element={<VotePage mode={mode} />}></Route>
-          <Route path="/game/:roomid/voteresult" element={<VoteResultPage mode={mode} changeMode={changeMode} />}></Route>
+          <Route path="/game/:roomid/voteresult" element={<VoteResultPage mode={mode} setMode={setMode} />}></Route>
 
           {/* TODO: just showing a result from voteresult, change to get the actual winners with a fetch function */}
           <Route path="/game/ending" element={<EndedGamePage mode={mode} winners={voteresult} />}></Route>
