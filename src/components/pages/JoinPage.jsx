@@ -98,7 +98,6 @@ const JoinPage = ({ mode }) => {
 
     function start() {
         gameController.startGame(data.gameid);
-        facade.getPlayer(facade.getPlayerToken().id)
         navigate(`/game/${data.room}/village`, { state: data });
     }
 

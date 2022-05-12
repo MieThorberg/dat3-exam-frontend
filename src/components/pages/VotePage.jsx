@@ -16,15 +16,15 @@ const VotePage = ({ mode }) => {
     // MUST HAVE:sends location to the next page
     const location = useLocation()
     const [data, setData] = useState({})
-    const [character, setCharacter] = useState("none")
     useEffect(() => {
         setData(location.state)
         setActiveBtn();
         if (data.gameid != undefined) {
             if (players.length == 0) {
-                facade.getAlivePlayers(data.gameid).then(data => setPlayers(data)) 
+                facade.getAlivePlayers(data.gameid).then(data => setPlayers(data))
             }
             if (facade.getPlayerToken() != null) {
+                facade.getPlayer(facade.getPlayerToken().id)
                 setPlayerToken(facade.getPlayerToken());
             }
         }
@@ -79,7 +79,8 @@ const VotePage = ({ mode }) => {
 
     function onClickCharacter() {
         const id = facade.getPlayerToken().id;
-        facade.getPlayerById(id).then(data => setCharacter(data.characterName));
+        console.log(id);
+        facade.getPlayerById(id).then(data => console.log(data.characterName));
     }
 
     return (
@@ -95,6 +96,7 @@ const VotePage = ({ mode }) => {
                         <>
                             <h1>Vote</h1>
                             <p>Select the player you want to vote for</p>
+
                         </>
                     ) : (
                         <>
@@ -137,7 +139,6 @@ const VotePage = ({ mode }) => {
                 <div></div>
             </div>
             <div className='fixed-btn' /* style={{ display: "none" }} */>
-                {/* TODO: only user host shall see this button */}
                 {
                     playerToken.isAlive && <button className='btn-purple' onClick={vote}>Vote</button>
                 }
@@ -146,9 +147,6 @@ const VotePage = ({ mode }) => {
             </div>
             <div className='fixed-character-btn'>
                 <button onClick={onClickCharacter}>?</button>
-                <div className='character-container'>
-                    <p>{character}</p>
-                </div>
             </div>
         </div>
     )
