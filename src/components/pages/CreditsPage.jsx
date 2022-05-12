@@ -13,7 +13,8 @@ const CreditsPage = () => {
                     <div className="section">
                         <div className="header">
                             <p><a href='https://www.freepik.com/vectors/night-house'>Night house vector created by upklyak - www.freepik.com</a></p>
-                            <p><a href='https://www.freepik.com/vectors/old-town'>Old town vector created by upklyak - www.freepik.com</a></p>    
+                            <p><a href='https://www.freepik.com/vectors/old-town'>Old town vector created by upklyak - www.freepik.com</a></p>
+                            <a href='https://www.freepik.com/vectors/happy-icon'>Happy icon vector created by ibrandify - www.freepik.com</a>    
                         </div>
                     </div>
                     {/* <!-- Column 3 (empty) --> */}

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react"
 import facade from "../../apiFacade";
-import "../../styles/LoginPage.css";
-import Home from "../Home";
 import { useLocation, useNavigate } from 'react-router-dom'
 
+<<<<<<< HEAD
 function LogIn({login, error ,creatingUser }) {
+=======
+function LogIn({ login, creatingUser }) {
+  const navigate = useNavigate();
+>>>>>>> d35b5d608211a5796c72580e2ca19d9f6eee54a7
   const init = { username: "", password: "" };
   const [loginCredentials, setLoginCredentials] = useState(init);
   
@@ -13,10 +16,14 @@ function LogIn({login, error ,creatingUser }) {
     evt.preventDefault();
     login(loginCredentials.username, loginCredentials.password);
     window.scroll(0, 0);
-    
+
   }
   const onChange = (evt) => {
     setLoginCredentials({ ...loginCredentials, [evt.target.id]: evt.target.value })
+  }
+
+  function goToStartPage() {
+    navigate("/");
   }
 
   return (
@@ -32,6 +39,9 @@ function LogIn({login, error ,creatingUser }) {
             <div
               className="header"
               style={{ justifyContent: "end", paddingBottom: "20px" }}>
+              <div onClick={goToStartPage}>
+                <p className="back-arrow"><i className="fa fa-arrow-circle-left" style={{ paddingRight: "5px" }}></i> Back</p>
+              </div>
               <h1>Login</h1>
               <p>Please login to continue</p>
             </div>
@@ -58,7 +68,8 @@ function LogIn({login, error ,creatingUser }) {
 }
 
 
-function CreateUser({create }) {
+function CreateUser({ create }) {
+  const navigate = useNavigate();
   const init = { username: "", password: "" };
   const [loginCredentials, setLoginCredentials] = useState(init);
 
@@ -68,6 +79,11 @@ function CreateUser({create }) {
   }
   const onChange = (evt) => {
     setLoginCredentials({ ...loginCredentials, [evt.target.id]: evt.target.value })
+  }
+
+  function goToLogin() {
+    //reloads page in which show the loginpage
+    window.location.reload();
   }
 
   return (
@@ -80,9 +96,10 @@ function CreateUser({create }) {
       <div className="login">
         <div className="login-container">
           <div className="section">
-            <div
-              className="header"
-              style={{ justifyContent: "end", paddingBottom: "20px" }}>
+            <div className="header" style={{ justifyContent: "end", paddingBottom: "20px" }}>
+               <div onClick={goToLogin}>
+                <p className="back-arrow"><i className="fa fa-arrow-circle-left" style={{ paddingRight: "5px" }}></i> Back</p>
+              </div>
               <h1>Create account</h1>
               <p>Please enter the following</p>
             </div>
@@ -93,8 +110,8 @@ function CreateUser({create }) {
               <form onChange={onChange} >
 
                 <input type="text" placeholder="Enter username" id="username" />
-                <input type="password" style={{marginTop: "20px"}} placeholder="Enter password" id="password" />
-                <input type="password" style={{marginBottom: "30px"}} placeholder="Enter password again" id="password" />
+                <input type="password" style={{ marginTop: "20px" }} placeholder="Enter password" id="password" />
+                <input type="password" style={{ marginBottom: "30px" }} placeholder="Enter password again" id="password" />
                 <button className="btn-purple" onClick={performLogin}>Create</button>
 
               </form>
@@ -124,8 +141,7 @@ function CreateUser({create }) {
 
 // }
 
-
-function LoginPage({loggedIn, setLoggedIn }) {
+function LoginPage({ loggedIn, setLoggedIn }) {
   const [creatingUser, setCreatingUser] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
