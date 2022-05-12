@@ -17,9 +17,9 @@ const JoinPage = ({ mode }) => {
     const [socket, setSocket] = useState()
     const [users, setUsers] = useState([])
     const [players, setPlayers] = useState([]);
-    const [ allMessages, setMessages ] = useState([])
-    const [ msg, setMsg ] = useState("")
-    const [ loading, setLoading ] = useState(false)
+    const [allMessages, setMessages] = useState([])
+    const [msg, setMsg] = useState("")
+    const [loading, setLoading] = useState(false)
     // const [players, setPlayers] = useState([])
 
     useEffect(() => {
@@ -45,48 +45,47 @@ const JoinPage = ({ mode }) => {
             facade.getPlayers(data.gameid).then(data => setPlayers(data))
         }
 
-        if(facade.getToken() == undefined) {
+        if (facade.getToken() == undefined) {
             navigate("/login");
         }
 
-
-        if (facade.getPlayerToken() != null){
+        if (facade.getPlayerToken() != null) {
             setHost(facade.getPlayerToken().isHost);
         }
-        
-    }, [data, players,host]);
+
+    }, [data, players, host]);
 
     useEffect(() => {
         //recieves the latest message from the server and sets our useStates
-        if(socket){
+        if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
-                
-                setMessages([ ...allMessages,  newMessage ])
+
+                setMessages([...allMessages, newMessage])
                 // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
                 setMsg("")
                 setLoading(false)
                 start()
             })
-  
-            // when a new user enters the room we add the new user to the total number in the room
-        //     socket.on("newclientconnect", (newClient) => {
-        //       setUserNumber(newClient)
-        //       // console.log(newClient)
-             
-        //   })
-        }
-    }, [socket, allMessages])    
 
-    
-    const handleEnter = e => e.keyCode===13 ? onSubmit() : ""
+            // when a new user enters the room we add the new user to the total number in the room
+            //     socket.on("newclientconnect", (newClient) => {
+            //       setUserNumber(newClient)
+            //       // console.log(newClient)
+
+            //   })
+        }
+    }, [socket, allMessages])
+
+
+    const handleEnter = e => e.keyCode === 13 ? onSubmit() : ""
     const onStart = () => {
-        
-            setLoading(true)
-            const newMessage = { time:new Date(), msg:"start", name: data.name }
-            socket.emit("newMessage", {newMessage, room: data.room})
-        
+
+        setLoading(true)
+        const newMessage = { time: new Date(), msg: "start", name: data.name }
+        socket.emit("newMessage", { newMessage, room: data.room })
+
     }
-  
+
 
     // const startGame = () => {
     //     const players = [{ userName: "user", userPass: "test123" },
@@ -95,7 +94,7 @@ const JoinPage = ({ mode }) => {
     //     facade.createPlayers(players, 1)
     // }
 
-  
+
 
     function start() {
         gameController.startGame(data.gameid);
@@ -125,11 +124,7 @@ const JoinPage = ({ mode }) => {
 
                 <div className='joined-players-section'>
                     <div className='joined-players-scroll'>
-                {/* TODO: only user host shall see this button */}
-                {
-                    host && <button className='btn-purple' onClick={onStart}>Start game</button>
-                }
-                
+
 
                         <div className='list-grid'>
 
@@ -149,10 +144,10 @@ const JoinPage = ({ mode }) => {
                 </div>
                 <div className='fixed-btn' /* style={{ display: "none" }} */>
 
-
                     {/* TODO: only user host shall see this button */}
-                    <button className='btn-purple' onClick={start}>Start game</button>
-
+                    {
+                        host && <button className='btn-purple' onClick={onStart}>Start game</button>
+                    }
 
                 </div>
 
