@@ -7,6 +7,7 @@ import facade from '../../apiFacade'
 import gameController from '../../gameController'
 import { useNavigate } from 'react-router-dom'
 
+
 const VotePage = ({ mode }) => {
     const navigate = useNavigate();
     const [choosenPlayer, setChoosenPlayer] = useState("");
@@ -14,9 +15,83 @@ const VotePage = ({ mode }) => {
     const [playerToken, setPlayerToken] = useState({});
     const [currentRound, setCurrentRound] = useState({});
 
+
     // MUST HAVE:sends location to the next page
     const location = useLocation()
     const [data, setData] = useState({})
+    const Ref = useRef(null);
+    const [timer, setTimer] = useState('00:00');
+    const [timerColor, setTimerColor] = useState('white');
+    const [timerHasStopped, setTimerHasStopped] = useState(true);
+
+    const getTimeRemaining = (e) => {
+        const total = Date.parse(e) - Date.parse(new Date());
+        const seconds = Math.floor((total / 1000) % 60);
+        const minutes = Math.floor((total / 1000 / 60) % 60);
+        return {
+            total, minutes, seconds
+        };
+    }
+
+    const start = (e) => {
+        let { total, minutes, seconds } = getTimeRemaining(e);
+        if (total >= 0) {
+            setTimer(
+                (minutes > 9 ? minutes : '0' + minutes) + ":" +
+                (seconds > 9 ? seconds : '0' + seconds)
+            )
+            if (seconds < 31) {
+                setTimerColor("red");
+
+                if (seconds == 0) {
+                    setTimerHasStopped(true);
+                }
+
+            }
+        }
+    }
+
+    const clear = (e) => {
+
+        //change time here
+        setTimer('00:05');
+        if (Ref.current) clearInterval(Ref.current);
+        setTimerHasStopped(false);
+        const id = setInterval(() => {
+            start(e);
+        }, 1000)
+        Ref.current = id;
+    }
+
+    const getDeadTime = () => {
+        let deadline = new Date();
+
+        //change time here
+        deadline.setSeconds(deadline.getSeconds() + 5)
+        /* deadline.setSeconds(deadline.getSeconds() + 10); */
+        return deadline;
+    }
+
+    useEffect(() => {
+        clear(getDeadTime());
+    }, []);
+
+    const onClickReset = () => {
+        setTimerColor("white")
+        clear(getDeadTime());
+    }
+
+
+    function showVoteResultpage() {
+        navigate(`/game/${data.room}/voteresult`, { state: data })
+    }
+
+
+
+
+
+
+
     useEffect(() => {
         setData(location.state)
         setActiveBtn();
@@ -97,6 +172,7 @@ const VotePage = ({ mode }) => {
                     playerToken.isAlive ? (
                         <>
                             <h1>Vote</h1>
+                            <h1>Timer: {timer}</h1>
                             <p>Select the player you want to vote for</p>
                         </>
                     ) : (
@@ -142,16 +218,16 @@ const VotePage = ({ mode }) => {
             <div className='fixed-btn' /* style={{ display: "none" }} */>
                 {
                     // if it is day or night
-                    currentRound.isDay ? 
-                    (
-                        // if player is alive
-                        playerToken.isAlive && <button className='btn-purple' onClick={vote}>Vote</button>
-                    ) : (
-                        // checks if player is alive and is a werewolf
-                        playerToken.isAlive && (playerToken.characterName == "werewolf") && <button className='btn-purple' onClick={vote}>Vote</button>
-                    )
+                    currentRound.isDay ?
+                        (
+                            // if player is alive
+                            playerToken.isAlive && <button className='btn-purple' onClick={vote}>Vote</button>
+                        ) : (
+                            // checks if player is alive and is a werewolf
+                            playerToken.isAlive && (playerToken.characterName == "werewolf") && <button className='btn-purple' onClick={vote}>Vote</button>
+                        )
 
-                    
+
                 }
 
 
@@ -159,6 +235,10 @@ const VotePage = ({ mode }) => {
             <div className='fixed-character-btn'>
                 <button onClick={onClickCharacter}>?</button>
             </div>
+
+            {
+                timerHasStopped ? showVoteResultpage() : <></>
+            }
         </div>
     )
 }
