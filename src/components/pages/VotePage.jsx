@@ -21,6 +21,9 @@ const VotePage = ({ mode }) => {
         if (data.gameid != undefined) {
             facade.getPlayers(data.gameid).then(data => setPlayers(data))
         }
+        if(facade.getToken() == undefined) {
+            navigate("/login");
+        }
         /*  console.log("first choosen player: " + choosenPlayer); */
         /*  facade.getPlayers(data.gameid).then(data => setPlayers(data)); */
     }, [data, location, players])

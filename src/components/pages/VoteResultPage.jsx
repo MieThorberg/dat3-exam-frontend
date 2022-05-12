@@ -19,6 +19,9 @@ const VoteResultPage = ({ mode, changeMode }) => {
         if (data.gameid != undefined){
              gameController.getRoundResult(data.gameid).then(data => setResult(data));
         }
+        if(facade.getToken() == undefined) {
+            navigate("/login");
+        }
     }, [location,data])
 
 
