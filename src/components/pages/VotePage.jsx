@@ -20,9 +20,14 @@ const VotePage = ({ mode }) => {
     const location = useLocation()
     const [data, setData] = useState({})
     const Ref = useRef(null);
-    const [timer, setTimer] = useState('00:00');
+    const [timer, setTimer] = useState('00:05');
     const [timerColor, setTimerColor] = useState('white');
-    const [timerHasStopped, setTimerHasStopped] = useState(true);
+    const [timerHasStopped, setTimerHasStopped] = useState(false);
+
+    const [allMessages, setMessages] = useState([])
+    const [msg, setMsg] = useState("")
+    const [loading, setLoading] = useState(false)
+    const [socket, setSocket] = useState(io)
 
     const getTimeRemaining = (e) => {
         const total = Date.parse(e) - Date.parse(new Date());
@@ -56,7 +61,7 @@ const VotePage = ({ mode }) => {
         //change time here
         setTimer('00:05');
         if (Ref.current) clearInterval(Ref.current);
-        setTimerHasStopped(false);
+      
         const id = setInterval(() => {
             start(e);
         }, 1000)
@@ -73,6 +78,7 @@ const VotePage = ({ mode }) => {
     }
 
     useEffect(() => {
+        console.log(timerHasStopped);
         clear(getDeadTime());
     }, []);
 
@@ -82,14 +88,43 @@ const VotePage = ({ mode }) => {
     }
 
 
-    function showVoteResultpage() {
-        navigate(`/game/${data.room}/voteresult`, { state: data })
+    useEffect(() => {
+        const socket = io("https://react-chat-werewolf-server.herokuapp.com")
+        setSocket(socket)
+
+        socket.on("connect", () => {
+            console.log("socket Connected")
+            socket.emit("joinRoom", location.state.room)
+            socket.emit("joinWRoom", 'werewolf')
+            // setRole(location.state.role)
+        })
+
+    }, [])
+
+    useEffect(() => {
+        //recieves the latest message from the server and sets our useStates
+        if (socket) {
+            socket.on("getLatestMessage", (newMessage) => {
+                // console.log(newMessage);
+                setMessages([...allMessages, newMessage])
+                // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
+                setMsg("")
+                setLoading(false)
+
+                navigate(`/game/${data.room}/voteresult`, { state: data })
+            })
+
+        }
+    }, [socket, allMessages])
+
+    const showVoteResultpage = () => {
+        console.log("hello");
+        console.log(socket);
+
+        setLoading(true)
+        const newMessage = { time: new Date(), msg: "next", name: data.name }
+        socket.emit("newMessage", { newMessage, room: data.room })
     }
-
-
-
-
-
 
 
     useEffect(() => {
@@ -111,7 +146,18 @@ const VotePage = ({ mode }) => {
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
+
+
     }, [data, location, players, currentRound])
+
+    useEffect(() => {
+        if (timerHasStopped) {
+            if (playerToken.isHost) {
+                console.log(playerToken.isHost);
+                showVoteResultpage()
+            }
+        }
+    }, [timerHasStopped, setTimerHasStopped])
 
     function vote() {
         //TODO: change and get the gameid, userid & playerid
@@ -122,7 +168,7 @@ const VotePage = ({ mode }) => {
         /* gameController.getVotingResult(2).then(data => setVoteresult(data)); */
         // setVoteresult(player);
 
-        navigate(`/game/${data.room}/voteresult`, { state: data })
+        // navigate(`/game/${data.room}/voteresult`, { state: data })
 
 
         //TODO: fix this - make it check if has ended is true then navigate to result page
@@ -267,9 +313,6 @@ const VotePage = ({ mode }) => {
                 <button onClick={onClickCharacter}>?</button>
             </div>
 
-            {
-                timerHasStopped ? showVoteResultpage() : <></>
-            }
         </div>
     )
 }

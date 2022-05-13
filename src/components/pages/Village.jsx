@@ -14,7 +14,7 @@ const Village = ({ mode }) => {
     const seconds = 0;
     const minutes = 0;
     const Ref = useRef(null);
-    const [timer, setTimer] = useState('00:00');
+    const [timer, setTimer] = useState('00:05');
     const [timerColor, setTimerColor] = useState('white');
 
     const [data, setData] = useState({})
@@ -28,7 +28,7 @@ const Village = ({ mode }) => {
     const [allMessages, setMessages] = useState([])
     const [msg, setMsg] = useState("")
     const [loading, setLoading] = useState(false)
-    const [socket, setSocket] = useState()
+    const [socket, setSocket] = useState(io)
 
     useEffect(() => {
         const socket = io("https://react-chat-werewolf-server.herokuapp.com")
@@ -37,8 +37,6 @@ const Village = ({ mode }) => {
         socket.on("connect", () => {
             console.log("socket Connected")
             socket.emit("joinRoom", location.state.room)
-            socket.emit("joinWRoom", 'werewolf')
-            // setRole(location.state.role)
         })
 
     }, [])
@@ -52,7 +50,8 @@ const Village = ({ mode }) => {
                 // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
                 setMsg("")
                 setLoading(false)
-                showVotepage()
+
+                navigate(`/game/${data.room}/vote`, { state: data })
             })
 
         }
@@ -60,10 +59,10 @@ const Village = ({ mode }) => {
 
     const votePage = () => {
         console.log("hello");
+        console.log(socket);
         setLoading(true)
         const newMessage = { time: new Date(), msg: "vote", name: data.name }
         socket.emit("newMessage", { newMessage, room: data.room })
-
     }
 
 
@@ -91,29 +90,26 @@ const Village = ({ mode }) => {
             setTimerHasStopped(true);
             return;
         } else {
-            if (total >= 0 /* && !timerHasStopped && !isPaused */) {
-                setTimer(
-                    (minutes > 9 ? minutes : '0' + minutes) + ":" +
-                    (seconds > 9 ? seconds : '0' + seconds)
-                )
-                if (seconds < 31) {
-                    setTimerColor("red");
+        if (total >= 0 /* && !timerHasStopped && !isPaused */) {
+            setTimer(
+                (minutes > 9 ? minutes : '0' + minutes) + ":" +
+                (seconds > 9 ? seconds : '0' + seconds)
+            )
+            if (seconds < 31) {
+                setTimerColor("red");
 
-                    if (seconds == 0) {
-                        setTimerHasStopped(true);
-                    }
-
+                if (seconds == 0) {
+                    setTimerHasStopped(true);
                 }
+
             }
         }
-
-
-
     }
+}
 
     const clear = (e) => {
         //change time here
-
+        setTimer("00:05");
         if (Ref.current) clearInterval(Ref.current);
 
         const id = setInterval(() => {
@@ -125,13 +121,14 @@ const Village = ({ mode }) => {
     const getDeadTime = () => {
         let deadline = new Date();
         //change time here
-        deadline.setSeconds(deadline.getSeconds() + 31)
+        deadline.setSeconds(deadline.getSeconds() + 5)
         return deadline;
     }
 
     useEffect(() => {
+        console.log(timerHasStopped);
         clear(getDeadTime());
-    }, [isPaused]);
+    }, []);
 
     const onClickReset = () => {
         setTimerColor("white")
@@ -150,19 +147,19 @@ const Village = ({ mode }) => {
         }
     }, [data, current])
 
-    function showVotepage() {
-        navigate(`/game/${data.room}/vote`, { state: data })
-    }
-
     function stop() {
         setIsPaused(!isPaused);
     }
 
     useEffect(() => {
-        if(timerHasStopped){
-            votePage()  
-        }  
-    },[timerHasStopped,setTimerHasStopped])
+        if (timerHasStopped) {
+            if(host) {
+                console.log("banana");
+                console.log(host);
+                votePage()
+            }
+        }
+    }, [timerHasStopped, setTimerHasStopped])
 
     return (
         <>
@@ -191,7 +188,7 @@ const Village = ({ mode }) => {
                          so we can start voting */}
                         {/* TODO: if night, then only werewolf are allowed to vote */}
                         {
-                            
+
                         }
 
                     </div>

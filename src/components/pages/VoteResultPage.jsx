@@ -22,7 +22,7 @@ const VoteResultPage = ({ mode, changeMode }) => {
     const [allMessages, setMessages] = useState([])
     const [msg, setMsg] = useState("")
     const [loading, setLoading] = useState(false)
-    const [socket, setSocket] = useState()
+    const [socket, setSocket] = useState(io)
 
     useEffect(() => {
         setData(location.state)
@@ -60,8 +60,6 @@ const VoteResultPage = ({ mode, changeMode }) => {
         socket.on("connect", () => {
             console.log("socket Connected")
             socket.emit("joinRoom", location.state.room)
-            socket.emit("joinWRoom", 'werewolf')
-            // setRole(location.state.role)
         })
 
     }, [])
@@ -75,7 +73,10 @@ const VoteResultPage = ({ mode, changeMode }) => {
                 // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
                 setMsg("")
                 setLoading(false)
-                nextRound()
+
+                changeMode(mode);
+                navigate(`/game/${data.room}/village`, { state: data })
+
             })
 
         }
@@ -88,13 +89,6 @@ const VoteResultPage = ({ mode, changeMode }) => {
         const newMessage = { time: new Date(), msg: "next", name: data.name }
         socket.emit("newMessage", { newMessage, room: data.room })
 
-    }
-
-
-    function nextRound() {
-        // TODO: if day and hasEnded is true, navigate to hasEnded page..
-        changeMode(mode);
-        navigate(`/game/${data.room}/village`, { state: data })
     }
 
 
