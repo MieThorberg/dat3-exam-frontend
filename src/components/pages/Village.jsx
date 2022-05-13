@@ -31,8 +31,6 @@ const Village = ({ mode }) => {
     const [socket, setSocket] = useState(io)
 
     useEffect(() => {
-      /*   window.location.reload(); */
-        console.log("hej")
         const socket = io("https://react-chat-werewolf-server.herokuapp.com")
         setSocket(socket)
 
