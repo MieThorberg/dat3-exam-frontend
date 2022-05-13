@@ -299,7 +299,7 @@ const VotePage = ({ mode }) => {
                 }
 
 
-                {/* 
+                
                 {
                     // if it is day or night
                     currentRound.isDay ?
@@ -312,7 +312,7 @@ const VotePage = ({ mode }) => {
                         )
 
 
-                }*/}
+                }
 
             </div>
             <div className='fixed-character-btn'>
