@@ -3,7 +3,7 @@ import "../../styles/App.css"
 import { useRef, useState } from 'react'
 import { useEffect } from 'react'
 import gameController from '../../gameController'
-import { useNavigate , useLocation} from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import facade from '../../apiFacade'
 
 const Village = ({ mode }) => {
@@ -19,7 +19,7 @@ const Village = ({ mode }) => {
     const [data, setData] = useState({})
     const [hasEnded, setHasEnded] = useState(false);
     const [current, setCurrent] = useState({});
-    
+
 
 
     const getTimeRemaining = (e) => {
@@ -84,13 +84,15 @@ const Village = ({ mode }) => {
     }
 
     useEffect(() => {
-        gameController.getCurrentRound(data.gameid).then(data => setCurrent(data));
-        console.log(current);
+        if (data.gameid) {
+            gameController.getCurrentRound(data.gameid).then(data => {
+                setCurrent(data)});
+        }
 
-        if(facade.getToken() == undefined) {
+        if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [])
+    }, [data,current])
 
     function showVotepage() {
         navigate(`/game/${data.room}/vote`, { state: data })
@@ -109,8 +111,8 @@ const Village = ({ mode }) => {
                     <div className='section' style={{ gridTemplateRows: "50% auto" }}>
 
                         <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
-                            
-                        <p>Day {current.day}, {current.isDay ? "Day" : "night"}</p>
+
+                            <p>Day {current.day}, {current.isDay ? "Day" : "night"}</p>
                             <h1 style={{ color: timerColor }}>{timer}</h1>
                         </div>
                         <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
@@ -121,7 +123,7 @@ const Village = ({ mode }) => {
 
                         {/* Check if times stop, if it has then is navigate to votepage
                          so we can start voting */}
-                         {/* TODO: if night, then only werewolf are allowed to vote */}
+                        {/* TODO: if night, then only werewolf are allowed to vote */}
                         {
                             timerHasStopped ? showVotepage() : <></>
                         }
@@ -129,7 +131,7 @@ const Village = ({ mode }) => {
                     </div>
                 </div>
             </div>
-     
+
         </>
     )
 }

@@ -11,6 +11,8 @@ const VoteResultPage = ({ mode, changeMode }) => {
     const [victim, setVictim] = useState({});
     const [day, setDay] = useState("");
     const navigate = useNavigate();
+    const [currentRound, setCurrentRound] = useState({});
+
 
     const location = useLocation()
     const [data, setData] = useState({})
@@ -29,14 +31,18 @@ const VoteResultPage = ({ mode, changeMode }) => {
     useEffect(() => {
         if (data.gameid != undefined) {
             gameController.getVictimLatest(data.gameid).then(data => {
-                console.log(data);
                 setVictim(data);
                 if (facade.getPlayerToken().username == data.username) {
                     facade.setPlayerToken(data);
                 }
+                
             });
+            facade.getCurrentRound(data.gameid).then(data => {
+                setCurrentRound(data)
+            })
         }
-    }, [result, data])
+    }, [result, data, currentRound])
+
 
     function nextRound() {
         // TODO: if day and hasEnded is true, navigate to hasEnded page..
@@ -60,12 +66,20 @@ const VoteResultPage = ({ mode, changeMode }) => {
                     <div className='section' style={{ gridTemplateRows: "40% auto" }}>
 
                         <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
-                            <h1>Last night..</h1>
+                            {currentRound.isDay ?
+                                <h1>Today..</h1>
+                                :
+                                <h1>Last night..</h1>
+                            }
                         </div>
                         <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
                             <img className='big-profile-img'></img>
                             <h1 className='voteresult-player'>{victim.username}</h1>
-                            <p className='voteresult-description'>was killed by werewolves</p>
+                            {currentRound.isDay ?
+                                <p className='voteresult-description'>was hanged by Village</p>
+                                :
+                                <p className='voteresult-description'>was killed by werewolves</p>}
+
                         </div>
                     </div>
                 </div>
