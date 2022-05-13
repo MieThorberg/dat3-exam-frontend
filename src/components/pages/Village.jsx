@@ -151,15 +151,15 @@ const Village = ({ mode }) => {
         setIsPaused(!isPaused);
     }
 
-    useEffect(() => {
-        if (timerHasStopped) {
-            if(host) {
-                console.log("banana");
-                console.log(host);
-                votePage()
-            }
-        }
-    }, [timerHasStopped, setTimerHasStopped])
+    // useEffect(() => {
+    //     if (timerHasStopped) {
+    //         if(host) {
+    //             console.log("banana");
+    //             console.log(host);
+    //             votePage()
+    //         }
+    //     }
+    // }, [timerHasStopped, setTimerHasStopped])
 
     return (
         <>
@@ -199,7 +199,9 @@ const Village = ({ mode }) => {
                     {
                         host && <button className='btn-purple' onClick={stop}>Stop now</button>
                     }
-
+                    {
+                        host && <button className='btn-purple' onClick={votePage}>Start game</button>
+                    }
                 </div>
             </div>
 

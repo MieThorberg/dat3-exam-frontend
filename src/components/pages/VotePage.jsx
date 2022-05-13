@@ -61,7 +61,7 @@ const VotePage = ({ mode }) => {
         //change time here
         setTimer('00:05');
         if (Ref.current) clearInterval(Ref.current);
-      
+
         const id = setInterval(() => {
             start(e);
         }, 1000)
@@ -150,14 +150,14 @@ const VotePage = ({ mode }) => {
 
     }, [data, location, players, currentRound])
 
-    useEffect(() => {
-        if (timerHasStopped) {
-            if (playerToken.isHost) {
-                console.log(playerToken.isHost);
-                showVoteResultpage()
-            }
-        }
-    }, [timerHasStopped, setTimerHasStopped])
+    // useEffect(() => {
+    //     if (timerHasStopped) {
+    //         if (playerToken.isHost) {
+    //             console.log(playerToken.isHost);
+    //             showVoteResultpage()
+    //         }
+    //     }
+    // }, [timerHasStopped, setTimerHasStopped])
 
     function vote() {
         //TODO: change and get the gameid, userid & playerid
@@ -303,8 +303,10 @@ const VotePage = ({ mode }) => {
                             // checks if player is alive and is a werewolf
                             playerToken.isAlive && (playerToken.characterName == "werewolf") && <button className='btn-purple' onClick={vote}>Vote</button>
                         )
+                }
 
-
+                {
+                    playerToken.isHost && <button className='btn-purple' onClick={showVoteResultpage}>Start game</button>
                 }
 
 
