@@ -56,17 +56,21 @@ const JoinPage = ({ mode }) => {
         //recieves the latest message from the server and sets our useStates
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
+                if (newMessage.msg == "start") {
 
-                setMessages([...allMessages, newMessage])
-                // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
-                setMsg("")
-                setLoading(false)
+                    if (host) {
+                        gameController.startGame(data.gameid);
+                    }
 
-                if(host) {
-                gameController.startGame(data.gameid);
+                    navigate(`/game/${data.room}/village`, { state: data });
+
                 }
-                
-                navigate(`/game/${data.room}/village`, { state: data });
+                /* setMessages([...allMessages, newMessage]) */
+                // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
+                /* setMsg("") */
+                /* setLoading(false) */
+
+
             })
 
             // when a new user enters the room we add the new user to the total number in the room
@@ -82,7 +86,7 @@ const JoinPage = ({ mode }) => {
     const handleEnter = e => e.keyCode === 13 ? onSubmit() : ""
     const onStart = () => {
 
-        setLoading(true)
+        /* setLoading(true) */
         const newMessage = { time: new Date(), msg: "start", name: data.name }
         socket.emit("newMessage", { newMessage, room: data.room })
 

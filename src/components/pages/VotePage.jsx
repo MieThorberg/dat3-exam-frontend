@@ -14,6 +14,7 @@ const VotePage = ({ mode }) => {
     const [players, setPlayers] = useState([]);
     const [playerToken, setPlayerToken] = useState({});
     const [currentRound, setCurrentRound] = useState({});
+    const [host, setHost] = useState(false)
 
 
     // MUST HAVE:sends location to the next page
@@ -61,7 +62,7 @@ const VotePage = ({ mode }) => {
         //change time here
         setTimer('00:05');
         if (Ref.current) clearInterval(Ref.current);
-      
+
         const id = setInterval(() => {
             start(e);
         }, 1000)
@@ -77,10 +78,10 @@ const VotePage = ({ mode }) => {
         return deadline;
     }
 
-    useEffect(() => {
-        console.log(timerHasStopped);
-        clear(getDeadTime());
-    }, []);
+    /*  useEffect(() => {
+         console.log(timerHasStopped);
+         clear(getDeadTime());
+     }, []); */
 
     const onClickReset = () => {
         setTimerColor("white")
@@ -93,10 +94,8 @@ const VotePage = ({ mode }) => {
         setSocket(socket)
 
         socket.on("connect", () => {
-            console.log("socket Connected")
+            console.log("vote socket Connected")
             socket.emit("joinRoom", location.state.room)
-            socket.emit("joinWRoom", 'werewolf')
-            // setRole(location.state.role)
         })
 
     }, [])
@@ -105,25 +104,23 @@ const VotePage = ({ mode }) => {
         //recieves the latest message from the server and sets our useStates
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
-                // console.log(newMessage);
-                setMessages([...allMessages, newMessage])
-                // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
-                setMsg("")
-                setLoading(false)
-
-                navigate(`/game/${data.room}/voteresult`, { state: data })
+                if (newMessage.msg == "next") {
+                    console.log("helllo world");
+                    /* setMessages([...allMessages, newMessage]) */
+                    // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
+                    /* setMsg("") */
+                    navigate(`/game/${data.room}/voteresult`, { state: data })
+                }
             })
 
         }
-    }, [socket, allMessages])
+    }, [socket, /* allMessages */])
 
     const showVoteResultpage = () => {
         console.log("hello");
         console.log(socket);
-
-        setLoading(true)
         const newMessage = { time: new Date(), msg: "next", name: data.name }
-        socket.emit("newMessage", { newMessage, room: data.room })
+        socket.emit("newMessage", { newMessage, room: location.state.room })
     }
 
 
@@ -146,18 +143,21 @@ const VotePage = ({ mode }) => {
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-
-
-    }, [data, location, players, currentRound])
-
-    useEffect(() => {
-        if (timerHasStopped) {
-            if (playerToken.isHost) {
-                console.log(playerToken.isHost);
-                showVoteResultpage()
-            }
+        if (facade.getPlayerToken() != null) {
+            setHost(facade.getPlayerToken().isHost);
         }
-    }, [timerHasStopped, setTimerHasStopped])
+
+
+    }, [data, location, players, currentRound, host])
+
+    /*     useEffect(() => {
+            if (timerHasStopped) {
+                if (playerToken.isHost) {
+                    console.log(playerToken.isHost);
+                    showVoteResultpage()
+                }
+            }
+        }, [timerHasStopped, setTimerHasStopped]) */
 
     function vote() {
         //TODO: change and get the gameid, userid & playerid
@@ -220,7 +220,7 @@ const VotePage = ({ mode }) => {
                     playerToken.isAlive ? (
                         <>
                             <h1>Vote</h1>
-                            <h1>Timer: {timer}</h1>
+                            {/*  <h1>Timer: {timer}</h1> */}
                             <p>Select the player you want to vote for</p>
                         </>
                     ) : (
@@ -293,6 +293,13 @@ const VotePage = ({ mode }) => {
                 <div></div>
             </div>
             <div className='fixed-btn' /* style={{ display: "none" }} */>
+
+                {
+                    host && <button className='btn-purple' onClick={showVoteResultpage}>Stop now</button>
+                }
+
+
+                {/* 
                 {
                     // if it is day or night
                     currentRound.isDay ?
@@ -305,8 +312,7 @@ const VotePage = ({ mode }) => {
                         )
 
 
-                }
-
+                }*/}
 
             </div>
             <div className='fixed-character-btn'>

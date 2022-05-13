@@ -45,7 +45,7 @@ const VoteResultPage = ({ mode, changeMode }) => {
                 if (facade.getPlayerToken().username == data.username) {
                     facade.setPlayerToken(data);
                 }
-                
+
             });
             facade.getCurrentRound(data.gameid).then(data => {
                 setCurrentRound(data)
@@ -58,7 +58,8 @@ const VoteResultPage = ({ mode, changeMode }) => {
         setSocket(socket)
 
         socket.on("connect", () => {
-            console.log("socket Connected")
+
+            console.log("result socket Connected")
             socket.emit("joinRoom", location.state.room)
         })
 
@@ -68,26 +69,28 @@ const VoteResultPage = ({ mode, changeMode }) => {
         //recieves the latest message from the server and sets our useStates
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
-                // console.log(newMessage);
-                setMessages([...allMessages, newMessage])
-                // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
-                setMsg("")
-                setLoading(false)
+                if (newMessage.msg == "result") {
+                    // console.log(newMessage);
+                    /* setMessages([...allMessages, newMessage]) */
+                    // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
+                    /* setMsg("") */
+                    changeMode(mode);
+                    navigate(`/game/${data.room}/village`, { state: data })
+                }
 
-                changeMode(mode);
-                navigate(`/game/${data.room}/village`, { state: data })
+
 
             })
 
         }
-    }, [socket, allMessages])
+    }, [socket, /* allMessages */])
 
     const newRound = () => {
         console.log("hello");
         gameController.createRound(data.gameid);
         setLoading(true)
-        const newMessage = { time: new Date(), msg: "next", name: data.name }
-        socket.emit("newMessage", { newMessage, room: data.room })
+        const newMessage = { time: new Date(), msg: "result", name: data.name }
+        socket.emit("newMessage", { newMessage, room: location.state.room})
 
     }
 
@@ -127,8 +130,8 @@ const VoteResultPage = ({ mode, changeMode }) => {
             <div className='fixed-btn' /* style={{ display: "none" }} */>
                 {/* TODO: only user host shall see this button */}
                 {
-                        host && <button className='btn-purple' onClick={newRound}>Continue</button>
-                    }
+                    host && <button className='btn-purple' onClick={newRound}>Continue</button>
+                }
             </div>
 
         </>

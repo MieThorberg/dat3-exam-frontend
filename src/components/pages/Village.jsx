@@ -14,7 +14,7 @@ const Village = ({ mode }) => {
     const seconds = 0;
     const minutes = 0;
     const Ref = useRef(null);
-    const [timer, setTimer] = useState('00:05');
+    const [timer, setTimer] = useState('00:20');
     const [timerColor, setTimerColor] = useState('white');
 
     const [data, setData] = useState({})
@@ -31,11 +31,13 @@ const Village = ({ mode }) => {
     const [socket, setSocket] = useState(io)
 
     useEffect(() => {
+      /*   window.location.reload(); */
+        console.log("hej")
         const socket = io("https://react-chat-werewolf-server.herokuapp.com")
         setSocket(socket)
 
         socket.on("connect", () => {
-            console.log("socket Connected")
+            console.log("village socket Connected")
             socket.emit("joinRoom", location.state.room)
         })
 
@@ -45,24 +47,25 @@ const Village = ({ mode }) => {
         //recieves the latest message from the server and sets our useStates
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
-                // console.log(newMessage);
-                setMessages([...allMessages, newMessage])
-                // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
-                setMsg("")
-                setLoading(false)
+                if (newMessage.msg == "vote") {
+                    // console.log(newMessage);
+                    /* setMessages([...allMessages, newMessage]) */
+                    // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
+                    /* setMsg("") */
+                    navigate(`/game/${data.room}/vote`, { state: data })
+                }
 
-                navigate(`/game/${data.room}/vote`, { state: data })
             })
 
         }
-    }, [socket, allMessages])
+    }, [socket, /* allMessages */])
 
     const votePage = () => {
         console.log("hello");
         console.log(socket);
-        setLoading(true)
+        /* setLoading(true) */
         const newMessage = { time: new Date(), msg: "vote", name: data.name }
-        socket.emit("newMessage", { newMessage, room: data.room })
+        socket.emit("newMessage", { newMessage, room: location.state.room })
     }
 
 
@@ -90,26 +93,26 @@ const Village = ({ mode }) => {
             setTimerHasStopped(true);
             return;
         } else {
-        if (total >= 0 /* && !timerHasStopped && !isPaused */) {
-            setTimer(
-                (minutes > 9 ? minutes : '0' + minutes) + ":" +
-                (seconds > 9 ? seconds : '0' + seconds)
-            )
-            if (seconds < 31) {
-                setTimerColor("red");
+            if (total >= 0 /* && !timerHasStopped && !isPaused */) {
+                setTimer(
+                    (minutes > 9 ? minutes : '0' + minutes) + ":" +
+                    (seconds > 9 ? seconds : '0' + seconds)
+                )
+                if (seconds < 31) {
+                    setTimerColor("red");
 
-                if (seconds == 0) {
-                    setTimerHasStopped(true);
+                    if (seconds == 0) {
+                        setTimerHasStopped(true);
+                    }
+
                 }
-
             }
         }
     }
-}
 
     const clear = (e) => {
         //change time here
-        setTimer("00:05");
+        setTimer("00:20");
         if (Ref.current) clearInterval(Ref.current);
 
         const id = setInterval(() => {
@@ -121,14 +124,14 @@ const Village = ({ mode }) => {
     const getDeadTime = () => {
         let deadline = new Date();
         //change time here
-        deadline.setSeconds(deadline.getSeconds() + 5)
+        deadline.setSeconds(deadline.getSeconds() + 20)
         return deadline;
     }
 
-    useEffect(() => {
-        console.log(timerHasStopped);
-        clear(getDeadTime());
-    }, []);
+    /*  useEffect(() => {
+         console.log(timerHasStopped);
+         clear(getDeadTime());
+     }, []); */
 
     const onClickReset = () => {
         setTimerColor("white")
@@ -151,7 +154,7 @@ const Village = ({ mode }) => {
         setIsPaused(!isPaused);
     }
 
-    useEffect(() => {
+    /* useEffect(() => {
         if (timerHasStopped) {
             if(host) {
                 console.log("banana");
@@ -159,7 +162,7 @@ const Village = ({ mode }) => {
                 votePage()
             }
         }
-    }, [timerHasStopped, setTimerHasStopped])
+    }, [timerHasStopped, setTimerHasStopped]) */
 
     return (
         <>
@@ -176,7 +179,7 @@ const Village = ({ mode }) => {
                         <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
 
                             <p>Day {current.day}, {current.isDay ? "Day" : "night"}</p>
-                            <h1 style={{ color: timerColor }}>{timer}</h1>
+                            {/*  <h1 style={{ color: timerColor }}>{timer}</h1> */}
                         </div>
                         <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
                             <p>Discuss who you think are a werewolf!</p>
@@ -197,7 +200,7 @@ const Village = ({ mode }) => {
 
                     {/* TODO: only user host shall see this button */}
                     {
-                        host && <button className='btn-purple' onClick={stop}>Stop now</button>
+                        host && <button className='btn-purple' onClick={votePage}>Stop now</button>
                     }
 
                 </div>
