@@ -80,6 +80,7 @@ const JoinPage = ({ mode }) => {
     const handleEnter = e => e.keyCode === 13 ? onSubmit() : ""
     const onStart = () => {
 
+        
         setLoading(true)
         const newMessage = { time: new Date(), msg: "start", name: data.name }
         socket.emit("newMessage", { newMessage, room: data.room })

@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import gameController from '../../gameController'
 import { useNavigate, useLocation } from 'react-router-dom'
 import facade from '../../apiFacade'
+import { io } from 'socket.io-client'
 
 const Village = ({ mode }) => {
     const navigate = useNavigate();
@@ -23,6 +24,48 @@ const Village = ({ mode }) => {
 
     const [current, setCurrent] = useState({});
     const [host, setHost] = useState(false)
+
+    const [allMessages, setMessages] = useState([])
+    const [msg, setMsg] = useState("")
+    const [loading, setLoading] = useState(false)
+    const [socket, setSocket] = useState()
+
+    useEffect(() => {
+        const socket = io("https://react-chat-werewolf-server.herokuapp.com")
+        setSocket(socket)
+
+        socket.on("connect", () => {
+            console.log("socket Connected")
+            socket.emit("joinRoom", location.state.room)
+            socket.emit("joinWRoom", 'werewolf')
+            // setRole(location.state.role)
+        })
+
+    }, [])
+
+    useEffect(() => {
+        //recieves the latest message from the server and sets our useStates
+        if (socket) {
+            socket.on("getLatestMessage", (newMessage) => {
+                // console.log(newMessage);
+                setMessages([...allMessages, newMessage])
+                // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
+                setMsg("")
+                setLoading(false)
+                showVotepage()
+            })
+
+        }
+    }, [socket, allMessages])
+
+    const votePage = () => {
+        console.log("hello");
+        setLoading(true)
+        const newMessage = { time: new Date(), msg: "vote", name: data.name }
+        socket.emit("newMessage", { newMessage, room: data.room })
+
+    }
+
 
 
     const getTimeRemaining = (e) => {
@@ -115,6 +158,12 @@ const Village = ({ mode }) => {
         setIsPaused(!isPaused);
     }
 
+    useEffect(() => {
+        if(timerHasStopped){
+            votePage()  
+        }  
+    },[timerHasStopped,setTimerHasStopped])
+
     return (
         <>
             <div className='background-container'>
@@ -142,7 +191,7 @@ const Village = ({ mode }) => {
                          so we can start voting */}
                         {/* TODO: if night, then only werewolf are allowed to vote */}
                         {
-                            timerHasStopped ? showVotepage() : <></>
+                            
                         }
 
                     </div>
