@@ -15,11 +15,14 @@ const Village = ({ mode }) => {
     const Ref = useRef(null);
     const [timer, setTimer] = useState('00:00');
     const [timerColor, setTimerColor] = useState('white');
-    const [timerHasStopped, setTimerHasStopped] = useState(true);
-    const [data, setData] = useState({})
-    const [hasEnded, setHasEnded] = useState(false);
-    const [current, setCurrent] = useState({});
 
+    const [data, setData] = useState({})
+
+    const [timerHasStopped, setTimerHasStopped] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+
+    const [current, setCurrent] = useState({});
+    const [host, setHost] = useState(false)
 
 
     const getTimeRemaining = (e) => {
@@ -33,32 +36,43 @@ const Village = ({ mode }) => {
 
     useEffect(() => {
         setData(location.state)
-    }, [location])
+        if (facade.getPlayerToken() != null) {
+            setHost(facade.getPlayerToken().isHost);
+        }
+    }, [location, host])
 
     const start = (e) => {
         let { total, minutes, seconds } = getTimeRemaining(e);
-        if (total >= 0) {
-            setTimer(
-                (minutes > 9 ? minutes : '0' + minutes) + ":" +
-                (seconds > 9 ? seconds : '0' + seconds)
-            )
-            if (seconds < 31) {
-                setTimerColor("red");
 
-                if (seconds == 0) {
-                    setTimerHasStopped(true);
+        if (isPaused) {
+            setTimerHasStopped(true);
+            return;
+        } else {
+            if (total >= 0 /* && !timerHasStopped && !isPaused */) {
+                setTimer(
+                    (minutes > 9 ? minutes : '0' + minutes) + ":" +
+                    (seconds > 9 ? seconds : '0' + seconds)
+                )
+                if (seconds < 31) {
+                    setTimerColor("red");
+
+                    if (seconds == 0) {
+                        setTimerHasStopped(true);
+                    }
+
                 }
-
             }
         }
+
+
+
     }
 
     const clear = (e) => {
-
         //change time here
-        setTimer('00:05');
+
         if (Ref.current) clearInterval(Ref.current);
-        setTimerHasStopped(false);
+
         const id = setInterval(() => {
             start(e);
         }, 1000)
@@ -67,16 +81,14 @@ const Village = ({ mode }) => {
 
     const getDeadTime = () => {
         let deadline = new Date();
-
         //change time here
-        deadline.setSeconds(deadline.getSeconds() + 5)
-        /* deadline.setSeconds(deadline.getSeconds() + 10); */
+        deadline.setSeconds(deadline.getSeconds() + 31)
         return deadline;
     }
 
     useEffect(() => {
         clear(getDeadTime());
-    }, []);
+    }, [isPaused]);
 
     const onClickReset = () => {
         setTimerColor("white")
@@ -86,16 +98,21 @@ const Village = ({ mode }) => {
     useEffect(() => {
         if (data.gameid) {
             gameController.getCurrentRound(data.gameid).then(data => {
-                setCurrent(data)});
+                setCurrent(data)
+            });
         }
 
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [data,current])
+    }, [data, current])
 
     function showVotepage() {
         navigate(`/game/${data.room}/vote`, { state: data })
+    }
+
+    function stop() {
+        setIsPaused(!isPaused);
     }
 
     return (
@@ -129,6 +146,14 @@ const Village = ({ mode }) => {
                         }
 
                     </div>
+                </div>
+                <div className='fixed-btn' /* style={{ display: "none" }} */>
+
+                    {/* TODO: only user host shall see this button */}
+                    {
+                        host && <button className='btn-purple' onClick={stop}>Stop now</button>
+                    }
+
                 </div>
             </div>
 
