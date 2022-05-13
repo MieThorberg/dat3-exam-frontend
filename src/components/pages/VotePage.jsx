@@ -78,10 +78,10 @@ const VotePage = ({ mode }) => {
         return deadline;
     }
 
-    /*  useEffect(() => {
-         console.log(timerHasStopped);
-         clear(getDeadTime());
-     }, []); */
+    useEffect(() => {
+        console.log(timerHasStopped);
+        clear(getDeadTime());
+    }, []);
 
     const onClickReset = () => {
         setTimerColor("white")
@@ -150,14 +150,14 @@ const VotePage = ({ mode }) => {
 
     }, [data, location, players, currentRound, host])
 
-    /*     useEffect(() => {
-            if (timerHasStopped) {
-                if (playerToken.isHost) {
-                    console.log(playerToken.isHost);
-                    showVoteResultpage()
-                }
+    useEffect(() => {
+        if (timerHasStopped) {
+            if (playerToken.isHost) {
+                console.log(playerToken.isHost);
+                showVoteResultpage()
             }
-        }, [timerHasStopped, setTimerHasStopped]) */
+        }
+    }, [timerHasStopped, setTimerHasStopped])
 
     function vote() {
         //TODO: change and get the gameid, userid & playerid
@@ -220,7 +220,7 @@ const VotePage = ({ mode }) => {
                     playerToken.isAlive ? (
                         <>
                             <h1>Vote</h1>
-                            {/*  <h1>Timer: {timer}</h1> */}
+                             <h1>Timer: {timer}</h1>
                             <p>Select the player you want to vote for</p>
                         </>
                     ) : (

@@ -33,7 +33,6 @@ const Village = ({ mode }) => {
     useEffect(() => {
         const socket = io("https://react-chat-werewolf-server.herokuapp.com")
         setSocket(socket)
-
         socket.on("connect", () => {
             console.log("village socket Connected")
             socket.emit("joinRoom", location.state.room)
@@ -52,20 +51,18 @@ const Village = ({ mode }) => {
                     /* setMsg("") */
                     navigate(`/game/${data.room}/vote`, { state: data })
                 }
-
             })
-
         }
     }, [socket, /* allMessages */])
 
     const votePage = () => {
+        stop();
         console.log("hello");
         console.log(socket);
         /* setLoading(true) */
         const newMessage = { time: new Date(), msg: "vote", name: data.name }
         socket.emit("newMessage", { newMessage, room: location.state.room })
     }
-
 
 
     const getTimeRemaining = (e) => {
@@ -126,10 +123,10 @@ const Village = ({ mode }) => {
         return deadline;
     }
 
-    /*  useEffect(() => {
+     useEffect(() => {
          console.log(timerHasStopped);
          clear(getDeadTime());
-     }, []); */
+     }, []);
 
     const onClickReset = () => {
         setTimerColor("white")
@@ -152,15 +149,14 @@ const Village = ({ mode }) => {
         setIsPaused(!isPaused);
     }
 
-    /* useEffect(() => {
+    useEffect(() => {
         if (timerHasStopped) {
             if(host) {
-                console.log("banana");
                 console.log(host);
                 votePage()
             }
         }
-    }, [timerHasStopped, setTimerHasStopped]) */
+    }, [timerHasStopped, setTimerHasStopped])
 
     return (
         <>
@@ -177,7 +173,7 @@ const Village = ({ mode }) => {
                         <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
 
                             <p>Day {current.day}, {current.isDay ? "Day" : "night"}</p>
-                            {/*  <h1 style={{ color: timerColor }}>{timer}</h1> */}
+                             <h1 style={{ color: timerColor }}>{timer}</h1>
                         </div>
                         <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
                             <p>Discuss who you think are a werewolf!</p>
