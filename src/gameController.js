@@ -125,7 +125,6 @@ function GameController() {
     //gameid
     function startGame(gameid) {
         assignCharacters(gameid);
-        facade.getPlayer(facade.getPlayerToken().id)
         //createRound in loop
     }
 
