@@ -6,6 +6,7 @@ import facade from '../../apiFacade'
 
 const EndedGamePage = ({ mode, winners }) => {
     const [day, setDay] = useState("");
+    const [data, setData] = useState({});
 
     useEffect(() => {
         if (facade.getToken() == undefined) {
@@ -17,7 +18,7 @@ const EndedGamePage = ({ mode, winners }) => {
         return gameController.getDay(2).then(data => setDay(data));
     }
 
-    //TODO: make a function to get the winners of the game
+    //TODO: make a function to get the winners of the game wololo
 
     return (
         <>
@@ -32,7 +33,7 @@ const EndedGamePage = ({ mode, winners }) => {
                     <div className='section' style={{ gridTemplateRows: "40% auto" }}>
 
                         <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
-                            <h1>Winners</h1>
+                            <h1>Winners wololo</h1>
                         </div>
                         <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
 
@@ -52,25 +53,25 @@ const EndedGamePage = ({ mode, winners }) => {
                                 <div>
                                     <div>
                                         <img className="profile-img" />
-                                        <h3 style={{ color: 'white' }}>player</h3>
+                                        <h3 style={{ color: 'white' }}>wololo</h3>
                                     </div>
                                 </div>
                                 <div>
                                     <div>
                                         <img className="profile-img" />
-                                        <h3 style={{ color: 'white' }}>player</h3>
+                                        <h3 style={{ color: 'white' }}>wololo</h3>
                                     </div>
                                 </div>
                                 <div>
                                     <div>
                                         <img className="profile-img" />
-                                        <h3 style={{ color: 'white' }}>player</h3>
+                                        <h3 style={{ color: 'white' }}>wololo</h3>
                                     </div>
                                 </div>
                                 <div>
                                     <div>
                                         <img className="profile-img" />
-                                        <h3 style={{ color: 'white' }}>player</h3>
+                                        <h3 style={{ color: 'white' }}>wololo</h3>
                                     </div>
                                 </div>
 

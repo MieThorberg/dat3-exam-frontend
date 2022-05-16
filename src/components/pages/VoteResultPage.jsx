@@ -84,8 +84,8 @@ const VoteResultPage = ({ mode, changeMode }) => {
   }, [socket /* allMessages */]);
 
   const newRound = () => {
-    facade.hasEnded(data.gameid).then((data) => {
-      if (data) {
+    facade.hasEnded(data.gameid).then((ended) => {
+      if (ended) {
         const newMessage = { time: new Date(), msg: "ended", name: data.name };
         socket.emit("newMessage", { newMessage, room: location.state.room });
       } else {
@@ -124,7 +124,7 @@ const VoteResultPage = ({ mode, changeMode }) => {
               style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}
             >
               <img className="big-profile-img"></img>
-              <h1 className="voteresult-player">{victim.username}</h1>
+              <h1 className="voteresult-player">{victim.username} ({victim.characterName}) </h1>
               {currentRound.isDay ? (
                 <p className="voteresult-description">was hanged by Village</p>
               ) : (
