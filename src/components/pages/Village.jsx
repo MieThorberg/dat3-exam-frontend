@@ -24,6 +24,8 @@ const Village = ({ mode }) => {
 
     const [current, setCurrent] = useState({});
     const [host, setHost] = useState(false)
+    const [playerToken, setPlayerToken] = useState({});
+
 
     const [allMessages, setMessages] = useState([])
     const [msg, setMsg] = useState("")
@@ -39,6 +41,10 @@ const Village = ({ mode }) => {
         })
 
     }, [])
+
+    useEffect(() => {
+        setPlayerToken(facade.getPlayerToken)
+    })
 
     useEffect(() => {
         //recieves the latest message from the server and sets our useStates
@@ -169,21 +175,14 @@ const Village = ({ mode }) => {
                         <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
                             <p>Discuss who you think are a werewolf!</p>
                         </div>
+                        <div className='content'>
+                            <h1>You are a {playerToken.characterName}</h1>
+                        </div>
 
-
-
-                        {/* Check if times stop, if it has then is navigate to votepage
-                         so we can start voting */}
-                        {/* TODO: if night, then only werewolf are allowed to vote */}
-                        {
-
-                        }
 
                     </div>
                 </div>
                 <div className='fixed-btn' /* style={{ display: "none" }} */>
-
-                    {/* TODO: only user host shall see this button */}
                     {
                         host && <button className='btn-purple' onClick={votePage}>Stop now</button>
                     }
