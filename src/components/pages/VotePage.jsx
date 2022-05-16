@@ -193,7 +193,7 @@ const VotePage = ({ mode }) => {
                     playerToken.isAlive ? (
                         <>
                             <h1>Vote</h1>
-                             <h1>Timer: {timer}</h1>
+                            <h1>Timer: {timer}</h1>
                             <p>Select the player you want to vote for</p>
                         </>
                     ) : (
@@ -248,6 +248,8 @@ const VotePage = ({ mode }) => {
                                                 <div className='vote'>
                                                     <img id={player.id} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
                                                     <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                                    {((playerToken.characterName == "werewolf") && (player.characterName == "werewolf")) ? <h3>({player.characterName})</h3> : <></>}
+
                                                 </div>
                                             </div>
                                         }
@@ -255,6 +257,7 @@ const VotePage = ({ mode }) => {
                                             <div className='vote'>
                                                 <img id={player.id} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
                                                 <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                                {((playerToken.characterName == "werewolf") && (player.characterName == "werewolf")) ? <h3>({player.characterName})</h3> : <></>}
                                             </div>
                                         </div>
                                     }))
@@ -272,7 +275,7 @@ const VotePage = ({ mode }) => {
                 }
 
 
-                
+
                 {
                     // if it is day or night
                     currentRound.isDay ?
