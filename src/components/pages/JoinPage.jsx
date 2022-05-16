@@ -11,7 +11,7 @@ const JoinPage = ({ mode }) => {
     const navigate = useNavigate();
     const location = useLocation()
     const msgBoxRef = useRef()
-    const [data, setData] = useState({})
+    const [data, setData] = useState({ name:"", room:"", role:"" })
     const [role, setRole] = useState("")
     const [host, setHost] = useState(false)
     const [socket, setSocket] = useState(io)
@@ -24,7 +24,13 @@ const JoinPage = ({ mode }) => {
 
     useEffect(() => {
         setData(location.state)
+        
+       /*  setData({
+          ...data, 
+          [e.target.name]: e.target.value
+      }) */
     }, [location])
+ /*    console.log(data); */
 
     useEffect(() => {
         const socket = io("https://react-chat-werewolf-server.herokuapp.com")
@@ -62,7 +68,7 @@ const JoinPage = ({ mode }) => {
                         gameController.startGame(data.gameid);
                     }
 
-                    navigate(`/game/${data.room}/village`, { state: data });
+                    navigate(`/game/${data.room}`, { state: data });
 
                 }
                 /* setMessages([...allMessages, newMessage]) */

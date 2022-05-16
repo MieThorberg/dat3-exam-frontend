@@ -2,6 +2,7 @@
   height: 50px;
   width: 100%;
   border: none;
+  display: none;
 }
 
 .topnav {
@@ -11,8 +12,6 @@
   left: 0;
   top: 0;
   display: grid;
-  /* background-color: #d6ced9; */
-  /* background-color: #4141414b; */
   background-color: #4141414b;
   z-index: 1;
   padding: 10px;
@@ -192,10 +191,6 @@
 }
 
 @media only screen and (min-width: 900px) {
-  
-  .nav {
-    height: 60px;
-  }
 
   .topnav {
     padding: 10px 20px 10px 20px;

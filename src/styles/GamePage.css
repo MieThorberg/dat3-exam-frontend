@@ -1,0 +1,170 @@
+.game {
+    /* position: fixed;
+    display: grid;
+    grid-template-columns: 400px auto; */
+   /*  position: fixed; */
+   position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+}
+
+.game .sidebar {
+    flex-grow: 1;
+    max-width: 400px;
+}
+
+
+.game .game-main {
+
+    flex-grow: 2;
+    /* position: relative; */
+    /*    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+}
+
+.game-main .content {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 60px auto 100px;
+}
+
+.game-main .content div {
+    width: 100%;
+    height: 100%;
+}
+
+.game-main .content .header {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+    height: 100%;
+}
+
+.game-main .content .header div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header .left {
+    align-items: left;
+}
+
+.header .center {
+    align-items: center;
+}
+
+.header .right {
+    align-items: flex-end;
+}
+
+.game-main .content .header h1 {
+    font-family: 'New Rocker', cursive;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 20px;
+    font-weight: bolder;
+    color: rgb(255, 255, 255);
+}
+
+
+/* ROUND */
+.round-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.round-section h1 {
+    font-family: 'New Rocker', cursive;
+}
+.round-section .title {
+    font-size: 40px;
+}
+.round-section .timer {
+    font-family: 'New Rocker', cursive;
+    color: white;
+    font-size: 60px;
+    padding: 10px 0 20px 0;
+}
+.round-section .description {
+    font-size: 18px;
+    text-align: center;
+}
+
+/* VOTE */
+.vote-section {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 8vh 12vh 68vh 12vh;
+    height: 100%;
+}
+
+.vote-section .banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+.vote-section .joined-players-section {
+    position: relative;
+    top: 0;
+}
+
+
+.list-grid {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin: 0;
+}
+
+.btn-green {
+    background-color: green;
+}
+
+.btn-green:hover {
+    background-color: darkgreen;
+    color: white;
+}
+
+.btn-red {
+   background-color: red; 
+}
+
+.btn-red:hover {
+    background-color: darkred;
+    color: white;
+}
+
+.content .footer {
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+}
+
+.content .footer div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.footer .center {}
+
+.footer .center button {}
+
+@media only screen and (min-width: 600px) {
+  
+}

@@ -13,6 +13,7 @@ import JoinPage from "./components/pages/JoinPage";
 import GamepinPage from "./components/pages/GamepinPage";
 import Village from "./components/pages/Village";
 import VoteResultPage from "./components/pages/VoteResultPage";
+import GamePage from "./components/pages/GamePage";
 
 import NoMatch from "./components/NoMatch";
 import Chat from "./components/Chat";
@@ -69,8 +70,8 @@ export default function App() {
 
   const [voteresult, setVoteresult] = useState({});
 
-  function changeMode(m) {
-    if(m.name == "night") {
+  function changeMode() {
+    if(mode.name == "night") {
       setMode(dayMode);
       console.log("day")
     }
@@ -80,17 +81,6 @@ export default function App() {
     }
   }
 
-  /* function setRoundMode(name) {
-    if(name == "night") {
-      setMode(nightMode)
-    }
-    else if(name == "day") {
-      setMode(dayMode)      
-    } else {
-      setMode(werewolfMode)
-    }
-  } */
-
   return (
     <div>
       <BrowserRouter>
@@ -98,8 +88,6 @@ export default function App() {
         <Routes>
           <Route path="/" element={<StartPage mode={mode} />}></Route>
 
-          
-          {/* TODO: make frontend */}
           <Route path="/login" element={<LoginPage loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
           <Route path="/create_user" element={<CreateUserPage />}></Route>
           <Route path="/edit_user" element={<EditUserPage />}></Route>
@@ -113,18 +101,19 @@ export default function App() {
           <Route path="/gamepin" element={<GamepinPage mode={mode} />}></Route>
 
           {/* Playing game links */}
-          <Route path="/game/:roomid/village" element={<Village mode={mode} />}></Route>
+          <Route path="/game/:roomid/village" element={<Village mode={mode} changeMode={changeMode} />}></Route>
           <Route path="/game/:roomid/vote" element={<VotePage mode={mode} />}></Route>
-          <Route path="/game/:roomid/voteresult" element={<VoteResultPage mode={mode} changeMode={changeMode} />}></Route>
+          <Route path="/game/:roomid/voteresult" element={<VoteResultPage mode={mode} />}></Route>
 
           {/* TODO: just showing a result from voteresult, change to get the actual winners with a fetch function */}
           <Route path="/game/ending" element={<EndedGamePage mode={mode} winners={voteresult} />}></Route>
 
-
-          <Route path="chat/:roomId" element={<Chat loggedIn={loggedIn} />} />
+          <Route path="chat/:roomId" element={<Chat /* mode={nightMode} loggedIn={loggedIn} */ />} />
           <Route path="create" element={<CreateGame />} />
           <Route path="join" element={<Join />} />
           <Route path="*" element={<NoMatch />} />
+
+          <Route path="/game/:roomid" element={<GamePage mode={nightMode} changeMode={changeMode}/>}></Route>
         </Routes>
       </BrowserRouter>,
     </div>
