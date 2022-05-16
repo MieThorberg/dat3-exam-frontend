@@ -79,7 +79,6 @@ const VotePage = ({ mode }) => {
     }
 
     useEffect(() => {
-        console.log(timerHasStopped);
         clear(getDeadTime());
     }, []);
 
@@ -105,7 +104,6 @@ const VotePage = ({ mode }) => {
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
                 if (newMessage.msg == "next") {
-                    console.log("helllo world");
                     /* setMessages([...allMessages, newMessage]) */
                     // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
                     /* setMsg("") */
@@ -117,8 +115,6 @@ const VotePage = ({ mode }) => {
     }, [socket, /* allMessages */])
 
     const showVoteResultpage = () => {
-        console.log("hello");
-        console.log(socket);
         const newMessage = { time: new Date(), msg: "next", name: data.name }
         socket.emit("newMessage", { newMessage, room: location.state.room })
     }
@@ -153,33 +149,13 @@ const VotePage = ({ mode }) => {
     useEffect(() => {
         if (timerHasStopped) {
             if (playerToken.isHost) {
-                console.log(playerToken.isHost);
                 showVoteResultpage()
             }
         }
     }, [timerHasStopped, setTimerHasStopped])
 
     function vote() {
-        //TODO: change and get the gameid, userid & playerid
-        //console.log(choosenplayer);
         gameController.vote(data.gameid, facade.getPlayerToken().id, choosenPlayer);
-
-        //TODO: wait on all players to vote before checking the result and hasended game
-        /* gameController.getVotingResult(2).then(data => setVoteresult(data)); */
-        // setVoteresult(player);
-
-        // navigate(`/game/${data.room}/voteresult`, { state: data })
-
-
-        //TODO: fix this - make it check if has ended is true then navigate to result page
-        /* gameController.hasEnded(2).then(data => setHasEnded(data));
-        console.log(hasEnded)
-        if(true) {
-            navigate(`/game/ending`);
-        } else {
-            navigate(`/game/voteresult`);
-        } */
-
     }
 
     /* making the active btn */

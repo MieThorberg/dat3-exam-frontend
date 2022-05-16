@@ -45,21 +45,14 @@ const Village = ({ mode }) => {
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
                 if (newMessage.msg == "vote") {
-                    // console.log(newMessage);
-                    /* setMessages([...allMessages, newMessage]) */
-                    // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
-                    /* setMsg("") */
                     navigate(`/game/${data.room}/vote`, { state: data })
                 }
             })
         }
-    }, [socket, /* allMessages */])
+    }, [socket])
 
     const votePage = () => {
         stop();
-        console.log("hello");
-        console.log(socket);
-        /* setLoading(true) */
         const newMessage = { time: new Date(), msg: "vote", name: data.name }
         socket.emit("newMessage", { newMessage, room: location.state.room })
     }
@@ -124,7 +117,6 @@ const Village = ({ mode }) => {
     }
 
      useEffect(() => {
-         console.log(timerHasStopped);
          clear(getDeadTime());
      }, []);
 
@@ -152,7 +144,6 @@ const Village = ({ mode }) => {
     useEffect(() => {
         if (timerHasStopped) {
             if(host) {
-                console.log(host);
                 votePage()
             }
         }
