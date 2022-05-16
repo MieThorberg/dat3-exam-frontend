@@ -44,7 +44,7 @@ const Village = ({ mode }) => {
 
     useEffect(() => {
         setPlayerToken(facade.getPlayerToken)
-    })
+    },[])
 
     useEffect(() => {
         //recieves the latest message from the server and sets our useStates
