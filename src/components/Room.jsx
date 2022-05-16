@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import { io } from 'socket.io-client'
 import { useLocation } from 'react-router-dom'
 import "../styles/GameSideBar.css"
+import useSound from 'use-sound';
+
+import sent from "../sounds/sent.mp3";
 
 const Room = ({ room, chatHeader, scrollSize }) => {
     const location = useLocation()
@@ -14,6 +17,7 @@ const Room = ({ room, chatHeader, scrollSize }) => {
 
     const [allMessages, setMessages] = useState([])
     const [socket, setSocket] = useState()
+    const [sentfx] = useSound(sent)
 
     useEffect(() => {
         const socket = io("https://react-chat-werewolf-server.herokuapp.com/")
@@ -61,6 +65,7 @@ const Room = ({ room, chatHeader, scrollSize }) => {
     const onSubmit = () => {
         if (msg) {
             setLoading(true)
+            sentfx()
             const newMessage = { time: new Date(), msg, name: data.name }
             socket.emit("newMessage", { newMessage, room: room })
         }

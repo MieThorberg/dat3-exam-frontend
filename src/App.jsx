@@ -115,7 +115,7 @@ export default function App() {
 
           <Route path="/game/:roomid" element={<GamePage mode={nightMode} changeMode={changeMode}/>}></Route>
         </Routes>
-      </BrowserRouter>,
+      </BrowserRouter>
     </div>
 
   );

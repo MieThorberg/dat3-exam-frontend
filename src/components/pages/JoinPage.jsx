@@ -5,6 +5,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import "../../styles/App.css"
 import facade from '../../apiFacade'
 import gameController from '../../gameController'
+import useSound from 'use-sound';
+import wol from "/src/sounds/wololo.mp3";
 
 const JoinPage = ({ mode }) => {
     // const players = []
@@ -20,6 +22,7 @@ const JoinPage = ({ mode }) => {
     const [allMessages, setMessages] = useState([])
     const [msg, setMsg] = useState("")
     const [loading, setLoading] = useState(false)
+    const [wololofx] = useSound(wol)
     // const [players, setPlayers] = useState([])
 
     useEffect(() => {
@@ -91,7 +94,7 @@ const JoinPage = ({ mode }) => {
 
     const handleEnter = e => e.keyCode === 13 ? onSubmit() : ""
     const onStart = () => {
-
+        wololofx()
         /* setLoading(true) */
         const newMessage = { time: new Date(), msg: "start", name: data.name }
         socket.emit("newMessage", { newMessage, room: data.room })
