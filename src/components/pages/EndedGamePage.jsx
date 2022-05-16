@@ -2,6 +2,7 @@ import React from 'react'
 import "../../styles/App.css"
 import { useEffect, useState } from 'react'
 import gameController from '../../gameController'
+import facade from '../../apiFacade'
 
 const EndedGamePage = ({ mode, winners }) => {
     const [day, setDay] = useState("");

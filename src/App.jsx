@@ -118,7 +118,7 @@ export default function App() {
           <Route path="/game/:roomid/voteresult" element={<VoteResultPage mode={mode} changeMode={changeMode} />}></Route>
 
           {/* TODO: just showing a result from voteresult, change to get the actual winners with a fetch function */}
-          <Route path="/game/ending" element={<EndedGamePage mode={mode} winners={voteresult} />}></Route>
+          <Route path="/game/:roomid/ending" element={<EndedGamePage mode={mode} winners={voteresult} />}></Route>
 
 
           <Route path="chat/:roomId" element={<Chat loggedIn={loggedIn} />} />
