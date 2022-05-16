@@ -7,14 +7,12 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import facade from '../../apiFacade'
 import { io } from 'socket.io-client'
 
-const Village = ({ mode }) => {
+const Village = ({ mode, changeMode }) => {
     const navigate = useNavigate();
     const location = useLocation()
-    //Testing timer
-    const seconds = 0;
-    const minutes = 0;
+
     const Ref = useRef(null);
-    const [timer, setTimer] = useState('00:20');
+    const [timer, setTimer] = useState('05:00');
     const [timerColor, setTimerColor] = useState('white');
 
     const [data, setData] = useState({})
@@ -25,9 +23,6 @@ const Village = ({ mode }) => {
     const [current, setCurrent] = useState({});
     const [host, setHost] = useState(false)
 
-    const [allMessages, setMessages] = useState([])
-    const [msg, setMsg] = useState("")
-    const [loading, setLoading] = useState(false)
     const [socket, setSocket] = useState(io)
 
     useEffect(() => {
@@ -37,6 +32,7 @@ const Village = ({ mode }) => {
             console.log("village socket Connected")
             socket.emit("joinRoom", location.state.room)
         })
+        changeMode();
 
     }, [])
 
@@ -45,21 +41,16 @@ const Village = ({ mode }) => {
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
                 if (newMessage.msg == "vote") {
-                    // console.log(newMessage);
-                    /* setMessages([...allMessages, newMessage]) */
-                    // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
-                    /* setMsg("") */
                     navigate(`/game/${data.room}/vote`, { state: data })
                 }
             })
         }
-    }, [socket, /* allMessages */])
+    }, [socket])
 
     const votePage = () => {
         stop();
         console.log("hello");
         console.log(socket);
-        /* setLoading(true) */
         const newMessage = { time: new Date(), msg: "vote", name: data.name }
         socket.emit("newMessage", { newMessage, room: location.state.room })
     }
@@ -88,12 +79,12 @@ const Village = ({ mode }) => {
             setTimerHasStopped(true);
             return;
         } else {
-            if (total >= 0 /* && !timerHasStopped && !isPaused */) {
+            if (total >= 0) {
                 setTimer(
                     (minutes > 9 ? minutes : '0' + minutes) + ":" +
                     (seconds > 9 ? seconds : '0' + seconds)
                 )
-                if (seconds < 31) {
+                if (minutes == 0 && seconds < 31) {
                     setTimerColor("red");
 
                     if (seconds == 0) {
@@ -107,7 +98,7 @@ const Village = ({ mode }) => {
 
     const clear = (e) => {
         //change time here
-        setTimer("00:20");
+        setTimer("05:00");
         if (Ref.current) clearInterval(Ref.current);
 
         const id = setInterval(() => {
@@ -119,14 +110,14 @@ const Village = ({ mode }) => {
     const getDeadTime = () => {
         let deadline = new Date();
         //change time here
-        deadline.setSeconds(deadline.getSeconds() + 20)
+        deadline.setMinutes(deadline.getMinutes() + 5)
         return deadline;
     }
 
-     useEffect(() => {
-         console.log(timerHasStopped);
-         clear(getDeadTime());
-     }, []);
+    useEffect(() => {
+        console.log(timerHasStopped);
+        clear(getDeadTime());
+    }, []);
 
     const onClickReset = () => {
         setTimerColor("white")
@@ -151,7 +142,7 @@ const Village = ({ mode }) => {
 
     useEffect(() => {
         if (timerHasStopped) {
-            if(host) {
+            if (host) {
                 console.log(host);
                 votePage()
             }
@@ -164,6 +155,7 @@ const Village = ({ mode }) => {
                 <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
                 <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
             </div>
+
             <div className='main'>
                 <div className='main-container'>
                     <div style={{ gridTemplateRows: "60% auto" }}>
@@ -173,30 +165,18 @@ const Village = ({ mode }) => {
                         <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
 
                             <p>Day {current.day}, {current.isDay ? "Day" : "night"}</p>
-                             <h1 style={{ color: timerColor }}>{timer}</h1>
+                            <h1 style={{ color: timerColor }}>{timer}</h1>
                         </div>
                         <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
                             <p>Discuss who you think are a werewolf!</p>
                         </div>
-
-
-
-                        {/* Check if times stop, if it has then is navigate to votepage
-                         so we can start voting */}
-                        {/* TODO: if night, then only werewolf are allowed to vote */}
-                        {
-
-                        }
-
                     </div>
                 </div>
-                <div className='fixed-btn' /* style={{ display: "none" }} */>
-
-                    {/* TODO: only user host shall see this button */}
+                <div className='fixed-btn'>
+                    {/* only user host shall see this button */}
                     {
                         host && <button className='btn-purple' onClick={votePage}>Stop now</button>
                     }
-
                 </div>
             </div>
 

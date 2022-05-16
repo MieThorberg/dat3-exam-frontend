@@ -15,7 +15,6 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   const [error, setError] = useState("");
   const [user, setUser] = useState({});
   const [data, setData] = useState({ name: "", room: "", gameid: "" });
-  const [pin, setPin] = useState("");
   const [game, setGame] = useState({});
 
   const handleChange = (e) => {
@@ -26,10 +25,6 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   };
 
   const validation = () => {
-    // if (!data.name) {
-    //   setError("Please enter your name.");
-    //   return false;
-    // }
     // if (!data.room) {
     //     setError("Please enter pin code.")
     //     return false
@@ -54,15 +49,12 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
       const host = facade.decodeToken().username;
       facade.createGame(host, data.room).then((fetchdata) => {
         setGame(fetchdata)
-        setData({ ...data, gameid: fetchdata.id });
+        setData({...data, name: host, gameid: fetchdata.id });
         console.log(fetchdata);
         facade.createPlayer(fetchdata.id, {userName: fetchdata.hostName}).then(data => facade.setPlayerHost(fetchdata.id, data))
-        
-        // TODO: set the player info, some where to use
       });
     }
   };
-
 
 
   const generatePin = (e) => {
@@ -70,7 +62,6 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
     const newPin = Math.floor(100000 + Math.random() * 900000)
       .toString()
       .substring(1);
-    // setPin(newPin)
     return setData({ ...data, room: newPin });
   };
   return (

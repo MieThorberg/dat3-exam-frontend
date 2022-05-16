@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import facade from '../../apiFacade'
 import { io } from 'socket.io-client'
 
-const VoteResultPage = ({ mode, changeMode }) => {
+const VoteResultPage = ({ mode }) => {
     const [result, setResult] = useState({});
     const [victim, setVictim] = useState({});
     const [day, setDay] = useState("");
@@ -15,13 +15,9 @@ const VoteResultPage = ({ mode, changeMode }) => {
     const [currentRound, setCurrentRound] = useState({});
     const [host, setHost] = useState(false)
 
-
     const location = useLocation()
     const [data, setData] = useState({})
 
-    const [allMessages, setMessages] = useState([])
-    const [msg, setMsg] = useState("")
-    const [loading, setLoading] = useState(false)
     const [socket, setSocket] = useState(io)
 
     useEffect(() => {
@@ -45,7 +41,6 @@ const VoteResultPage = ({ mode, changeMode }) => {
                 if (facade.getPlayerToken().username == data.username) {
                     facade.setPlayerToken(data);
                 }
-
             });
             facade.getCurrentRound(data.gameid).then(data => {
                 setCurrentRound(data)
@@ -70,32 +65,19 @@ const VoteResultPage = ({ mode, changeMode }) => {
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
                 if (newMessage.msg == "result") {
-                    // console.log(newMessage);
-                    /* setMessages([...allMessages, newMessage]) */
-                    // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
-                    /* setMsg("") */
-                    changeMode(mode);
                     navigate(`/game/${data.room}/village`, { state: data })
                 }
-
-
-
             })
-
         }
-    }, [socket, /* allMessages */])
+    }, [socket])
 
     const newRound = () => {
         console.log("hello");
         gameController.createRound(data.gameid);
-        setLoading(true)
         const newMessage = { time: new Date(), msg: "result", name: data.name }
-        socket.emit("newMessage", { newMessage, room: location.state.room})
-
+        socket.emit("newMessage", { newMessage, room: location.state.room })
     }
 
-
-    // TODO: make night result,... and day result
     return (
         <>
             <div className='background-container'>
@@ -122,13 +104,11 @@ const VoteResultPage = ({ mode, changeMode }) => {
                                 <p className='voteresult-description'>was hanged by Village</p>
                                 :
                                 <p className='voteresult-description'>was killed by werewolves</p>}
-
                         </div>
                     </div>
                 </div>
             </div>
-            <div className='fixed-btn' /* style={{ display: "none" }} */>
-                {/* TODO: only user host shall see this button */}
+            <div className='fixed-btn'>
                 {
                     host && <button className='btn-purple' onClick={newRound}>Continue</button>
                 }
