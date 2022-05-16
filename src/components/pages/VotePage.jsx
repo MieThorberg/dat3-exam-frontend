@@ -104,15 +104,12 @@ const VotePage = ({ mode }) => {
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
                 if (newMessage.msg == "next") {
-                    /* setMessages([...allMessages, newMessage]) */
-                    // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
-                    /* setMsg("") */
                     navigate(`/game/${data.room}/voteresult`, { state: data })
                 }
             })
 
         }
-    }, [socket, /* allMessages */])
+    }, [socket])
 
     const showVoteResultpage = () => {
         const newMessage = { time: new Date(), msg: "next", name: data.name }

@@ -146,6 +146,7 @@ function GameController() {
         getCurrentRound,
         getRoundResult,
         getGameByPin,
+        cleanVotes,
     }
 }
 

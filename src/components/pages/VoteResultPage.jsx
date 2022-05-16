@@ -90,6 +90,7 @@ const VoteResultPage = ({ mode, changeMode }) => {
                 socket.emit("newMessage", { newMessage, room: location.state.room });
             } else {
                 gameController.createRound(data.gameid);
+                gameController.cleanVotes(data.gameid);
                 const newMessage = { time: new Date(), msg: "result", name: data.name };
                 socket.emit("newMessage", { newMessage, room: location.state.room });
             }
