@@ -587,10 +587,6 @@ const GamePage = ({ mode, changeMode }) => {
                 socket.emit("newMessage", { newMessage, room: location.state.room });
             }
         });
-
-      /*   gameController.createRound(data.gameid);
-        const newMessage = { time: new Date(), msg: "result", name: data.name }
-        socket.emit("newMessage", { newMessage, room: location.state.room }) */
     }
 
     useEffect(() => {
