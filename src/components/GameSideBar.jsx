@@ -9,7 +9,7 @@ import "../styles/GameSideBar.css";
 import image from "../images/1.jpg"
 
 
-const GameSideBar = (/* {name, room} */) => {
+const GameSideBar = ({characterName}) => {
     const [scrollSize, setScrollSize] = useState("50");
     const location = useLocation()
     const [data, setData] = useState({})
@@ -18,6 +18,11 @@ const GameSideBar = (/* {name, room} */) => {
 
     useEffect(() => {
         setData(location.state)
+        /* if(characterName != null) { */
+           /*  setRole(characterName); */
+            
+        /* } */
+       
     }, [location])
 
     return (
@@ -38,9 +43,9 @@ const GameSideBar = (/* {name, room} */) => {
                     {/* <Room room={2} chatHeader="Werewolf chat" /> */}
                     {/* TODO: fix werewolf chat to work when playing games */}
                     <div>
-                        {role === 'werewolf' ?
+                        {characterName === 'werewolf' ?
                             <>
-                            {setScrollSize("30vh")}
+                            {/* {setScrollSize("30vh")} */}
                                 < Room room={2} chatHeader="Wolf Chat" scrollSize={scrollSize} />
 
                             </>
