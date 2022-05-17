@@ -13,7 +13,7 @@ import image1 from "../../images/sundown.jpg"
 import GameSideBar from '../GameSideBar'
 import Village from './Village'
 
-function NewRound({ host, votePage, displayCharacter }) {
+function NewRound({ host, current, votePage, displayCharacter }) {
 
     const Ref = useRef(null);
     const [timer, setTimer] = useState('00:50');
@@ -101,11 +101,11 @@ function NewRound({ host, votePage, displayCharacter }) {
             <div className='header'>
                 <div className='left'></div>
                 <div className='center'></div>
-                <div className='right'><h1 className='day-count'>DAY 12</h1></div>
+                <div className='right'><h1 className='day-count'>DAY {current.day}</h1></div>
             </div>
 
             <div className='round-section'>
-                <h1 className='title'>Day</h1>
+                <h1 className='title'>{current.isDay ? "Day" : "Night"}</h1>
                 <h1 className='timer' style={{ color: timerColor }}>{timer}</h1>
                 <p className='description'>Discuss who you think are a werewolf!</p>
             </div>
@@ -118,23 +118,22 @@ function NewRound({ host, votePage, displayCharacter }) {
                 </div>
                 <div className='right'></div>
             </div>
-            <div id='characterPopup' onClick={displayCharacter}>
+            {/* <div id='characterPopup' onClick={displayCharacter}>
                 <div>
                     <h1>your character</h1>
                 </div>
 
-            </div>
+            </div> */}
         </>
     );
 }
 
-function Vote({ displayCharacter }) {
+function Vote({host, current, voteResultPage, displayCharacter }) {
 
     const [choosenPlayer, setChoosenPlayer] = useState("");
     const [players, setPlayers] = useState([]);
     const [playerToken, setPlayerToken] = useState({});
-    const [currentRound, setCurrentRound] = useState({});
-    const [host, setHost] = useState(false)
+    /* const [currentRound, setCurrentRound] = useState({}); */
 
 
     // MUST HAVE:sends location to the next page
@@ -166,14 +165,13 @@ function Vote({ displayCharacter }) {
                 (seconds > 9 ? seconds : '0' + seconds)
             )
 
-            if (seconds == 0) {
+            if (minutes == 0 && seconds == 0) {
                 setTimerHasStopped(true);
             }
         }
     }
 
     const clear = (e) => {
-
         //change time here
         setTimer('00:05');
         if (Ref.current) clearInterval(Ref.current);
@@ -202,13 +200,6 @@ function Vote({ displayCharacter }) {
     }
 
 
-
-    const showVoteResultpage = () => {
-        const newMessage = { time: new Date(), msg: "next", name: data.name }
-        socket.emit("newMessage", { newMessage, room: location.state.room })
-    }
-
-
     useEffect(() => {
         setData(location.state)
         setActiveBtn();
@@ -221,47 +212,50 @@ function Vote({ displayCharacter }) {
                 setPlayerToken(facade.getPlayerToken());
             }
 
-            facade.getCurrentRound(data.gameid).then(data => {
+            /* facade.getCurrentRound(data.gameid).then(data => {
                 setCurrentRound(data)
-            })
+            }) */
         }
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-        if (facade.getPlayerToken() != null) {
+        /* if (facade.getPlayerToken() != null) {
             setHost(facade.getPlayerToken().isHost);
-        }
+        } */
 
 
-    }, [data, location, players, currentRound, host])
+    }, [data, location, players/* , currentRound, */ /* host */])
 
     useEffect(() => {
         if (timerHasStopped) {
             if (playerToken.isHost) {
                 console.log(playerToken.isHost);
-                showVoteResultpage()
+                voteResultPage()
             }
         }
     }, [timerHasStopped, setTimerHasStopped])
+
     function vote() {
         gameController.vote(data.gameid, facade.getPlayerToken().id, choosenPlayer);
+        // TODO: show that player has voted
+        console.log("has voted!")
     }
 
     function setActiveBtn() {
         var headerdiv = document.getElementById("playerlist");
-        /* all html elements which have a classname named "vote" */
+        // all html elements which have a classname named "vote"
         var btns = headerdiv.getElementsByClassName("vote");
 
         for (var i = 0; i < btns.length; i++) {
-            /* every vote has an img called profile-img which we are making an listner to */
+            // every vote has an img called profile-img which we are making an listner to
             btns[i].getElementsByClassName("profile-img")[0].addEventListener("click", function (e) {
                 var current = document.getElementsByClassName("active");
-                /* are adding to the current img style, so we still can see its active */
+                // are adding to the current img style, so we still can see its active
                 current[0].className = current[0].className.replace(" active", "");
                 this.className += " active";
-                /* the selected player's index (div id) are saved with usestate */
+                // the selected player's index (div id) are saved with usestate
                 setChoosenPlayer(e.target.id);
-                /* console.log(choosenPlayer) */
+                // console.log(choosenPlayer)
             });
         }
     }
@@ -273,7 +267,7 @@ function Vote({ displayCharacter }) {
                 <div className='header'>
                     <div className='left'></div>
                     <div className='center'></div>
-                    <div className='right'><h1>DAY 12</h1></div>
+                    <div className='right'><h1>DAY {current.day}</h1></div>
                 </div>
                 <div className="banner">
                     <h1>Vote</h1>
@@ -282,136 +276,8 @@ function Vote({ displayCharacter }) {
                 <div className='joined-players-section'>
                     <div className='joined-players-scroll'>
                         <div className='list-grid' id="playerlist">
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-
-
                             {
-                                (playerToken.characterName == "werewolf" && (!currentRound.isDay)) ?
+                                (playerToken.characterName == "werewolf" && (!current.isDay)) ?
                                     (players.map((player, index) => {
                                         if (player.characterName != "werewolf") {
                                             if (index == 0) {
@@ -467,12 +333,12 @@ function Vote({ displayCharacter }) {
                 <div className='footer'>
                     <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
                     <div className='center'>
-                        {/* {
-                            host && <button className='btn-green' onClick={showVoteResultpage}>Stop now</button>
-                        } */}
+                        {
+                            host && <button className='btn-green' onClick={voteResultPage}>Stop now</button>
+                        }
                         {
                             // if it is day or night
-                            currentRound.isDay ?
+                            current.isDay ?
                                 (
                                     // if player is alive
                                     playerToken.isAlive && <button className='btn-green' onClick={vote}>Vote</button>
@@ -487,24 +353,24 @@ function Vote({ displayCharacter }) {
 
 
                 {/* TODO: change styling and add character img and description */}
-                <div id='characterPopup' onClick={displayCharacter}>
+        {/*         <div id='characterPopup' onClick={displayCharacter}>
                     <div>
                         <h1>your character</h1>
                     </div>
 
-                </div>
+                </div> */}
             </div>
         </>
     );
 }
 
-function VoteResult({ displayCharacter }) {
+function VoteResult({ host, current, newRoundPage, displayCharacter }) {
     const [result, setResult] = useState({});
     const [victim, setVictim] = useState({});
-    const [day, setDay] = useState("");
+    /* const [day, setDay] = useState(""); */
     const navigate = useNavigate();
-    const [currentRound, setCurrentRound] = useState({});
-    const [host, setHost] = useState(false)
+    /* const [currentRound, setCurrentRound] = useState({});
+    const [host, setHost] = useState(false) */
 
     const location = useLocation()
     const [data, setData] = useState({})
@@ -512,16 +378,16 @@ function VoteResult({ displayCharacter }) {
     const [socket, setSocket] = useState(io)
     useEffect(() => {
         setData(location.state)
-        if (facade.getPlayerToken() != null) {
+        /* if (facade.getPlayerToken() != null) {
             setHost(facade.getPlayerToken().isHost);
-        }
+        } */
         if (data.gameid != undefined) {
             gameController.getRoundResult(data.gameid).then(data => setResult(data));
         }
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [location, data, host])
+    }, [location, data/* , host */])
     useEffect(() => {
         if (data.gameid != undefined) {
             gameController.getVictimLatest(data.gameid).then(data => {
@@ -530,34 +396,29 @@ function VoteResult({ displayCharacter }) {
                     facade.setPlayerToken(data);
                 }
             });
-            facade.getCurrentRound(data.gameid).then(data => {
+            /* facade.getCurrentRound(data.gameid).then(data => {
                 setCurrentRound(data)
-            })
+            }) */
         }
-    }, [result, data, currentRound])
-    const newRound = () => {
+    }, [result, data/* , currentRound */])
 
-        gameController.createRound(data.gameid);
-        const newMessage = { time: new Date(), msg: "result", name: data.name }
-        socket.emit("newMessage", { newMessage, room: location.state.room })
-    }
     return (
         <>
             <div className='header'>
                 <div className='left'></div>
                 <div className='center'></div>
-                <div className='right'><h1>DAY 12</h1></div>
+                <div className='right'><h1>DAY {current.day}</h1></div>
             </div>
 
             <div className='vote-result-section'>
-                {currentRound.isDay ?
+                {current.isDay ?
                     <h1>Today..</h1>
                     :
                     <h1>Last night..</h1>
                 }
                 <img className='big-profile-img'></img>
-                <h2 className='voteresult-player'>Player {victim.username}</h2>
-                {currentRound.isDay ?
+                <h2 className='voteresult-player'>{victim.username} ({victim.characterName})</h2>
+                {current.isDay ?
                     <p className='voteresult-description'>was hanged by Village</p>
                     :
                     <p className='voteresult-description'>was killed by werewolves</p>}
@@ -566,17 +427,17 @@ function VoteResult({ displayCharacter }) {
                 <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
                 <div className='center'>
                     {
-                        host && <button className='btn-green' onClick={newRound}>Continue</button>
+                        host && <button className='btn-green' onClick={newRoundPage}>Continue</button>
                     }
                 </div>
                 <div className='right'></div>
             </div>
-            <div id='characterPopup' onClick={displayCharacter}>
+            {/* <div id='characterPopup' onClick={displayCharacter}>
                 <div>
                     <h1>your character</h1>
                 </div>
 
-            </div>
+            </div> */}
         </>
     );
 }
@@ -594,67 +455,6 @@ function EndedGame() {
                 <div className='joined-players-section'>
                     <div className='joined-players-scroll'>
                         <div className='list-grid' id="playerlist">
-
-
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-                            <div /* key={player.id} */>
-                                <div className='vote'>
-                                    <img /* id={player.id} */ className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>player</h3>
-                                </div>
-                            </div>
-
-
-
-
                             {/* {
                                 (playerToken.characterName == "werewolf" && (!currentRound.isDay)) ?
                                     (players.map((player, index) => {
@@ -757,6 +557,9 @@ const GamePage = ({ mode, changeMode }) => {
                 if (newMessage.msg == "new round") {
                     setMessage("new round");
                 }
+                if (newMessage.msg == "ended") {
+                    setMessage("ended");
+                }
             })
         }
     }, [socket])
@@ -764,6 +567,17 @@ const GamePage = ({ mode, changeMode }) => {
     const votePage = () => {
         stop();
         const newMessage = { time: new Date(), msg: "vote", name: data.name }
+        socket.emit("newMessage", { newMessage, room: location.state.room })
+    }
+
+    const voteResultpage = () => {
+        const newMessage = { time: new Date(), msg: "vote result", name: data.name }
+        socket.emit("newMessage", { newMessage, room: location.state.room })
+    }
+
+    const newRoundPage = () => {
+        gameController.createRound(data.gameid);
+        const newMessage = { time: new Date(), msg: "result", name: data.name }
         socket.emit("newMessage", { newMessage, room: location.state.room })
     }
 
@@ -788,14 +602,14 @@ const GamePage = ({ mode, changeMode }) => {
 
 
     function displayCharacter() {
-        var x = document.getElementById("characterPopup");
+        /* var x = document.getElementById("characterPopup");
         if (x.style.display == "none") {
             x.style.display = "block";
             console.log("popup");
         } else {
             x.style.display = "none";
             console.log("close")
-        }
+        } */
     }
 
     return (
@@ -816,15 +630,15 @@ const GamePage = ({ mode, changeMode }) => {
                     <div className='content'>
 
                         {message == "new round" &&
-                            <NewRound host={host} votePage={votePage} displayCharacter={displayCharacter} />
+                            <NewRound host={host} current={current} votePage={votePage} displayCharacter={displayCharacter} />
                         }
 
                         {message == "vote" &&
-                            <Vote displayCharacter={displayCharacter} />
+                            <Vote host={host} current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} />
                         }
 
                         {message == "vote result" &&
-                            <VoteResult displayCharacter={displayCharacter} />
+                            <VoteResult host={host} current={current} newRoundPage={newRoundPage} displayCharacter={displayCharacter} />
                         }
 
                         {message == "ended" &&
