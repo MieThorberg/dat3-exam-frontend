@@ -266,7 +266,7 @@ h1, h2, p {
 }
 
 
-{/* TODO: change styling */}
+/* TODO: change styling */
 #characterPopup {
     display: none;
     position: fixed;
@@ -278,7 +278,7 @@ h1, h2, p {
     align-items: center;
    
 }
-{/* TODO: change styling */}
+/* TODO: change styling */
 #characterPopup div {
     border: 1px solid red;
     background-color: white;
