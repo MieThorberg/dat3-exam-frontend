@@ -312,14 +312,26 @@ button:hover {
     color: black;
 }
 
+.btn-green {
+    background-color: #1ff39e;
+    color: black;
+}
+
+.btn-green:hover {
+    color: #1ff39e;
+    background-color: black;
+}
+
 .btn-purple {
     background-color: rgb(81, 41, 137);
     color: rgb(215, 213, 218);
 }
 
 .btn-purple:hover {
-    background-color: rgb(215, 213, 218);
-    color: rgb(29, 29, 29);
+    background-color: black;
+    color: rgb(152, 78, 255);
+   /*  background-color: rgb(215, 213, 218); */
+   /*  color: rgb(29, 29, 29); */
 }
 
 .btn-lightpurple {
