@@ -1,3 +1,7 @@
+h1, h2, p {
+    text-shadow: 2px 2px 4px #00000088;
+}
+
 .game {
     /* position: fixed;
     display: grid;
@@ -69,7 +73,6 @@
 }
 
 .game-main .content .header h1 {
-    font-family: 'New Rocker', cursive;
     font-family: 'IBM Plex Sans Arabic', sans-serif;
     font-size: 20px;
     font-weight: bolder;
@@ -105,19 +108,86 @@
 .vote-section {
     width: 100%;
     display: grid;
-    grid-template-rows: 8vh 12vh 68vh 12vh;
+    grid-template-rows: 8vh 20vh 57vh 15vh;
     height: 100%;
 }
-
 .vote-section .banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    padding-bottom: 20px;
+}
+.vote-section .banner h1 {
+    font-family: 'New Rocker', cursive;
+    font-size: 50px;
+}
+.vote-section .banner p {
+    width: 60%;
+    text-align: center;
+    padding-top: 20px;
+}
+
+/* Vote result */
+.vote-result-section {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: black;
 }
 
-.vote-section .joined-players-section {
+.vote-result-section h1 {
+    font-family: 'New Rocker', cursive;
+    font-size: 50px;
+    padding-bottom: 40px;
+}
+.vote-result-section h2 {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 25px;
+}
+.vote-result-section p {
+    width: 60%;
+    text-align: center;
+    padding-top: 20px;
+}
+
+/* ENDED GAME */
+.endgame-section {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 41vh 50vh 15vh;
+    height: 100%;
+} 
+
+.endgame-section .banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.endgame-section .banner h1, h2 {
+    font-family: 'New Rocker', cursive;
+}
+
+.endgame-section .banner h1 {
+    font-family: 'New Rocker', cursive;
+    font-size: 50px;
+}
+.endgame-section .banner h2 {
+    font-family: 'New Rocker', cursive;
+    font-size: 25px;
+}
+
+.endgame-section .banner p {
+    width: 60%;
+    text-align: center;
+    padding-top: 25px;
+}
+
+.vote-section .joined-players-section,
+.endgame-section .joined-players-section {
     position: relative;
     top: 0;
 }
@@ -127,15 +197,6 @@
     display: grid;
     grid-template-columns: auto auto auto;
     margin: 0;
-}
-
-.btn-green {
-    background-color: green;
-}
-
-.btn-green:hover {
-    background-color: darkgreen;
-    color: white;
 }
 
 .btn-red {
@@ -150,21 +211,75 @@
 .content .footer {
     display: grid;
     grid-template-columns: 25% 50% 25%;
+    padding: 0 10px 0 10px;
 }
 
 .content .footer div {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+    justify-content: center; 
+    padding: 0 10px 0 10px;
 }
 
-.footer .center {}
+.footer .left {
+    align-items: left;
+}
 
-.footer .center button {}
+.footer .center {
+    align-items: center;
+}
 
-@media only screen and (min-width: 600px) {
-  
+.footer .right {
+    align-items: flex-end;
+}
+
+.footer button {
+    height: 50px;
+    max-width: 400px;
+}
+
+.footer .restart-btn {
+    color: black;
+    background-color: #1ff39e;
+    max-width: 150px;
+    align-items: end;
+}
+
+.footer .restart-btn:hover {
+    color: #1ff39e;
+    background-color: black;
+}
+
+.footer .character-btn {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255);
+    font-size: 40px;
+    padding: 0;
+    color: rgba(117, 58, 200, 0.758);
+    
+}
+.footer .character-btn:hover {
+    background-color: rgba(117, 58, 200, 0.758);
+    color:rgb(255, 255, 255);
+}
+
+
+{/* TODO: change styling */}
+#characterPopup {
+    display: none;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+   
+}
+{/* TODO: change styling */}
+#characterPopup div {
+    border: 1px solid red;
+    background-color: white;
 }
