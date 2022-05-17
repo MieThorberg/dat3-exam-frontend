@@ -576,9 +576,21 @@ const GamePage = ({ mode, changeMode }) => {
     }
 
     const newRoundPage = () => {
-        gameController.createRound(data.gameid);
+        facade.hasEnded(data.gameid).then((ended) => {
+            if (ended) {
+                const newMessage = { time: new Date(), msg: "ended", name: data.name };
+                socket.emit("newMessage", { newMessage, room: location.state.room });
+            } else {
+                gameController.createRound(data.gameid);
+                gameController.cleanVotes(data.gameid);
+                const newMessage = { time: new Date(), msg: "new round", name: data.name };
+                socket.emit("newMessage", { newMessage, room: location.state.room });
+            }
+        });
+
+      /*   gameController.createRound(data.gameid);
         const newMessage = { time: new Date(), msg: "result", name: data.name }
-        socket.emit("newMessage", { newMessage, room: location.state.room })
+        socket.emit("newMessage", { newMessage, room: location.state.room }) */
     }
 
     useEffect(() => {
