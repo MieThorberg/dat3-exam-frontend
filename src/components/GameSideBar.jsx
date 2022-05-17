@@ -18,11 +18,6 @@ const GameSideBar = ({characterName}) => {
 
     useEffect(() => {
         setData(location.state)
-        /* if(characterName != null) { */
-           /*  setRole(characterName); */
-            
-        /* } */
-       
     }, [location])
 
     return (

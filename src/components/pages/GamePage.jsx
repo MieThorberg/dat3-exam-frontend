@@ -585,12 +585,22 @@ const GamePage = ({ mode, changeMode }) => {
             if (facade.getPlayerToken() != null) {
                 setHost(facade.getPlayerToken().isHost);
             }
-            if (facade.getPlayerToken() != null) {
+            if (facade.getPlayerToken() != null && playerToken != undefined) {
                 facade.getPlayer(facade.getPlayerToken().id)
                 setPlayerToken(facade.getPlayerToken());
             }
         }
     }, [data, location, host, playerToken])
+
+    /* useEffect(() => {
+        if(data.gameid != undefined) {
+            if (facade.getPlayerToken() != null) {
+                facade.getPlayer(facade.getPlayerToken().id)
+                setPlayerToken(facade.getPlayerToken());
+            }
+        }
+    }, []) */
+
 
     useEffect(() => {
         if (data.gameid) {
