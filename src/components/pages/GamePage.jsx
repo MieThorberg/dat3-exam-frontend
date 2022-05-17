@@ -128,7 +128,7 @@ function NewRound({ host, current, votePage, displayCharacter }) {
     );
 }
 
-function Vote({ host, current, voteResultPage, displayCharacter, playerToken, data }) {
+function Vote({ host, current, voteResultPage, displayCharacter, playerToken }) {
 
     const [choosenPlayer, setChoosenPlayer] = useState("");
     const [players, setPlayers] = useState([]);
@@ -137,8 +137,8 @@ function Vote({ host, current, voteResultPage, displayCharacter, playerToken, da
 
 
     // MUST HAVE:sends location to the next page
-    // const location = useLocation()
-    // const [data, setData] = useState({})
+    const location = useLocation()
+    const [data, setData] = useState({})
     const Ref = useRef(null);
     const [timer, setTimer] = useState('00:05');
     const [timerHasStopped, setTimerHasStopped] = useState(false);
@@ -201,7 +201,7 @@ function Vote({ host, current, voteResultPage, displayCharacter, playerToken, da
 
 
     useEffect(() => {
-        // setData(location.state)
+        setData(location.state)
         setActiveBtn();
         if (data.gameid != undefined) {
             if (players.length == 0) {
@@ -224,7 +224,7 @@ function Vote({ host, current, voteResultPage, displayCharacter, playerToken, da
         } */
 
 
-    }, [data,  players/* , currentRound, */ /* host */])
+    }, [data, location, players/* , currentRound, */ /* host */])
 
     useEffect(() => {
         if (timerHasStopped) {
@@ -363,7 +363,7 @@ function Vote({ host, current, voteResultPage, displayCharacter, playerToken, da
     );
 }
 
-function VoteResult({ host, current, newRoundPage, displayCharacter, data, playerToken}) {
+function VoteResult({ host, current, newRoundPage, displayCharacter, playerToken}) {
     const [result, setResult] = useState({});
     const [victim, setVictim] = useState({});
     /* const [day, setDay] = useState(""); */
@@ -371,12 +371,12 @@ function VoteResult({ host, current, newRoundPage, displayCharacter, data, playe
     /* const [currentRound, setCurrentRound] = useState({});
     const [host, setHost] = useState(false) */
 
-    // const location = useLocation()
-    // const [data, setData] = useState({})
+    const location = useLocation()
+    const [data, setData] = useState({})
 
     const [socket, setSocket] = useState(io)
     useEffect(() => {
-        // setData(location.state)
+        setData(location.state)
         /* if (facade.getPlayerToken() != null) {
             setHost(facade.getPlayerToken().isHost);
         } */
@@ -386,7 +386,7 @@ function VoteResult({ host, current, newRoundPage, displayCharacter, data, playe
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [ data/* , host */])
+    }, [ data, location/* , host */])
     useEffect(() => {
         if (data.gameid != undefined) {
             gameController.getVictimLatest(data.gameid).then(data => {
@@ -441,15 +441,15 @@ function VoteResult({ host, current, newRoundPage, displayCharacter, data, playe
     );
 }
 
-function EndedGame({data,  host}) {
-    // const location = useLocation()
-    // const [data, setData] = useState({});
+function EndedGame({ host}) {
+    const location = useLocation()
+    const [data, setData] = useState({});
     const [players, setPlayers] = useState([]);
     const [winner, setWinner] = useState("");
 
-    // useEffect(() => {
-    //     setData(location.state)
-    // }, [location])
+    useEffect(() => {
+        setData(location.state)
+    }, [location])
     
     useEffect(() => {
         if (data.gameid != undefined) {
@@ -554,7 +554,7 @@ const GamePage = ({ mode, changeMode }) => {
     }, [socket])
 
     const votePage = () => {
-        stop();
+        
         const newMessage = { time: new Date(), msg: "vote", name: data.name }
         socket.emit("newMessage", { newMessage, room: location.state.room })
     }
@@ -600,9 +600,13 @@ const GamePage = ({ mode, changeMode }) => {
 
     useEffect(() => {
         if (data.gameid != undefined) {
-            gameController.getCurrentRound(data.gameid).then(data => {
-                setCurrent(data)
-            });
+            if (Object.keys(current).length == 0) {
+                console.log("wololo");
+                gameController.getCurrentRound(data.gameid).then(data => {
+                    setCurrent(data)
+                });
+            }
+           
             if (facade.getPlayerToken() != null) {
                 if (playerToken.characterName == null) {
                     console.log("bobo");
@@ -655,15 +659,15 @@ const GamePage = ({ mode, changeMode }) => {
                         }
 
                         {message == "vote" &&
-                            <Vote host={host} current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken} data={data} />
+                            <Vote host={host} current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken}  />
                         }
 
                         {message == "vote result" &&
-                            <VoteResult host={host} current={current} newRoundPage={newRoundPage} displayCharacter={displayCharacter} data={data} playerToken={playerToken} />
+                            <VoteResult host={host} current={current} newRoundPage={newRoundPage} displayCharacter={displayCharacter}  playerToken={playerToken} />
                         }
 
                         {message == "ended" &&
-                            <EndedGame data={data} host={host} />
+                            <EndedGame  host={host} />
                         }
                     </div>
                 </div>
