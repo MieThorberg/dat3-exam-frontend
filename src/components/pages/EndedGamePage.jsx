@@ -45,8 +45,6 @@ const EndedGamePage = ({ mode, winners }) => {
         }
     }
 
-    //TODO: make a function to get the winners of the game wololo
-
     return (
         <>
             <div className='background-container'>

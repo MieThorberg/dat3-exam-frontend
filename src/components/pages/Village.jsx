@@ -43,8 +43,8 @@ const Village = ({ mode }) => {
     }, [])
 
     useEffect(() => {
-        setPlayerToken(facade.getPlayerToken)
-    },[])
+        facade.getPlayer(facade.getPlayerToken().id)
+    }, [])
 
     useEffect(() => {
         //recieves the latest message from the server and sets our useStates
@@ -77,8 +77,9 @@ const Village = ({ mode }) => {
         setData(location.state)
         if (facade.getPlayerToken() != null) {
             setHost(facade.getPlayerToken().isHost);
+            setPlayerToken(facade.getPlayerToken());
         }
-    }, [location, host])
+    }, [location, host, playerToken])
 
     const start = (e) => {
         let { total, minutes, seconds } = getTimeRemaining(e);
@@ -122,9 +123,9 @@ const Village = ({ mode }) => {
         return deadline;
     }
 
-     useEffect(() => {
-         clear(getDeadTime());
-     }, []);
+    useEffect(() => {
+        clear(getDeadTime());
+    }, []);
 
     const onClickReset = () => {
         setTimerColor("white")
@@ -149,7 +150,7 @@ const Village = ({ mode }) => {
 
     useEffect(() => {
         if (timerHasStopped) {
-            if(host) {
+            if (host) {
                 votePage()
             }
         }
@@ -170,7 +171,7 @@ const Village = ({ mode }) => {
                         <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
 
                             <p>Day {current.day}, {current.isDay ? "Day" : "night"}</p>
-                             <h1 style={{ color: timerColor }}>{timer}</h1>
+                            <h1 style={{ color: timerColor }}>{timer}</h1>
                         </div>
                         <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
                             <p>Discuss who you think are a werewolf!</p>
