@@ -128,7 +128,7 @@ function NewRound({ host, current, votePage, displayCharacter }) {
     );
 }
 
-function Vote({host, current, voteResultPage, displayCharacter }) {
+function Vote({ host, current, voteResultPage, displayCharacter }) {
 
     const [choosenPlayer, setChoosenPlayer] = useState("");
     const [players, setPlayers] = useState([]);
@@ -143,10 +143,10 @@ function Vote({host, current, voteResultPage, displayCharacter }) {
     const [timer, setTimer] = useState('00:05');
     const [timerHasStopped, setTimerHasStopped] = useState(false);
 
-    const [allMessages, setMessages] = useState([])
+   /*  const [allMessages, setMessages] = useState([])
     const [msg, setMsg] = useState("")
     const [loading, setLoading] = useState(false)
-    const [socket, setSocket] = useState(io)
+    const [socket, setSocket] = useState(io) */
 
     const getTimeRemaining = (e) => {
         const total = Date.parse(e) - Date.parse(new Date());
@@ -353,7 +353,7 @@ function Vote({host, current, voteResultPage, displayCharacter }) {
 
 
                 {/* TODO: change styling and add character img and description */}
-        {/*         <div id='characterPopup' onClick={displayCharacter}>
+                {/*         <div id='characterPopup' onClick={displayCharacter}>
                     <div>
                         <h1>your character</h1>
                     </div>
@@ -443,68 +443,58 @@ function VoteResult({ host, current, newRoundPage, displayCharacter }) {
 }
 
 function EndedGame() {
+    const location = useLocation()
+    const [data, setData] = useState({});
+    const [players, setPlayers] = useState([]);
+    const [winner, setWinner] = useState("");
+
+    useEffect(() => {
+        setData(location.state)
+    }, [location])
+    
+    useEffect(() => {
+        if (data.gameid != undefined) {
+            facade.getWereWolves(data.gameid).then(data => {
+                if (data.length == 0) {
+                    setWinner("Villagers!")
+                } else {
+                    setWinner("Werewolves!")
+                }
+            })
+            facade.getPlayers(data.gameid).then(data => setPlayers(data));
+        }
+    }, [data])
+
+    function getWinnerRole() {
+        if (winner == "Werewolves!") {
+            return "werewolf"
+        } else {
+            return "villager"
+        }
+    }
     return (
         <>
             {/* Ended game */}
             <div className='endgame-section'>
                 <div className="banner">
                     <h2>Winning team</h2>
-                    <h1>Villagers!</h1>
+                    <h1>{winner}</h1>
                     <p>The villag killed the werewolf at there was peace again in the village</p>
                 </div>
                 <div className='joined-players-section'>
                     <div className='joined-players-scroll'>
                         <div className='list-grid' id="playerlist">
-                            {/* {
-                                (playerToken.characterName == "werewolf" && (!currentRound.isDay)) ?
-                                    (players.map((player, index) => {
-                                        if (player.characterName != "werewolf") {
-                                            if (index == 0) {
-                                                {
-                                                    if (choosenPlayer == "") {
-                                                        setChoosenPlayer(player.id);
-                                                    }
-                                                }
-                                                return <div key={player.id}>
-                                                    <div className='vote'>
-                                                        <img id={player.id} className="profile-img active" /> //REMEMBER! set active on one player, or else the active vote will not show
-                                                        <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                                    </div>
-                                                </div>
-                                            }
-
-                                            return <div key={player.id}>
-                                                <div className='vote'>
-                                                    <img id={player.id} className="profile-img" /> //REMEMBER! set active on one player, or else the active vote will not show
-                                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                                </div>
+                            {
+                                (players.map((player) => {
+                                    if (player.characterName == getWinnerRole())
+                                        return <div key={player.id}>
+                                            <div className='vote'>
+                                                <img id={player.id} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                                <h3 style={{ color: 'white' }}>{player.username}</h3>
                                             </div>
-                                        }
-                                    })
-                                    ) : (
-                                        players.map((player, index) => {
-                                            if (index == 0) {
-                                                {
-                                                    if (choosenPlayer == "") {
-                                                        setChoosenPlayer(player.id);
-                                                    }
-                                                }
-                                                return <div key={player.id}>
-                                                    <div className='vote'>
-                                                        <img id={player.id} className="profile-img active" /> // REMEMBER! set active on one player, or else the active vote will not show
-                                                        <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                                    </div>
-                                                </div>
-                                            }
-                                            return <div key={player.id}>
-                                                <div className='vote'>
-                                                    <img id={player.id} className="profile-img" /> //REMEMBER! set active on one player, or else the active vote will not show
-                                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                                </div>
-                                            </div>
-                                        }))
-
-                            } */}
+                                        </div>
+                                }))
+                            }
                         </div>
                     </div>
                 </div>
@@ -526,7 +516,7 @@ function EndedGame() {
 const GamePage = ({ mode, changeMode }) => {
     const navigate = useNavigate();
     const location = useLocation()
-
+    const [playerToken, setPlayerToken] = useState({});
     const [data, setData] = useState({})
     const [current, setCurrent] = useState({});
     const [host, setHost] = useState(false)
@@ -591,10 +581,16 @@ const GamePage = ({ mode, changeMode }) => {
 
     useEffect(() => {
         setData(location.state)
-        if (facade.getPlayerToken() != null) {
-            setHost(facade.getPlayerToken().isHost);
+        if(data.gameid != undefined) {
+            if (facade.getPlayerToken() != null) {
+                setHost(facade.getPlayerToken().isHost);
+            }
+            if (facade.getPlayerToken() != null) {
+                facade.getPlayer(facade.getPlayerToken().id)
+                setPlayerToken(facade.getPlayerToken());
+            }
         }
-    }, [location, host])
+    }, [data, location, host, playerToken])
 
     useEffect(() => {
         if (data.gameid) {
@@ -607,6 +603,8 @@ const GamePage = ({ mode, changeMode }) => {
             navigate("/login");
         }
     }, [data, current])
+
+    
 
 
     function displayCharacter() {
@@ -630,7 +628,7 @@ const GamePage = ({ mode, changeMode }) => {
 
             <div className='game'>
                 <div className='sidebar'>
-                    <GameSideBar />
+                    <GameSideBar characterName={playerToken.characterName} />
                 </div>
 
                 <div className='game-main'>
