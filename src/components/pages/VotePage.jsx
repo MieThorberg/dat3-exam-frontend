@@ -14,15 +14,21 @@ const VotePage = ({ mode }) => {
     const [players, setPlayers] = useState([]);
     const [playerToken, setPlayerToken] = useState({});
     const [currentRound, setCurrentRound] = useState({});
+    const [host, setHost] = useState(false)
 
 
     // MUST HAVE:sends location to the next page
     const location = useLocation()
     const [data, setData] = useState({})
     const Ref = useRef(null);
-    const [timer, setTimer] = useState('00:00');
+    const [timer, setTimer] = useState('00:05');
     const [timerColor, setTimerColor] = useState('white');
-    const [timerHasStopped, setTimerHasStopped] = useState(true);
+    const [timerHasStopped, setTimerHasStopped] = useState(false);
+
+    const [allMessages, setMessages] = useState([])
+    const [msg, setMsg] = useState("")
+    const [loading, setLoading] = useState(false)
+    const [socket, setSocket] = useState(io)
 
     const getTimeRemaining = (e) => {
         const total = Date.parse(e) - Date.parse(new Date());
@@ -56,7 +62,7 @@ const VotePage = ({ mode }) => {
         //change time here
         setTimer('00:05');
         if (Ref.current) clearInterval(Ref.current);
-        setTimerHasStopped(false);
+
         const id = setInterval(() => {
             start(e);
         }, 1000)
@@ -82,14 +88,33 @@ const VotePage = ({ mode }) => {
     }
 
 
-    function showVoteResultpage() {
-        navigate(`/game/${data.room}/voteresult`, { state: data })
+    useEffect(() => {
+        const socket = io("https://react-chat-werewolf-server.herokuapp.com")
+        setSocket(socket)
+
+        socket.on("connect", () => {
+            console.log("vote socket Connected")
+            socket.emit("joinRoom", location.state.room)
+        })
+
+    }, [])
+
+    useEffect(() => {
+        //recieves the latest message from the server and sets our useStates
+        if (socket) {
+            socket.on("getLatestMessage", (newMessage) => {
+                if (newMessage.msg == "next") {
+                    navigate(`/game/${data.room}/voteresult`, { state: data })
+                }
+            })
+
+        }
+    }, [socket])
+
+    const showVoteResultpage = () => {
+        const newMessage = { time: new Date(), msg: "next", name: data.name }
+        socket.emit("newMessage", { newMessage, room: location.state.room })
     }
-
-
-
-
-
 
 
     useEffect(() => {
@@ -103,35 +128,31 @@ const VotePage = ({ mode }) => {
                 facade.getPlayer(facade.getPlayerToken().id)
                 setPlayerToken(facade.getPlayerToken());
             }
-            facade.getCurrentRound(data.gameid).then(data => setCurrentRound(data))
+
+            facade.getCurrentRound(data.gameid).then(data => {
+                setCurrentRound(data)
+            })
         }
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [data, location, players])
+        if (facade.getPlayerToken() != null) {
+            setHost(facade.getPlayerToken().isHost);
+        }
 
+
+    }, [data, location, players, currentRound, host])
+
+    useEffect(() => {
+        if (timerHasStopped) {
+            if (playerToken.isHost) {
+                showVoteResultpage()
+            }
+        }
+    }, [timerHasStopped, setTimerHasStopped])
 
     function vote() {
-        //TODO: change and get the gameid, userid & playerid
-        //console.log(choosenplayer);
         gameController.vote(data.gameid, facade.getPlayerToken().id, choosenPlayer);
-
-        //TODO: wait on all players to vote before checking the result and hasended game
-        /* gameController.getVotingResult(2).then(data => setVoteresult(data)); */
-        // setVoteresult(player);
-
-        navigate(`/game/${data.room}/voteresult`, { state: data })
-
-
-        //TODO: fix this - make it check if has ended is true then navigate to result page
-        /* gameController.hasEnded(2).then(data => setHasEnded(data));
-        console.log(hasEnded)
-        if(true) {
-            navigate(`/game/ending`);
-        } else {
-            navigate(`/game/voteresult`);
-        } */
-
     }
 
     /* making the active btn */
@@ -189,33 +210,72 @@ const VotePage = ({ mode }) => {
 
                     <div className='list-grid' id="playerlist">
 
-                        {players.map((player, index) => {
-                            if (index == 0) {
-                                {
-                                    if (choosenPlayer == "") {
-                                        setChoosenPlayer(player.id);
+                        {
+                            (playerToken.characterName == "werewolf" && (!currentRound.isDay)) ?
+                                (players.map((player, index) => {
+                                    if (player.characterName != "werewolf") {
+                                        if (index == 0) {
+                                            {
+                                                if (choosenPlayer == "") {
+                                                    setChoosenPlayer(player.id);
+                                                }
+                                            }
+                                            return <div key={player.id}>
+                                                <div className='vote'>
+                                                    <img id={player.id} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                                </div>
+                                            </div>
+                                        }
+
+                                        return <div key={player.id}>
+                                            <div className='vote'>
+                                                <img id={player.id} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                                <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                            </div>
+                                        </div>
                                     }
-                                }
-                                return <div key={player.id}>
-                                    <div className='vote'>
-                                        <img id={player.id} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                        <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                    </div>
-                                </div>
-                            }
-                            return <div key={player.id}>
-                                <div className='vote'>
-                                    <img id={player.id} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                </div>
-                            </div>
-                        })}
+                                })
+                                ) : (
+                                    players.map((player, index) => {
+                                        if (index == 0) {
+                                            {
+                                                if (choosenPlayer == "") {
+                                                    setChoosenPlayer(player.id);
+                                                }
+                                            }
+                                            return <div key={player.id}>
+                                                <div className='vote'>
+                                                    <img id={player.id} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                                    {((playerToken.characterName == "werewolf") && (player.characterName == "werewolf")) ? <h3>({player.characterName})</h3> : <></>}
+
+                                                </div>
+                                            </div>
+                                        }
+                                        return <div key={player.id}>
+                                            <div className='vote'>
+                                                <img id={player.id} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                                <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                                {((playerToken.characterName == "werewolf") && (player.characterName == "werewolf")) ? <h3>({player.characterName})</h3> : <></>}
+                                            </div>
+                                        </div>
+                                    }))
+
+                        }
                     </div>
                 </div>
                 {/* <!-- Column 3 (empty) --> */}
                 <div></div>
             </div>
             <div className='fixed-btn' /* style={{ display: "none" }} */>
+
+                {
+                    host && <button className='btn-purple' onClick={showVoteResultpage}>Stop now</button>
+                }
+
+
+
                 {
                     // if it is day or night
                     currentRound.isDay ?
@@ -230,15 +290,11 @@ const VotePage = ({ mode }) => {
 
                 }
 
-
             </div>
             <div className='fixed-character-btn'>
                 <button onClick={onClickCharacter}>?</button>
             </div>
 
-            {
-                timerHasStopped ? showVoteResultpage() : <></>
-            }
         </div>
     )
 }

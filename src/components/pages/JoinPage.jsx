@@ -14,7 +14,7 @@ const JoinPage = ({ mode }) => {
     const [data, setData] = useState({})
     const [role, setRole] = useState("")
     const [host, setHost] = useState(false)
-    const [socket, setSocket] = useState()
+    const [socket, setSocket] = useState(io)
     const [users, setUsers] = useState([])
     const [players, setPlayers] = useState([]);
     const [allMessages, setMessages] = useState([])
@@ -33,14 +33,11 @@ const JoinPage = ({ mode }) => {
         socket.on("connect", () => {
             console.log("socket Connected")
             socket.emit("joinRoom", location.state.room)
-            socket.emit("joinWRoom", 'werewolf')
-            setRole(location.state.role)
         })
 
     }, [])
 
     useEffect(() => {
-        //TODO: change to gameid
         if (data.gameid != undefined) {
             facade.getPlayers(data.gameid).then(data => setPlayers(data))
         }
@@ -59,12 +56,21 @@ const JoinPage = ({ mode }) => {
         //recieves the latest message from the server and sets our useStates
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
+                if (newMessage.msg == "start") {
 
-                setMessages([...allMessages, newMessage])
+                    if (host) {
+                        gameController.startGame(data.gameid);
+                    }
+
+                    navigate(`/game/${data.room}/village`, { state: data });
+
+                }
+                /* setMessages([...allMessages, newMessage]) */
                 // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
-                setMsg("")
-                setLoading(false)
-                start()
+                /* setMsg("") */
+                /* setLoading(false) */
+
+
             })
 
             // when a new user enters the room we add the new user to the total number in the room
@@ -80,7 +86,7 @@ const JoinPage = ({ mode }) => {
     const handleEnter = e => e.keyCode === 13 ? onSubmit() : ""
     const onStart = () => {
 
-        setLoading(true)
+        /* setLoading(true) */
         const newMessage = { time: new Date(), msg: "start", name: data.name }
         socket.emit("newMessage", { newMessage, room: data.room })
 
@@ -93,13 +99,6 @@ const JoinPage = ({ mode }) => {
     //     { userName: "user_admin", userPass: "test123" }]
     //     facade.createPlayers(players, 1)
     // }
-
-
-
-    function start() {
-        gameController.startGame(data.gameid);
-        navigate(`/game/${data.room}/village`, { state: data });
-    }
 
     return (
         <>
