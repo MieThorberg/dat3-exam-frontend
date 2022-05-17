@@ -128,17 +128,17 @@ function NewRound({ host, current, votePage, displayCharacter }) {
     );
 }
 
-function Vote({ host, current, voteResultPage, displayCharacter }) {
+function Vote({ host, current, voteResultPage, displayCharacter, playerToken, data }) {
 
     const [choosenPlayer, setChoosenPlayer] = useState("");
     const [players, setPlayers] = useState([]);
-    const [playerToken, setPlayerToken] = useState({});
+    // const [playerToken, setPlayerToken] = useState({});
     /* const [currentRound, setCurrentRound] = useState({}); */
 
 
     // MUST HAVE:sends location to the next page
-    const location = useLocation()
-    const [data, setData] = useState({})
+    // const location = useLocation()
+    // const [data, setData] = useState({})
     const Ref = useRef(null);
     const [timer, setTimer] = useState('00:05');
     const [timerHasStopped, setTimerHasStopped] = useState(false);
@@ -201,16 +201,16 @@ function Vote({ host, current, voteResultPage, displayCharacter }) {
 
 
     useEffect(() => {
-        setData(location.state)
+        // setData(location.state)
         setActiveBtn();
         if (data.gameid != undefined) {
             if (players.length == 0) {
                 facade.getAlivePlayers(data.gameid).then(data => setPlayers(data))
             }
-            if (facade.getPlayerToken() != null) {
-                facade.getPlayer(facade.getPlayerToken().id)
-                setPlayerToken(facade.getPlayerToken());
-            }
+            // if (facade.getPlayerToken() != null) {
+            //     facade.getPlayer(facade.getPlayerToken().id)
+            //     setPlayerToken(facade.getPlayerToken());
+            // }
 
             /* facade.getCurrentRound(data.gameid).then(data => {
                 setCurrentRound(data)
@@ -224,19 +224,18 @@ function Vote({ host, current, voteResultPage, displayCharacter }) {
         } */
 
 
-    }, [data, location, players/* , currentRound, */ /* host */])
+    }, [data,  players/* , currentRound, */ /* host */])
 
     useEffect(() => {
         if (timerHasStopped) {
-            if (playerToken.isHost) {
-                console.log(playerToken.isHost);
+            if (host) {
                 voteResultPage()
             }
         }
     }, [timerHasStopped, setTimerHasStopped])
 
     function vote() {
-        gameController.vote(data.gameid, facade.getPlayerToken().id, choosenPlayer);
+        gameController.vote(data.gameid, playerToken.id, choosenPlayer);
         // TODO: show that player has voted
         console.log("has voted!")
     }
@@ -364,7 +363,7 @@ function Vote({ host, current, voteResultPage, displayCharacter }) {
     );
 }
 
-function VoteResult({ host, current, newRoundPage, displayCharacter }) {
+function VoteResult({ host, current, newRoundPage, displayCharacter, data, playerToken}) {
     const [result, setResult] = useState({});
     const [victim, setVictim] = useState({});
     /* const [day, setDay] = useState(""); */
@@ -372,12 +371,12 @@ function VoteResult({ host, current, newRoundPage, displayCharacter }) {
     /* const [currentRound, setCurrentRound] = useState({});
     const [host, setHost] = useState(false) */
 
-    const location = useLocation()
-    const [data, setData] = useState({})
+    // const location = useLocation()
+    // const [data, setData] = useState({})
 
     const [socket, setSocket] = useState(io)
     useEffect(() => {
-        setData(location.state)
+        // setData(location.state)
         /* if (facade.getPlayerToken() != null) {
             setHost(facade.getPlayerToken().isHost);
         } */
@@ -387,12 +386,12 @@ function VoteResult({ host, current, newRoundPage, displayCharacter }) {
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [location, data/* , host */])
+    }, [ data/* , host */])
     useEffect(() => {
         if (data.gameid != undefined) {
             gameController.getVictimLatest(data.gameid).then(data => {
                 setVictim(data);
-                if (facade.getPlayerToken().username == data.username) {
+                if (playerToken.username == data.username) {
                     facade.setPlayerToken(data);
                 }
             });
@@ -442,15 +441,15 @@ function VoteResult({ host, current, newRoundPage, displayCharacter }) {
     );
 }
 
-function EndedGame() {
-    const location = useLocation()
-    const [data, setData] = useState({});
+function EndedGame({data,  host}) {
+    // const location = useLocation()
+    // const [data, setData] = useState({});
     const [players, setPlayers] = useState([]);
     const [winner, setWinner] = useState("");
 
-    useEffect(() => {
-        setData(location.state)
-    }, [location])
+    // useEffect(() => {
+    //     setData(location.state)
+    // }, [location])
     
     useEffect(() => {
         if (data.gameid != undefined) {
@@ -479,7 +478,7 @@ function EndedGame() {
                 <div className="banner">
                     <h2>Winning team</h2>
                     <h1>{winner}</h1>
-                    <p>The villag killed the werewolf at there was peace again in the village</p>
+                    <p>The village killed the werewolf at there was peace again in the village</p>
                 </div>
                 <div className='joined-players-section'>
                     <div className='joined-players-scroll'>
@@ -502,7 +501,7 @@ function EndedGame() {
                     <div></div>
                     <div>
                         {
-                            /* host && */ <button className='btn-purple'/*  onClick={showVoteResultpage} */>Finish</button>
+                             host &&  <button className='btn-purple'/*  onClick={showVoteResultpage} */>Finish</button>
                         }
                     </div>
                     <div><button className='restart-btn'>restart <i className="fa">&#xf0e2;</i></button></div>
@@ -585,12 +584,9 @@ const GamePage = ({ mode, changeMode }) => {
             if (facade.getPlayerToken() != null) {
                 setHost(facade.getPlayerToken().isHost);
             }
-            if (facade.getPlayerToken() != null && playerToken != undefined) {
-                facade.getPlayer(facade.getPlayerToken().id)
-                setPlayerToken(facade.getPlayerToken());
-            }
+          
         }
-    }, [data, location, host, playerToken])
+    }, [data, location, host])
 
     /* useEffect(() => {
         if(data.gameid != undefined) {
@@ -603,18 +599,27 @@ const GamePage = ({ mode, changeMode }) => {
 
 
     useEffect(() => {
-        if (data.gameid) {
+        if (data.gameid != undefined) {
             gameController.getCurrentRound(data.gameid).then(data => {
                 setCurrent(data)
             });
+            if (facade.getPlayerToken() != null) {
+                if (playerToken.characterName == null) {
+                    console.log("bobo");
+                    facade.getPlayer(facade.getPlayerToken().id)
+                    setPlayerToken(facade.getPlayerToken());
+                }
+                
+                
+            }
         }
+      
 
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
     }, [data, current])
 
-    
 
 
     function displayCharacter() {
@@ -650,15 +655,15 @@ const GamePage = ({ mode, changeMode }) => {
                         }
 
                         {message == "vote" &&
-                            <Vote host={host} current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} />
+                            <Vote host={host} current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken} data={data} />
                         }
 
                         {message == "vote result" &&
-                            <VoteResult host={host} current={current} newRoundPage={newRoundPage} displayCharacter={displayCharacter} />
+                            <VoteResult host={host} current={current} newRoundPage={newRoundPage} displayCharacter={displayCharacter} data={data} playerToken={playerToken} />
                         }
 
                         {message == "ended" &&
-                            <EndedGame />
+                            <EndedGame data={data} host={host} />
                         }
                     </div>
                 </div>
