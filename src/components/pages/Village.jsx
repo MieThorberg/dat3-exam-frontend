@@ -22,6 +22,8 @@ const Village = ({ mode, changeMode }) => {
 
     const [current, setCurrent] = useState({});
     const [host, setHost] = useState(false)
+    const [playerToken, setPlayerToken] = useState({});
+
 
     const [socket, setSocket] = useState(io)
 
@@ -37,6 +39,10 @@ const Village = ({ mode, changeMode }) => {
     }, [])
 
     useEffect(() => {
+        setPlayerToken(facade.getPlayerToken)
+    },[])
+
+    useEffect(() => {
         //recieves the latest message from the server and sets our useStates
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
@@ -49,8 +55,6 @@ const Village = ({ mode, changeMode }) => {
 
     const votePage = () => {
         stop();
-        console.log("hello");
-        console.log(socket);
         const newMessage = { time: new Date(), msg: "vote", name: data.name }
         socket.emit("newMessage", { newMessage, room: location.state.room })
     }
@@ -114,10 +118,9 @@ const Village = ({ mode, changeMode }) => {
         return deadline;
     }
 
-    useEffect(() => {
-        console.log(timerHasStopped);
-        clear(getDeadTime());
-    }, []);
+     useEffect(() => {
+         clear(getDeadTime());
+     }, []);
 
     const onClickReset = () => {
         setTimerColor("white")
@@ -142,8 +145,7 @@ const Village = ({ mode, changeMode }) => {
 
     useEffect(() => {
         if (timerHasStopped) {
-            if (host) {
-                console.log(host);
+            if(host) {
                 votePage()
             }
         }
@@ -170,10 +172,14 @@ const Village = ({ mode, changeMode }) => {
                         <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
                             <p>Discuss who you think are a werewolf!</p>
                         </div>
+                        <div className='content'>
+                            <h1>You are a {playerToken.characterName}</h1>
+                        </div>
+
+
                     </div>
                 </div>
-                <div className='fixed-btn'>
-                    {/* only user host shall see this button */}
+                <div className='fixed-btn' /* style={{ display: "none" }} */>
                     {
                         host && <button className='btn-purple' onClick={votePage}>Stop now</button>
                     }
