@@ -392,6 +392,7 @@ function VoteResult({ host, current, newRoundPage, displayCharacter, playerToken
             gameController.getVictimLatest(data.gameid).then(data => {
                 setVictim(data);
                 if (playerToken.username == data.username) {
+                    
                     facade.setPlayerToken(data);
                 }
             });
@@ -622,7 +623,7 @@ const GamePage = ({ mode, changeMode }) => {
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [data, current])
+    }, [data, current, playerToken])
 
 
 

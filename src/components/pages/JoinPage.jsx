@@ -56,6 +56,7 @@ const JoinPage = ({ mode }) => {
         }
 
         if (facade.getPlayerToken() != null) {
+   
             setHost(facade.getPlayerToken().isHost);
         }
 
@@ -66,8 +67,9 @@ const JoinPage = ({ mode }) => {
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
                 if (newMessage.msg == "start") {
-
-                    if (host) {
+                  
+                    if (facade.getPlayerToken().isHost) {
+                    
                         gameController.startGame(data.gameid);
                     }
 
