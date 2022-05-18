@@ -29,14 +29,12 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
     const [character, setCharacter] = useState({ name: "loading", image: "loading", description: ""});
 
     useEffect(() => {
-        console.log("one timer");
         const socket = io("https://react-chat-werewolf-server.herokuapp.com")
         setSocket(socket)
         socket.on("connect", () => {
             console.log("village socket Connected")
             socket.emit("joinRoom", location.state.room)
         })
-        /* changeMode(); */
 
     }, [])
 
@@ -57,11 +55,12 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
                     setMessage("new round");
                 }
                 if (newMessage.msg == "ended") {
+                    socket.close();
                     setMessage("ended");
                 }
             })
         }
-    }, [socket, current])
+    }, [socket])
 
     const votePage = () => {
 
