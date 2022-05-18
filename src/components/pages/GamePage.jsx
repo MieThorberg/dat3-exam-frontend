@@ -493,7 +493,7 @@ function EndedGame({ host }) {
                     <p>The village killed the werewolf and there was peace again</p>
                     :
                     <p>The werewolf killed the villagers and yolo'd home</p>
-    }
+                    }
                 </div>
                 <div className='joined-players-section'>
                     <div className='joined-players-scroll'>

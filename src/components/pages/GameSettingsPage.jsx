@@ -14,7 +14,7 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
 
   const [error, setError] = useState("");
   const [user, setUser] = useState({});
-  const [data, setData] = useState({ name: "", room: "", gameid: "" });
+  const [data, setData] = useState({ name: "", room: "", gameid: "", werewolves: "", hunters: ""});
   const [game, setGame] = useState({});
 
   const handleChange = (e) => {
@@ -52,6 +52,8 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
         setData({...data, name: host, gameid: fetchdata.id });
         console.log(fetchdata);
         facade.createPlayer(fetchdata.id, {userName: fetchdata.hostName}).then(data => facade.setPlayerHost(fetchdata.id, data))
+        console.log("werwolves "+data.werewolves);
+        console.log("hunters "+data.hunters);
       });
     }
   };
@@ -94,6 +96,8 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
             >
               <form >
                 <div>
+                  <input type="text" name="werewolves" placeholder="Amount of werewolves" value={data.werewolves} onChange={handleChange}/>
+                  <input type="text" name="hunters" placeholder="Amount of hunters" value={data.hunters} onChange={handleChange}/>
                   <input
                     readOnly
                     type="text"
