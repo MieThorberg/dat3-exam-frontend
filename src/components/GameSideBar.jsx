@@ -41,7 +41,7 @@ const GameSideBar = ({characterName, username}) => {
                         {characterName === 'werewolf' ?
                             <>
                             {/* {setScrollSize("30vh")} */}
-                                < Room room={2} chatHeader="Wolf Chat" scrollSize={scrollSize} />
+                                < Room room={location.state.Room + 200000} chatHeader="Wolf Chat" scrollSize={scrollSize} />
 
                             </>
                             :
