@@ -633,7 +633,7 @@ const GamePage = ({ mode, changeMode }) => {
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [data, current/* , playerToken */])
+    }, [data, current, playerToken ])
 
 
 
