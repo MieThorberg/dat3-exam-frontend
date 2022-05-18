@@ -10,6 +10,7 @@ function Village({ host, data, current, setCurrent, votePage, displayCharacter }
     const [timerColor, setTimerColor] = useState('white');
     const [timerHasStopped, setTimerHasStopped] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
+    const [show, setShow] = useState(false);
 
 
     const getTimeRemaining = (e) => {
@@ -22,9 +23,17 @@ function Village({ host, data, current, setCurrent, votePage, displayCharacter }
     }
 
     useEffect(() => {
-        facade.getCurrentRound(data.gameid).then(data => setCurrent(data));
-    
-    },[])
+        setTimeout(() => {
+            setShow(true);
+        }, 1000);
+    }, [])
+
+
+    useEffect(() => {
+        facade.getCurrentRound(data.gameid).then(data => {
+            setCurrent(data)
+        });
+    }, [])
 
 
     const start = (e) => {
@@ -33,24 +42,24 @@ function Village({ host, data, current, setCurrent, votePage, displayCharacter }
             setTimer("00:00");
             return;
         } else {
-                if (total >= 0) {
-                    setTimer(
-                        (minutes > 9 ? minutes : '0' + minutes) + ":" +
-                        (seconds > 9 ? seconds : '0' + seconds)
-                    )
-                    if (minutes == 0 && seconds < 31) {
-                        setTimerColor("red");
-    
-                        if (seconds == 0) {
-                            setTimerHasStopped(true);
-                        }
+            if (total >= 0) {
+                setTimer(
+                    (minutes > 9 ? minutes : '0' + minutes) + ":" +
+                    (seconds > 9 ? seconds : '0' + seconds)
+                )
+                if (minutes == 0 && seconds < 31) {
+                    setTimerColor("red");
+
+                    if (seconds == 0) {
+                        setTimerHasStopped(true);
                     }
                 }
+            }
         }
     }
 
     const clear = (e) => {
-             //change time here
+        //change time here
         setTimer("00:50");
         if (Ref.current) clearInterval(Ref.current);
 
@@ -111,7 +120,7 @@ function Village({ host, data, current, setCurrent, votePage, displayCharacter }
                 <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
                 <div className='center'>
                     {
-                        host && <button className='btn-green' onClick={stop}>Stop now</button>
+                        show && host && <button className='btn-green' onClick={stop}>Stop now</button>
                     }
                 </div>
                 <div className='right'></div>

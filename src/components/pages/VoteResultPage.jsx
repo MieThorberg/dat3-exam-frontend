@@ -17,11 +17,19 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
 
     const location = useLocation()
     const [data, setData] = useState({})
+    const [show, setShow] = useState(false)
 
     const [socket, setSocket] = useState(io)
+
+    useEffect(() => {
+        setTimeout(() => {
+            setShow(true);
+        }, 1000);
+    }, [])
+
     useEffect(() => {
         console.log("data setter");
-        
+
         setData(location.state)
 
         if (facade.getToken() == undefined) {
@@ -33,7 +41,7 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
         console.log("victim finder");
         console.log(data);
         if (data.gameid != undefined) {
-            if(Object.keys(result).length == 0) {
+            if (Object.keys(result).length == 0) {
                 gameController.getRoundResult(data.gameid).then(data => setResult(data));
             }
             if (Object.keys(victim).length == 0) {
@@ -43,7 +51,7 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
                         facade.setPlayerToken(data);
                     }
                 });
-            }   
+            }
         }
     }, [result, data])
 
@@ -72,7 +80,7 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
                 <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
                 <div className='center'>
                     {
-                        host && <button className='btn-green' onClick={newRoundPage}>Continue</button>
+                        show && host && <button className='btn-green' onClick={newRoundPage}>Continue</button>
                     }
                 </div>
                 <div className='right'></div>
