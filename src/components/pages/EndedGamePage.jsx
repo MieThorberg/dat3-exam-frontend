@@ -42,7 +42,11 @@ function EndedGamePage({ host }) {
                 <div className="banner">
                     <h2>Winning team</h2>
                     <h1>{winner}</h1>
-                    <p>The village killed the werewolf at there was peace again in the village</p>
+                    {winner == "Villagers!"?
+                    <p>The village killed the werewolf and there was peace again ✌️🧑‍🌾👩‍🌾</p>
+                    :
+                    <p>The werewolf killed the villagers and wolved the city 🐺🐺🐺</p> }
+
                 </div>
                 <div className='joined-players-section'>
                     <div className='joined-players-scroll'>
