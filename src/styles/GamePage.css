@@ -312,7 +312,7 @@ h2 {
     justify-content: center;
     align-items: center;
     position: fixed;
-    bottom: 70px;
+    bottom: 10vh;
     margin-left: 20px;
     border-radius: 20px;
     padding: 20px 22px 20px 22px;
