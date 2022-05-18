@@ -7,8 +7,9 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import facade from '../../apiFacade'
 import { io } from 'socket.io-client'
 import "../../styles/GamePage.css";
-import image from "../../images/villager.png"
-import image1 from "../../images/sundown.jpg"
+import villagerImage from "../../images/villager.png"
+import werewolfImage from "../../images/werewolf.png"
+import hunterImage from "../../images/hunter.png"
 
 import GameSideBar from '../GameSideBar'
 import Village from './Village'
@@ -25,6 +26,7 @@ const GamePage = ({ mode, changeMode }) => {
     const [host, setHost] = useState(false)
     const [socket, setSocket] = useState(io);
     const [message, setMessage] = useState("new round");
+    const [character, setCharacter] = useState({ name: "", image: villagerImage, description: ""});
 
     useEffect(() => {
         const socket = io("https://react-chat-werewolf-server.herokuapp.com")
@@ -117,6 +119,12 @@ const GamePage = ({ mode, changeMode }) => {
                     facade.getPlayer(facade.getPlayerToken().id)
                     setPlayerToken(facade.getPlayerToken());
                 }
+                else {
+                    if (character.name == "") {
+                        console.log(playerToken.characterName);
+                        setPlayerCharacter();
+                    }
+                }
 
 
             }
@@ -126,7 +134,7 @@ const GamePage = ({ mode, changeMode }) => {
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [data, current, playerToken ])
+    }, [data, current, playerToken])
 
 
 
@@ -141,6 +149,41 @@ const GamePage = ({ mode, changeMode }) => {
         }
     }
 
+    const getCharacterName = (name) => {
+        if (name == "villager") {
+            return "Villager";
+        } else if (name == "werewolf") {
+            return "Werewolf";
+        } else { //else return hunter
+            return "Hunter";
+        }
+    }
+
+    const getCharacterImage = (name) => {
+        if (name == "villager") {
+            return villagerImage;
+        } else if (name == "werewolf") {
+            return werewolfImage;
+        } else { //else return hunter image
+            return hunterImage;
+        }
+    }
+
+    function setPlayerCharacter() {
+        const name = playerToken.characterName;
+        const characterName = getCharacterName(name);
+        const characterImage = getCharacterImage(name);
+
+        facade.getCharacter(name).then(data => setCharacter({name: characterName, image: characterImage, description: data.description}))
+       
+    }
+
+    /*     const getCharacterDescription = () => {
+            const name = playerToken.characterName;
+            facade.getCharacter(name).then(data => setCharacterDescription(data.description));
+            return characterDescription;
+        }
+     */
     return (
         <>
             <div className='background-container'>
@@ -180,11 +223,11 @@ const GamePage = ({ mode, changeMode }) => {
                                     <div className='top'><i className="fa" id="remove-icon">&#xf00d;</i></div>
                                     <div className='character-image'>
                                         <p>Your role</p>
-                                        <h1>Villager</h1>
-                                        <img src={image} />
+                                        <h1>{character.name}</h1>
+                                        <img src={character.image} />
                                     </div>
                                     <div className='description'>
-                                        <p>charac ter descripti on charac ter descrip tion char acter descrip tion chara cter descr iption character description</p>
+                                        <p>{character.description}</p>
                                     </div>
                                 </div>
                             </div>
