@@ -14,7 +14,7 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
 
   const [error, setError] = useState("");
   const [user, setUser] = useState({});
-  const [data, setData] = useState({ name: "", room: "", gameid: "", werewolves: "", hunter: false});
+  const [data, setData] = useState({ name: "", room: "", gameid: "", werewolves: 1, hunter: false});
   const [game, setGame] = useState({});
   const [copied, setCopied] = useState(false)
 
@@ -114,7 +114,8 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
             >
               <form >
                 <div>
-                  <input type="text" name="werewolves" placeholder="Amount of werewolves" value={data.werewolves} onChange={handleChange}/>
+                <label style={{color: 'white'}}>choose amount of werewolves?</label>
+                  <input type="number" name="werewolves" min={1} max={39} value={data.werewolves} onChange={handleChange}/>
                   <label style={{color: 'white'}}>Hunter?</label>
                   <input type="checkbox" name="hunter" id="hunter"  value={data.hunter} onChange={handleChecked}/>
                   <input
