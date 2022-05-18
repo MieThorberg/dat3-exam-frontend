@@ -17,7 +17,7 @@ import VotePage from './VotePage'
 import VoteResultPage from './VoteResultPage'
 import EndedGamePage from './EndedGamePage'
 
-const GamePage = ({ mode, changeMode }) => {
+const GamePage = ({ mode, changeMode, changeEndMode }) => {
     const navigate = useNavigate();
     const location = useLocation()
     const [playerToken, setPlayerToken] = useState({});
@@ -26,7 +26,7 @@ const GamePage = ({ mode, changeMode }) => {
     const [host, setHost] = useState(false)
     const [socket, setSocket] = useState(io);
     const [message, setMessage] = useState("new round");
-    const [character, setCharacter] = useState({ name: "", image: villagerImage, description: ""});
+    const [character, setCharacter] = useState({ name: "loading", image: "loading", description: ""});
 
     useEffect(() => {
         const socket = io("https://react-chat-werewolf-server.herokuapp.com")
@@ -35,11 +35,11 @@ const GamePage = ({ mode, changeMode }) => {
             console.log("village socket Connected")
             socket.emit("joinRoom", location.state.room)
         })
-        /* changeMode(); */
 
     }, [])
 
     useEffect(() => {
+        console.log("socket Checker");
         //recieves the latest message from the server and sets our useStates
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
@@ -50,17 +50,17 @@ const GamePage = ({ mode, changeMode }) => {
                     setMessage("vote result");
                 }
                 if (newMessage.msg == "new round") {
-                    console.log(current);
                     changeMode();
                     facade.getCurrentRound(data.gameid).then(data => setCurrent(data));
                     setMessage("new round");
                 }
                 if (newMessage.msg == "ended") {
+                    socket.close();
                     setMessage("ended");
                 }
-            })
+            })       
         }
-    }, [socket, current])
+    }, [socket])
 
     const votePage = () => {
 
@@ -88,6 +88,7 @@ const GamePage = ({ mode, changeMode }) => {
     }
 
     useEffect(() => {
+        console.log("banana");
         setData(location.state)
         if (data.gameid != undefined) {
             if (facade.getPlayerToken() != null) {
@@ -97,45 +98,31 @@ const GamePage = ({ mode, changeMode }) => {
         }
     }, [data, location, host])
 
-    /* useEffect(() => {
-        if(data.gameid != undefined) {
-            if (facade.getPlayerToken() != null) {
-                facade.getPlayer(facade.getPlayerToken().id)
-                setPlayerToken(facade.getPlayerToken());
-            }
-        }
-    }, []) */
-
-
     useEffect(() => {
+        console.log("hello");
+
         if (data.gameid != undefined) {
             if (Object.keys(current).length == 0) {
                 gameController.getCurrentRound(data.gameid).then(data => {
                     setCurrent(data)
                 });
             }
-
             if (facade.getPlayerToken() != null) {
                 if (playerToken.characterName == null) {
                     facade.getPlayer(facade.getPlayerToken().id)
                     setPlayerToken(facade.getPlayerToken());
                 }
                 else {
-                    if (character.name == "") {
-                        console.log(playerToken.characterName);
+                    if (character.description == "") {
                         setPlayerCharacter();
                     }
                 }
-
-
             }
         }
-
-
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [data, current, playerToken])
+    }, [data, playerToken])
 
 
 
@@ -195,7 +182,7 @@ const GamePage = ({ mode, changeMode }) => {
 
             <div className='game'>
                 <div className='sidebar'>
-                    <GameSideBar characterName={playerToken.characterName} username={playerToken.username} />
+                    <GameSideBar characterName={playerToken.characterName} />
                 </div>
 
                 <div className='game-main'>
@@ -215,7 +202,7 @@ const GamePage = ({ mode, changeMode }) => {
                         }
 
                         {message == "ended" &&
-                            <EndedGamePage host={host} />
+                            <EndedGamePage host={host} changeEndMode={changeEndMode} />
                         }
 
                         <div id='characterPopup' onClick={displayCharacter}>

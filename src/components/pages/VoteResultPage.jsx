@@ -20,31 +20,32 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
 
     const [socket, setSocket] = useState(io)
     useEffect(() => {
+        console.log("data setter");
+        
         setData(location.state)
-        /* if (facade.getPlayerToken() != null) {
-            setHost(facade.getPlayerToken().isHost);
-        } */
-        if (data.gameid != undefined) {
-            gameController.getRoundResult(data.gameid).then(data => setResult(data));
-        }
+
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [data, location/* , host */])
-    useEffect(() => {
-        if (data.gameid != undefined) {
-            gameController.getVictimLatest(data.gameid).then(data => {
-                setVictim(data);
-                if (playerToken.username == data.username) {
+    }, [location])
 
-                    facade.setPlayerToken(data);
-                }
-            });
-            /* facade.getCurrentRound(data.gameid).then(data => {
-                setCurrentRound(data)
-            }) */
+    useEffect(() => {
+        console.log("victim finder");
+        console.log(data);
+        if (data.gameid != undefined) {
+            if(Object.keys(result).length == 0) {
+                gameController.getRoundResult(data.gameid).then(data => setResult(data));
+            }
+            if (Object.keys(victim).length == 0) {
+                gameController.getVictimLatest(data.gameid).then(data => {
+                    setVictim(data);
+                    if (playerToken.username == data.username) {
+                        facade.setPlayerToken(data);
+                    }
+                });
+            }   
         }
-    }, [result, data/* , currentRound */])
+    }, [result, data])
 
     return (
         <>

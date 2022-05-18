@@ -26,12 +26,14 @@ import EndedGamePage from "./components/pages/EndedGamePage";
 /* blur: "rgba(16, 5, 30, 0.685)", */
 import night from "./images/night.jpg";
 import day from "./images/day.jpg";
+import nightEnd from "./images/ghosttown.jpg";
+import dayEnd from "./images/sundown.jpg";
 
 export default function App() {
   const nightMode = {
     name: "night",
     image: night,
-    blur: "rgba(16, 5, 30, 0.685)",
+    blur: "rgba(16, 5, 30, 0.5)",
     color: "white",
     header: "000000ee",
     votecolor: "#1ff39e",
@@ -41,19 +43,36 @@ export default function App() {
     /* TODO: add colors for font, navigation, btn, background-color */
   }
 
-  const werewolfMode = {
-    name: "werewolf",
-    image: night,
-    blur: "rgba(10, 0, 0, 0.8)",
+  const nightEndMode = {
+    name: "night",
+    image: nightEnd,
+    blur: "rgba(16, 5, 30, 0.5)",
     color: "white",
-    header: "#da1313ee",
+    header: "000000ee",
     votecolor: "#1ff39e",
+
+    /* topnavColor: "#4141414b",
+    topnavLinkColor: "#d6ced9", */
+    /* TODO: add colors for font, navigation, btn, background-color */
   }
 
   const dayMode = {
     name: "day",
     image: day,
     blur: "rgba(16, 5, 30, 0.3)",
+    color: "black",
+    header: "000000ee",
+    votecolor: "black",
+  /*   topnavColor: "#e0dede4b",
+    topnavLinkColor: "black", */
+
+    /* TODO: add colors for font, navigation, btn, background-color */
+  }
+
+  const dayEndMode = {
+    name: "day",
+    image: dayEnd,
+    blur: "rgba(16, 5, 30, 0.2)",
     color: "black",
     header: "000000ee",
     votecolor: "black",
@@ -73,11 +92,17 @@ export default function App() {
   function changeMode() {
     if(mode.name == "night") {
       setMode(dayMode);
-      console.log("day")
     }
     else {
       setMode(nightMode);
-      console.log("night")
+    }
+  }
+  
+  function changeEndMode(villagerHasWon) {
+    if(villagerHasWon) {
+      setMode(dayEndMode);
+    } else {
+      setMode(nightEndMode);
     }
   }
 
@@ -86,7 +111,7 @@ export default function App() {
       <BrowserRouter>
         <Header mode={mode} headline={headline}/>
         <Routes>
-          <Route path="/" element={<StartPage mode={mode} />}></Route>
+          <Route path="/" element={<StartPage mode={nightMode} />}></Route>
 
           <Route path="/login" element={<LoginPage loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
           <Route path="/create_user" element={<CreateUserPage />}></Route>
@@ -95,10 +120,10 @@ export default function App() {
           <Route path="/credits" element={<CreditsPage />}></Route>
 
           {/* Logged as user links */}
-          <Route path="/home" element={<Home setHeadline={setHeadline} mode={mode}/>}></Route>
-          <Route path="/game_settings" element={<GameSettingsPage mode={mode} setHeadline={setHeadline} />}></Route>
-          <Route path="/join_game/:roomId" element={<JoinPage mode={mode} />}></Route>
-          <Route path="/gamepin" element={<GamepinPage mode={mode} />}></Route>
+          <Route path="/home" element={<Home setHeadline={setHeadline} mode={nightMode}/>}></Route>
+          <Route path="/game_settings" element={<GameSettingsPage mode={nightMode} setHeadline={setHeadline} />}></Route>
+          <Route path="/join_game/:roomId" element={<JoinPage mode={nightMode} />}></Route>
+          <Route path="/gamepin" element={<GamepinPage mode={nightMode} />}></Route>
 
           {/* Playing game links */}
           <Route path="/game/:roomid/village" element={<Village mode={mode} changeMode={changeMode} />}></Route>
@@ -113,7 +138,7 @@ export default function App() {
           <Route path="join" element={<Join />} />
           <Route path="*" element={<NoMatch />} />
 
-          <Route path="/game/:roomid" element={<GamePage mode={mode} changeMode={changeMode}/>}></Route>
+          <Route path="/game/:roomid" element={<GamePage mode={mode} changeMode={changeMode} changeEndMode={changeEndMode}/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

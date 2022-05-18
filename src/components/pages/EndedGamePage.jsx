@@ -5,7 +5,7 @@ import gameController from '../../gameController'
 import { useNavigate, useLocation } from 'react-router-dom'
 import facade from '../../apiFacade'
 
-function EndedGamePage({ host }) {
+function EndedGamePage({ host, changeEndMode}) {
     const location = useLocation()
     const [data, setData] = useState({});
     const [players, setPlayers] = useState([]);
@@ -20,8 +20,10 @@ function EndedGamePage({ host }) {
             facade.getWereWolves(data.gameid).then(data => {
                 if (data.length == 0) {
                     setWinner("Villagers!")
+                    changeEndMode(true);
                 } else {
                     setWinner("Werewolves!")
+                    changeEndMode(false);
                 }
             })
             facade.getPlayers(data.gameid).then(data => setPlayers(data));

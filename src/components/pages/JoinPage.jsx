@@ -1,5 +1,5 @@
 
-import Reactm, { useState, useEffect, useRef } from 'react'
+import Reactm, { useState, useEffect, useRef, useCallback } from 'react'
 import { io } from 'socket.io-client'
 import { useLocation, useNavigate } from 'react-router-dom'
 import "../../styles/App.css"
@@ -13,7 +13,7 @@ const JoinPage = ({ mode }) => {
     const navigate = useNavigate();
     const location = useLocation()
     const msgBoxRef = useRef()
-    const [data, setData] = useState({ name:"", room:"", role:"" })
+    const [data, setData] = useState({ name: "", room: "", role: "" })
     const [role, setRole] = useState("")
     const [host, setHost] = useState(false)
     const [socket, setSocket] = useState(io)
@@ -27,13 +27,13 @@ const JoinPage = ({ mode }) => {
 
     useEffect(() => {
         setData(location.state)
-        
-       /*  setData({
-          ...data, 
-          [e.target.name]: e.target.value
-      }) */
+
+        /*  setData({
+           ...data, 
+           [e.target.name]: e.target.value
+       }) */
     }, [location])
- /*    console.log(data); */
+    /*    console.log(data); */
 
     useEffect(() => {
         const socket = io("https://react-chat-werewolf-server.herokuapp.com")
@@ -47,29 +47,32 @@ const JoinPage = ({ mode }) => {
     }, [])
 
     useEffect(() => {
-        if (data.gameid != undefined) {
-            facade.getPlayers(data.gameid).then(data => setPlayers(data))
-        }
+        const intervalId = setInterval(() => {
+            if (data.gameid != undefined) {
+                facade.getPlayers(data.gameid).then(data => setPlayers(data))
+                if (facade.getToken() == undefined) {
+                    navigate("/login");
+                }
 
-        if (facade.getToken() == undefined) {
-            navigate("/login");
-        }
+                if (facade.getPlayerToken() != null) {
 
-        if (facade.getPlayerToken() != null) {
-   
-            setHost(facade.getPlayerToken().isHost);
-        }
+                    setHost(facade.getPlayerToken().isHost);
+                }
+            }
+        }, 1500)
 
-    }, [data, players, host]);
+        return () => clearInterval(intervalId);
+
+    }), [data, players, host];
 
     useEffect(() => {
         //recieves the latest message from the server and sets our useStates
+
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
                 if (newMessage.msg == "start") {
-                  
+
                     if (facade.getPlayerToken().isHost) {
-                    
                         gameController.startGame(data);
                     }
 

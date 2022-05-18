@@ -51,14 +51,16 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
     }
 
     const clear = (e) => {
-        //change time here
-        setTimer('00:10');
-        if (Ref.current) clearInterval(Ref.current);
+        if (!timerHasStopped) {
+            //change time here
+            setTimer('00:10');
+            if (Ref.current) clearInterval(Ref.current);
 
-        const id = setInterval(() => {
-            start(e);
-        }, 1000)
-        Ref.current = id;
+            const id = setInterval(() => {
+                start(e);
+            }, 1000)
+            Ref.current = id;
+        }
     }
 
     const getDeadTime = () => {
@@ -70,7 +72,7 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
     }
 
     useEffect(() => {
-        console.log(timerHasStopped);
+        console.log("one timer 3");
         clear(getDeadTime());
     }, []);
 
@@ -78,37 +80,39 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
         clear(getDeadTime());
     }
 
+    function stop() {
+        clearInterval(Ref.current)
+        setTimerHasStopped(true);
+        voteResultPage();
+    }
+
+
 
     useEffect(() => {
+        console.log("alive Players");
         setData(location.state)
-        if (!hasVoted) {
-            setActiveBtn();
-        }
 
         if (data.gameid != undefined) {
             if (players.length == 0) {
                 facade.getAlivePlayers(data.gameid).then(data => setPlayers(data))
             }
-            // if (facade.getPlayerToken() != null) {
-            //     facade.getPlayer(facade.getPlayerToken().id)
-            //     setPlayerToken(facade.getPlayerToken());
-            // }
 
-            /* facade.getCurrentRound(data.gameid).then(data => {
-                setCurrentRound(data)
-            }) */
         }
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-        /* if (facade.getPlayerToken() != null) {
-            setHost(facade.getPlayerToken().isHost);
-        } */
 
-
-    }, [data, location, players/* , currentRound, */ /* host */])
+    }, [data])
 
     useEffect(() => {
+        console.log("hasVoted");
+        if(!hasVoted){
+            setActiveBtn();
+        }
+    })
+
+    useEffect(() => {
+        console.log("stop timer 2");
         if (timerHasStopped) {
             if (host) {
                 voteResultPage()
@@ -118,7 +122,6 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
 
     function vote() {
         gameController.vote(data.gameid, playerToken.id, choosenPlayer);
-        // TODO: show that player has voted¨
         setHasVoted(true);
         console.log("has voted!")
     }
@@ -239,7 +242,7 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
                                 <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
                                 <div className='center'>
                                     {
-                                        host && <button className='btn-green' onClick={voteResultPage}>Stop now</button>
+                                        host && <button className='btn-green' onClick={stop}>Stop now</button>
                                     }
                                     {
                                         // if it is day or night
