@@ -1,63 +1,14 @@
-import React from 'react'
-import "../../styles/App.css"
 import { useRef, useState } from 'react'
 import { useEffect } from 'react'
-import gameController from '../../gameController'
-import { useNavigate, useLocation } from 'react-router-dom'
-import facade from '../../apiFacade'
-import { io } from 'socket.io-client'
 
-const Village = ({ mode, changeMode }) => {
-    const navigate = useNavigate();
-    const location = useLocation()
+
+function Village({ host, current, votePage, displayCharacter }) {
 
     const Ref = useRef(null);
-    const [timer, setTimer] = useState('05:00');
+    const [timer, setTimer] = useState('00:50');
     const [timerColor, setTimerColor] = useState('white');
-
-    const [data, setData] = useState({})
-
     const [timerHasStopped, setTimerHasStopped] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
-
-    const [current, setCurrent] = useState({});
-    const [host, setHost] = useState(false)
-    const [playerToken, setPlayerToken] = useState({});
-
-
-    const [socket, setSocket] = useState(io)
-
-    useEffect(() => {
-        const socket = io("https://react-chat-werewolf-server.herokuapp.com")
-        setSocket(socket)
-        socket.on("connect", () => {
-            console.log("village socket Connected")
-            socket.emit("joinRoom", location.state.room)
-        })
-        changeMode();
-
-    }, [])
-
-    useEffect(() => {
-        setPlayerToken(facade.getPlayerToken)
-    },[])
-
-    useEffect(() => {
-        //recieves the latest message from the server and sets our useStates
-        if (socket) {
-            socket.on("getLatestMessage", (newMessage) => {
-                if (newMessage.msg == "vote") {
-                    navigate(`/game/${data.room}/vote`, { state: data })
-                }
-            })
-        }
-    }, [socket])
-
-    const votePage = () => {
-        stop();
-        const newMessage = { time: new Date(), msg: "vote", name: data.name }
-        socket.emit("newMessage", { newMessage, room: location.state.room })
-    }
 
 
     const getTimeRemaining = (e) => {
@@ -68,13 +19,6 @@ const Village = ({ mode, changeMode }) => {
             total, minutes, seconds
         };
     }
-
-    useEffect(() => {
-        setData(location.state)
-        if (facade.getPlayerToken() != null) {
-            setHost(facade.getPlayerToken().isHost);
-        }
-    }, [location, host])
 
     const start = (e) => {
         let { total, minutes, seconds } = getTimeRemaining(e);
@@ -94,7 +38,6 @@ const Village = ({ mode, changeMode }) => {
                     if (seconds == 0) {
                         setTimerHasStopped(true);
                     }
-
                 }
             }
         }
@@ -102,7 +45,7 @@ const Village = ({ mode, changeMode }) => {
 
     const clear = (e) => {
         //change time here
-        setTimer("05:00");
+        setTimer("00:50");
         if (Ref.current) clearInterval(Ref.current);
 
         const id = setInterval(() => {
@@ -114,30 +57,9 @@ const Village = ({ mode, changeMode }) => {
     const getDeadTime = () => {
         let deadline = new Date();
         //change time here
-        deadline.setMinutes(deadline.getMinutes() + 5)
+        deadline.setSeconds(deadline.getSeconds() + 50)
         return deadline;
     }
-
-     useEffect(() => {
-         clear(getDeadTime());
-     }, []);
-
-    const onClickReset = () => {
-        setTimerColor("white")
-        clear(getDeadTime());
-    }
-
-    useEffect(() => {
-        if (data.gameid) {
-            gameController.getCurrentRound(data.gameid).then(data => {
-                setCurrent(data)
-            });
-        }
-
-        if (facade.getToken() == undefined) {
-            navigate("/login");
-        }
-    }, [data, current])
 
     function stop() {
         setIsPaused(!isPaused);
@@ -145,49 +67,48 @@ const Village = ({ mode, changeMode }) => {
 
     useEffect(() => {
         if (timerHasStopped) {
-            if(host) {
+            if (host) {
+                console.log(host);
                 votePage()
             }
         }
     }, [timerHasStopped, setTimerHasStopped])
 
+
+    useEffect(() => {
+        console.log(timerHasStopped);
+        clear(getDeadTime());
+    }, []);
+
+    const onClickReset = () => {
+        setTimerColor("white")
+        clear(getDeadTime());
+    }
     return (
         <>
-            <div className='background-container'>
-                <div id='background-img' style={{ backgroundImage: `url(${mode.image})` }}></div>
-                <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
+            {/* Round/village page */}
+            <div className='header'>
+                <div className='left'></div>
+                <div className='center'></div>
+                <div className='right'><h1 className='day-count'>DAY {current.day}</h1></div>
             </div>
 
-            <div className='main'>
-                <div className='main-container'>
-                    <div style={{ gridTemplateRows: "60% auto" }}>
-                    </div>
-                    <div className='section' style={{ gridTemplateRows: "50% auto" }}>
-
-                        <div className='header' style={{ justifyContent: "end", paddingBottom: "20px" }}>
-
-                            <p>Day {current.day}, {current.isDay ? "Day" : "night"}</p>
-                            <h1 style={{ color: timerColor }}>{timer}</h1>
-                        </div>
-                        <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
-                            <p>Discuss who you think are a werewolf!</p>
-                        </div>
-                        <div className='content'>
-                            <h1>You are a {playerToken.characterName}</h1>
-                        </div>
-
-
-                    </div>
-                </div>
-                <div className='fixed-btn' /* style={{ display: "none" }} */>
+            <div className='round-section'>
+                <h1 className='title'>{current.isDay ? "Day" : "Night"}</h1>
+                <h1 className='timer' style={{ color: timerColor }}>{timer}</h1>
+                <p className='description'>Discuss who you think are a werewolf!</p>
+            </div>
+            <div className='footer'>
+                <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
+                <div className='center'>
                     {
-                        host && <button className='btn-purple' onClick={votePage}>Stop now</button>
+                        host && <button className='btn-green' onClick={votePage}>Stop now</button>
                     }
                 </div>
+                <div className='right'></div>
             </div>
-
         </>
-    )
+    );
 }
 
 export default Village;
