@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import facade from '../../apiFacade'
 import { io } from 'socket.io-client'
 import "../../styles/GamePage.css";
-import image from "../../images/ghosttown.jpg"
+import image from "../../images/villager.png"
 import image1 from "../../images/sundown.jpg"
 
 import GameSideBar from '../GameSideBar'
@@ -118,12 +118,6 @@ function NewRound({ host, current, votePage, displayCharacter }) {
                 </div>
                 <div className='right'></div>
             </div>
-            {/* <div id='characterPopup' onClick={displayCharacter}>
-                <div>
-                    <h1>your character</h1>
-                </div>
-
-            </div> */}
         </>
     );
 }
@@ -140,13 +134,13 @@ function Vote({ host, current, voteResultPage, displayCharacter, playerToken }) 
     const location = useLocation()
     const [data, setData] = useState({})
     const Ref = useRef(null);
-    const [timer, setTimer] = useState('00:05');
+    const [timer, setTimer] = useState('01:00');
     const [timerHasStopped, setTimerHasStopped] = useState(false);
-
-   /*  const [allMessages, setMessages] = useState([])
-    const [msg, setMsg] = useState("")
-    const [loading, setLoading] = useState(false)
-    const [socket, setSocket] = useState(io) */
+    const [hasVoted, setHasVoted] = useState(false);
+    /*  const [allMessages, setMessages] = useState([])
+     const [msg, setMsg] = useState("")
+     const [loading, setLoading] = useState(false)
+     const [socket, setSocket] = useState(io) */
 
     const getTimeRemaining = (e) => {
         const total = Date.parse(e) - Date.parse(new Date());
@@ -173,7 +167,7 @@ function Vote({ host, current, voteResultPage, displayCharacter, playerToken }) 
 
     const clear = (e) => {
         //change time here
-        setTimer('00:05');
+        setTimer('01:00');
         if (Ref.current) clearInterval(Ref.current);
 
         const id = setInterval(() => {
@@ -186,7 +180,7 @@ function Vote({ host, current, voteResultPage, displayCharacter, playerToken }) 
         let deadline = new Date();
 
         //change time here
-        deadline.setSeconds(deadline.getSeconds() + 5)
+        deadline.setMinutes(deadline.getMinutes() + 1)
         return deadline;
     }
 
@@ -202,7 +196,10 @@ function Vote({ host, current, voteResultPage, displayCharacter, playerToken }) 
 
     useEffect(() => {
         setData(location.state)
-        setActiveBtn();
+        if (!hasVoted) {
+            setActiveBtn();
+        }
+
         if (data.gameid != undefined) {
             if (players.length == 0) {
                 facade.getAlivePlayers(data.gameid).then(data => setPlayers(data))
@@ -236,7 +233,8 @@ function Vote({ host, current, voteResultPage, displayCharacter, playerToken }) 
 
     function vote() {
         gameController.vote(data.gameid, playerToken.id, choosenPlayer);
-        // TODO: show that player has voted
+        // TODO: show that player has voted¨
+        setHasVoted(true);
         console.log("has voted!")
     }
 
@@ -261,109 +259,127 @@ function Vote({ host, current, voteResultPage, displayCharacter, playerToken }) 
 
     return (
         <>
-            {/* Vote */}
-            <div className='vote-section'>
-                <div className='header'>
-                    <div className='left'></div>
-                    <div className='center'></div>
-                    <div className='right'><h1>DAY {current.day}</h1></div>
-                </div>
-                <div className="banner">
-                    <h1>Vote</h1>
-                    <p>Choose the player you want to vote for</p>
-                </div>
-                <div className='joined-players-section'>
-                    <div className='joined-players-scroll'>
-                        <div className='list-grid' id="playerlist">
-                            {
-                                (playerToken.characterName == "werewolf" && (!current.isDay)) ?
-                                    (players.map((player, index) => {
-                                        if (player.characterName != "werewolf") {
-                                            if (index == 0) {
-                                                {
-                                                    if (choosenPlayer == "") {
-                                                        setChoosenPlayer(player.id);
-                                                    }
-                                                }
-                                                return <div key={player.id}>
-                                                    <div className='vote'>
-                                                        <img id={player.id} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                                        <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                                    </div>
-                                                </div>
-                                            }
 
-                                            return <div key={player.id}>
-                                                <div className='vote'>
-                                                    <img id={player.id} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                                </div>
-                                            </div>
-                                        }
-                                    })
-                                    ) : (
-                                        players.map((player, index) => {
-                                            if (index == 0) {
-                                                {
-                                                    if (choosenPlayer == "") {
-                                                        setChoosenPlayer(player.id);
-                                                    }
-                                                }
-                                                return <div key={player.id}>
-                                                    <div className='vote'>
-                                                        <img id={player.id} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                                        <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                                    </div>
-                                                </div>
-                                            }
-                                            return <div key={player.id}>
-                                                <div className='vote'>
-                                                    <img id={player.id} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                                </div>
-                                            </div>
-                                        }))
 
-                            }
+            {
+                hasVoted ?
+                    <>
+                        <div className='header'>
+                            <div className='left'></div>
+                            <div className='center'></div>
+                            <div className='right'><h1>DAY {current.day}</h1></div>
                         </div>
-                    </div>
-                </div>
+                        <div className='round-section'>
+                            {/* <h1 className='title'>{current.isDay ? "Day" : "Night"}</h1>
+                                 */}<h1 className='title' style={{ textAlign: "center" }}>Your voted has been recieved</h1>
+                            <p className='description' style={{ paddingTop: "10px" }}>Please wait for the vote result</p>
+                        </div>
+                        <div className='footer'>
+                                <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
+                                <div className='center'></div>
+                                <div className='right'></div>
+                            </div>
+                    </>
+                    :
+                    <>
+                        {/* Vote */}
+                        <div className='vote-section'>
+                            <div className='header'>
+                                <div className='left'></div>
+                                <div className='center'></div>
+                                <div className='right'><h1>DAY {current.day}</h1></div>
+                            </div>
+                            <div className="banner">
+                                <h1>Vote</h1>
+                                <p>Choose the player you want to vote for</p>
+                            </div>
+                            <div className='joined-players-section'>
+                                <div className='joined-players-scroll'>
+                                    <div className='list-grid' id="playerlist">
+                                        {
+                                            (playerToken.characterName == "werewolf" && (!current.isDay)) ?
+                                                (players.map((player, index) => {
+                                                    if (player.characterName != "werewolf") {
+                                                        if (index == 0) {
+                                                            {
+                                                                if (choosenPlayer == "") {
+                                                                    setChoosenPlayer(player.id);
+                                                                }
+                                                            }
+                                                            return <div key={player.id}>
+                                                                <div className='vote'>
+                                                                    <img id={player.id} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                                                </div>
+                                                            </div>
+                                                        }
 
-                <div className='footer'>
-                    <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
-                    <div className='center'>
-                        {
-                            host && <button className='btn-green' onClick={voteResultPage}>Stop now</button>
-                        }
-                        {
-                            // if it is day or night
-                            current.isDay ?
-                                (
-                                    // if player is alive
-                                    playerToken.isAlive && <button className='btn-green' onClick={vote}>Vote</button>
-                                ) : (
-                                    // checks if player is alive and is a werewolf
-                                    playerToken.isAlive && (playerToken.characterName == "werewolf") && <button className='btn-green' onClick={vote}>Vote</button>
-                                )
-                        }
-                    </div>
-                    <div className='right'></div>
-                </div>
+                                                        return <div key={player.id}>
+                                                            <div className='vote'>
+                                                                <img id={player.id} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                                                <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                })
+                                                ) : (
+                                                    players.map((player, index) => {
+                                                        if (index == 0) {
+                                                            {
+                                                                if (choosenPlayer == "") {
+                                                                    setChoosenPlayer(player.id);
+                                                                }
+                                                            }
+                                                            return <div key={player.id}>
+                                                                <div className='vote'>
+                                                                    <img id={player.id} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                        return <div key={player.id}>
+                                                            <div className='vote'>
+                                                                <img id={player.id} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                                                <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                                            </div>
+                                                        </div>
+                                                    }))
+
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className='footer'>
+                                <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
+                                <div className='center'>
+                                    {
+                                        host && <button className='btn-green' onClick={voteResultPage}>Stop now</button>
+                                    }
+                                    {
+                                        // if it is day or night
+                                        current.isDay ?
+                                            (
+                                                // if player is alive
+                                                playerToken.isAlive && <button className='btn-green' onClick={vote}>Vote</button>
+                                            ) : (
+                                                // checks if player is alive and is a werewolf
+                                                playerToken.isAlive && (playerToken.characterName == "werewolf") && <button className='btn-green' onClick={vote}>Vote</button>
+                                            )
+                                    }
+                                </div>
+                                <div className='right'></div>
+                            </div>
+                        </div>
+                    </>
+            }
 
 
-                {/* TODO: change styling and add character img and description */}
-                {/*         <div id='characterPopup' onClick={displayCharacter}>
-                    <div>
-                        <h1>your character</h1>
-                    </div>
-
-                </div> */}
-            </div>
         </>
     );
 }
 
-function VoteResult({ host, current, newRoundPage, displayCharacter, playerToken}) {
+function VoteResult({ host, current, newRoundPage, displayCharacter, playerToken }) {
     const [result, setResult] = useState({});
     const [victim, setVictim] = useState({});
     /* const [day, setDay] = useState(""); */
@@ -386,13 +402,13 @@ function VoteResult({ host, current, newRoundPage, displayCharacter, playerToken
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [ data, location/* , host */])
+    }, [data, location/* , host */])
     useEffect(() => {
         if (data.gameid != undefined) {
             gameController.getVictimLatest(data.gameid).then(data => {
                 setVictim(data);
                 if (playerToken.username == data.username) {
-                    
+
                     facade.setPlayerToken(data);
                 }
             });
@@ -432,17 +448,11 @@ function VoteResult({ host, current, newRoundPage, displayCharacter, playerToken
                 </div>
                 <div className='right'></div>
             </div>
-            {/* <div id='characterPopup' onClick={displayCharacter}>
-                <div>
-                    <h1>your character</h1>
-                </div>
-
-            </div> */}
         </>
     );
 }
 
-function EndedGame({ host}) {
+function EndedGame({ host }) {
     const location = useLocation()
     const [data, setData] = useState({});
     const [players, setPlayers] = useState([]);
@@ -451,7 +461,7 @@ function EndedGame({ host}) {
     useEffect(() => {
         setData(location.state)
     }, [location])
-    
+
     useEffect(() => {
         if (data.gameid != undefined) {
             facade.getWereWolves(data.gameid).then(data => {
@@ -499,13 +509,13 @@ function EndedGame({ host}) {
                     </div>
                 </div>
                 <div className='footer'>
-                    <div></div>
-                    <div>
+                    <div className='left'></div>
+                    <div className='center'>
                         {
-                             host &&  <button className='btn-purple'/*  onClick={showVoteResultpage} */>Finish</button>
+                            host && <button className='btn-purple'/*  onClick={showVoteResultpage} */>Finish</button>
                         }
                     </div>
-                    <div><button className='restart-btn'>restart <i className="fa">&#xf0e2;</i></button></div>
+                    <div className='right'><button className='restart-btn'>restart <i className="fa">&#xf0e2;</i></button></div>
                 </div>
 
             </div>
@@ -555,7 +565,7 @@ const GamePage = ({ mode, changeMode }) => {
     }, [socket])
 
     const votePage = () => {
-        
+
         const newMessage = { time: new Date(), msg: "vote", name: data.name }
         socket.emit("newMessage", { newMessage, room: location.state.room })
     }
@@ -581,11 +591,11 @@ const GamePage = ({ mode, changeMode }) => {
 
     useEffect(() => {
         setData(location.state)
-        if(data.gameid != undefined) {
+        if (data.gameid != undefined) {
             if (facade.getPlayerToken() != null) {
                 setHost(facade.getPlayerToken().isHost);
             }
-          
+
         }
     }, [data, location, host])
 
@@ -607,35 +617,35 @@ const GamePage = ({ mode, changeMode }) => {
                     setCurrent(data)
                 });
             }
-           
+
             if (facade.getPlayerToken() != null) {
                 if (playerToken.characterName == null) {
                     console.log("bobo");
                     facade.getPlayer(facade.getPlayerToken().id)
                     setPlayerToken(facade.getPlayerToken());
                 }
-                
-                
+
+
             }
         }
-      
+
 
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [data, current, playerToken])
+    }, [data, current/* , playerToken */])
 
 
 
     function displayCharacter() {
-        /* var x = document.getElementById("characterPopup");
+        var x = document.getElementById("characterPopup");
         if (x.style.display == "none") {
             x.style.display = "block";
             console.log("popup");
         } else {
             x.style.display = "none";
             console.log("close")
-        } */
+        }
     }
 
     return (
@@ -660,16 +670,33 @@ const GamePage = ({ mode, changeMode }) => {
                         }
 
                         {message == "vote" &&
-                            <Vote host={host} current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken}  />
+                            <Vote host={host} current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken} />
                         }
 
                         {message == "vote result" &&
-                            <VoteResult host={host} current={current} newRoundPage={newRoundPage} displayCharacter={displayCharacter}  playerToken={playerToken} />
+                            <VoteResult host={host} current={current} newRoundPage={newRoundPage} displayCharacter={displayCharacter} playerToken={playerToken} />
                         }
 
                         {message == "ended" &&
-                            <EndedGame  host={host} />
+                            <EndedGame host={host} />
                         }
+
+                        <div id='characterPopup' onClick={displayCharacter}>
+                            <div className='card'>
+                                <div className='content'>
+                                    <div className='top'><i className="fa" id="remove-icon">&#xf00d;</i></div>
+                                    <div className='character-image'>
+                                        <p>Your role</p>
+                                        <h1>Villager</h1>
+                                        <img src={image} />
+                                    </div>
+                                    <div className='description'>
+                                        <p>charac ter descripti on charac ter descrip tion char acter descrip tion chara cter descr iption character description</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

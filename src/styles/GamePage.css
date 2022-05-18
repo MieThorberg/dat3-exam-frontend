@@ -1,4 +1,6 @@
-h1, h2, p {
+h1,
+h2,
+p {
     text-shadow: 2px 2px 4px #00000088;
 }
 
@@ -6,8 +8,8 @@ h1, h2, p {
     /* position: fixed;
     display: grid;
     grid-template-columns: 400px auto; */
-   /*  position: fixed; */
-   position: fixed;
+    /*  position: fixed; */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -87,18 +89,22 @@ h1, h2, p {
     justify-content: center;
     align-items: center;
 }
+
 .round-section h1 {
     font-family: 'New Rocker', cursive;
 }
+
 .round-section .title {
     font-size: 40px;
 }
+
 .round-section .timer {
     font-family: 'New Rocker', cursive;
     color: white;
     font-size: 60px;
     padding: 10px 0 20px 0;
 }
+
 .round-section .description {
     font-size: 18px;
     text-align: center;
@@ -111,6 +117,7 @@ h1, h2, p {
     grid-template-rows: 8vh 20vh 57vh 15vh;
     height: 100%;
 }
+
 .vote-section .banner {
     display: flex;
     flex-direction: column;
@@ -118,10 +125,12 @@ h1, h2, p {
     align-items: center;
     padding-bottom: 20px;
 }
+
 .vote-section .banner h1 {
     font-family: 'New Rocker', cursive;
     font-size: 50px;
 }
+
 .vote-section .banner p {
     width: 60%;
     text-align: center;
@@ -141,10 +150,12 @@ h1, h2, p {
     font-size: 50px;
     padding-bottom: 40px;
 }
+
 .vote-result-section h2 {
     font-family: 'IBM Plex Sans Arabic', sans-serif;
     font-size: 25px;
 }
+
 .vote-result-section p {
     width: 60%;
     text-align: center;
@@ -155,9 +166,9 @@ h1, h2, p {
 .endgame-section {
     width: 100%;
     display: grid;
-    grid-template-rows: 41vh 50vh 15vh;
+    grid-template-rows: 40vh 45vh 15vh;
     height: 100%;
-} 
+}
 
 .endgame-section .banner {
     display: flex;
@@ -167,7 +178,8 @@ h1, h2, p {
     padding-bottom: 20px;
 }
 
-.endgame-section .banner h1, h2 {
+.endgame-section .banner h1,
+h2 {
     font-family: 'New Rocker', cursive;
 }
 
@@ -175,6 +187,7 @@ h1, h2, p {
     font-family: 'New Rocker', cursive;
     font-size: 50px;
 }
+
 .endgame-section .banner h2 {
     font-family: 'New Rocker', cursive;
     font-size: 25px;
@@ -200,7 +213,7 @@ h1, h2, p {
 }
 
 .btn-red {
-   background-color: red; 
+    background-color: red;
 }
 
 .btn-red:hover {
@@ -217,7 +230,7 @@ h1, h2, p {
 .content .footer div {
     display: flex;
     flex-direction: column;
-    justify-content: center; 
+    justify-content: center;
     padding: 0 10px 0 10px;
 }
 
@@ -258,28 +271,85 @@ h1, h2, p {
     font-size: 40px;
     padding: 0;
     color: rgba(117, 58, 200, 0.758);
-    
+
 }
+
 .footer .character-btn:hover {
     background-color: rgba(117, 58, 200, 0.758);
-    color:rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
 }
 
-
-/* TODO: change styling */
 #characterPopup {
-    display: none;
+    /* display: none; */
     position: fixed;
-    height: 100%;
-    width: 100%;
+}
+
+#characterPopup .card {
+    background-color: white;
+    width: 350px;
+    height: 500px;
     display: flex;
     flex-direction: column;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
-   
+    position: fixed;
+    bottom: 70px;
+    margin-left: 20px;
+    border-radius: 20px;
+    padding: 20px 22px 20px 22px;
+    text-align: center;
 }
-/* TODO: change styling */
-#characterPopup div {
-    border: 1px solid red;
-    background-color: white;
+
+#characterPopup .card .content {
+    display: grid;
+    grid-template-rows: 5% 72% auto;
+    width: 100%;
+}
+
+#characterPopup .card div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#characterPopup .card .content .top {
+    text-align: right;
+    align-items: flex-end;
+    padding-right: 5px;
+}
+
+#remove-icon {
+    cursor: pointer;
+    color: rgb(226, 226, 226);
+}
+#remove-icon:hover {
+    color: rgba(117, 58, 200, 0.758);
+}
+
+#characterPopup .card .content .character-image p {
+    /* font-family: 'New Rocker', cursive; */
+    color: rgba(117, 58, 200, 0.315);
+    text-shadow: none;
+    font-size: 16px;
+    padding-bottom: 2px;
+    font-weight: bolder;
+}
+
+#characterPopup .card .content .character-image h1 {
+    font-family: 'New Rocker', cursive;
+    color: rgba(117, 58, 200, 0.758);
+    text-shadow: none;
+    font-size: 50px;
+    padding-bottom: 10px;
+}
+
+#characterPopup .card .content .character-image img {
+    width: 250px;
+}
+
+#characterPopup .card .content .description p{
+    color: black;
+    font-size: 16px;
+    text-shadow: none;
 }
