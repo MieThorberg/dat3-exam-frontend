@@ -89,32 +89,24 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
 
     useEffect(() => {
         setData(location.state)
-        if (!hasVoted) {
-            setActiveBtn();
-        }
 
         if (data.gameid != undefined) {
             if (players.length == 0) {
                 facade.getAlivePlayers(data.gameid).then(data => setPlayers(data))
             }
-            // if (facade.getPlayerToken() != null) {
-            //     facade.getPlayer(facade.getPlayerToken().id)
-            //     setPlayerToken(facade.getPlayerToken());
-            // }
 
-            /* facade.getCurrentRound(data.gameid).then(data => {
-                setCurrentRound(data)
-            }) */
         }
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-        /* if (facade.getPlayerToken() != null) {
-            setHost(facade.getPlayerToken().isHost);
-        } */
 
+    }, [data])
 
-    }, [data, location, players/* , currentRound, */ /* host */])
+    useEffect(() => {
+        if(!hasVoted){
+            setActiveBtn();
+        }
+    })
 
     useEffect(() => {
         if (timerHasStopped) {
@@ -126,7 +118,6 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
 
     function vote() {
         gameController.vote(data.gameid, playerToken.id, choosenPlayer);
-        // TODO: show that player has voted¨
         setHasVoted(true);
         console.log("has voted!")
     }
