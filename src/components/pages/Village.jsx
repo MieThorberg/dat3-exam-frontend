@@ -68,7 +68,6 @@ function Village({ host, current, votePage, displayCharacter }) {
     useEffect(() => {
         if (timerHasStopped) {
             if (host) {
-                console.log(host);
                 votePage()
             }
         }
@@ -76,7 +75,6 @@ function Village({ host, current, votePage, displayCharacter }) {
 
 
     useEffect(() => {
-        console.log(timerHasStopped);
         clear(getDeadTime());
     }, []);
 
@@ -84,6 +82,7 @@ function Village({ host, current, votePage, displayCharacter }) {
         setTimerColor("white")
         clear(getDeadTime());
     }
+
     return (
         <>
             {/* Round/village page */}

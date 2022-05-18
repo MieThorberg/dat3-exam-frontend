@@ -50,7 +50,6 @@ const GamePage = ({ mode, changeMode }) => {
                     setMessage("vote result");
                 }
                 if (newMessage.msg == "new round") {
-                    console.log(current);
                     changeMode();
                     facade.getCurrentRound(data.gameid).then(data => setCurrent(data));
                     setMessage("new round");
@@ -122,7 +121,6 @@ const GamePage = ({ mode, changeMode }) => {
                 }
                 else {
                     if (character.name == "") {
-                        console.log(playerToken.characterName);
                         setPlayerCharacter();
                     }
                 }
@@ -195,7 +193,7 @@ const GamePage = ({ mode, changeMode }) => {
 
             <div className='game'>
                 <div className='sidebar'>
-                    <GameSideBar characterName={playerToken.characterName} username={playerToken.username} />
+                    <GameSideBar characterName={playerToken.characterName} />
                 </div>
 
                 <div className='game-main'>

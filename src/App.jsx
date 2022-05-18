@@ -73,11 +73,9 @@ export default function App() {
   function changeMode() {
     if(mode.name == "night") {
       setMode(dayMode);
-      console.log("day")
     }
     else {
       setMode(nightMode);
-      console.log("night")
     }
   }
 

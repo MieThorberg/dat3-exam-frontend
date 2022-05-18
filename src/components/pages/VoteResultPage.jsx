@@ -31,6 +31,7 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
             navigate("/login");
         }
     }, [data, location/* , host */])
+    
     useEffect(() => {
         if (data.gameid != undefined) {
             gameController.getVictimLatest(data.gameid).then(data => {

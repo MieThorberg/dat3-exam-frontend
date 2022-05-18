@@ -70,7 +70,6 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
     }
 
     useEffect(() => {
-        console.log(timerHasStopped);
         clear(getDeadTime());
     }, []);
 
