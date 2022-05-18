@@ -107,13 +107,14 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
 
 
     useEffect(() => {
+        console.log("heelo");
+
         if (data.gameid != undefined) {
             if (Object.keys(current).length == 0) {
                 gameController.getCurrentRound(data.gameid).then(data => {
                     setCurrent(data)
                 });
             }
-            console.log("hello");
             if (facade.getPlayerToken() != null) {
                 if (playerToken.characterName == null) {
                     facade.getPlayer(facade.getPlayerToken().id)
@@ -124,16 +125,12 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
                         setPlayerCharacter();
                     }
                 }
-
-
             }
         }
-
-
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [data, current, playerToken])
+    }, [data, playerToken])
 
 
 

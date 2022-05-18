@@ -51,7 +51,7 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
     }
 
     const clear = (e) => {
-        if (timerHasStopped) {
+        if (!timerHasStopped) {
             //change time here
             setTimer('00:10');
             if (Ref.current) clearInterval(Ref.current);
@@ -80,7 +80,8 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
     }
 
     function stop() {
-        setTimerHasStopped(!timerHasStopped);
+        clearInterval(Ref.current)
+        setTimerHasStopped(true);
         voteResultPage();
     }
 

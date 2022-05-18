@@ -22,9 +22,8 @@ function Village({ host, current, votePage, displayCharacter }) {
 
     const start = (e) => {
         let { total, minutes, seconds } = getTimeRemaining(e);
-
         if (isPaused) {
-            setTimerHasStopped(true);
+            setTimer("00:00");
             return;
         } else {
                 if (total >= 0) {
@@ -44,7 +43,6 @@ function Village({ host, current, votePage, displayCharacter }) {
     }
 
     const clear = (e) => {
-        if(timerHasStopped) {
              //change time here
         setTimer("00:50");
         if (Ref.current) clearInterval(Ref.current);
@@ -53,7 +51,6 @@ function Village({ host, current, votePage, displayCharacter }) {
             start(e);
         }, 1000)
         Ref.current = id;
-        }
     }
 
     const getDeadTime = () => {
@@ -64,7 +61,8 @@ function Village({ host, current, votePage, displayCharacter }) {
     }
 
     function stop() {
-        setTimerHasStopped(!timerHasStopped);
+        clearInterval(Ref.current)
+        setTimerHasStopped(true);
         votePage();
     }
 
