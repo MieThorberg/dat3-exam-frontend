@@ -48,11 +48,11 @@ const JoinPage = ({ mode }) => {
 
     useEffect(() => {
         if (data.gameid != undefined) {
-            facade.getPlayers(data.gameid).then(data => setPlayers(data))
+            facade.getPlayers(data.gameid).then(data => setPlayers(data))   
         }
 
         if (facade.getToken() == undefined) {
-            navigate("/login");
+            navigate("/login"); 
         }
 
         if (facade.getPlayerToken() != null) {
