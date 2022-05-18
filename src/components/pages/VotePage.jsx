@@ -72,6 +72,7 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
     }
 
     useEffect(() => {
+        console.log("one timer 3");
         clear(getDeadTime());
     }, []);
 
@@ -88,6 +89,7 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
 
 
     useEffect(() => {
+        console.log("alive Players");
         setData(location.state)
 
         if (data.gameid != undefined) {
@@ -103,12 +105,14 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
     }, [data])
 
     useEffect(() => {
+        console.log("hasVoted");
         if(!hasVoted){
             setActiveBtn();
         }
     })
 
     useEffect(() => {
+        console.log("stop timer 2");
         if (timerHasStopped) {
             if (host) {
                 voteResultPage()

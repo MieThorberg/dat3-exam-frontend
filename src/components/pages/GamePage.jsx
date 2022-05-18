@@ -29,6 +29,7 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
     const [character, setCharacter] = useState({ name: "loading", image: "loading", description: ""});
 
     useEffect(() => {
+        console.log("one timer");
         const socket = io("https://react-chat-werewolf-server.herokuapp.com")
         setSocket(socket)
         socket.on("connect", () => {
@@ -40,6 +41,7 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
     }, [])
 
     useEffect(() => {
+        console.log("socket Checker");
         //recieves the latest message from the server and sets our useStates
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
@@ -87,6 +89,7 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
     }
 
     useEffect(() => {
+        console.log("banana");
         setData(location.state)
         if (data.gameid != undefined) {
             if (facade.getPlayerToken() != null) {
@@ -96,18 +99,8 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
         }
     }, [data, location, host])
 
-    /* useEffect(() => {
-        if(data.gameid != undefined) {
-            if (facade.getPlayerToken() != null) {
-                facade.getPlayer(facade.getPlayerToken().id)
-                setPlayerToken(facade.getPlayerToken());
-            }
-        }
-    }, []) */
-
-
     useEffect(() => {
-        console.log("heelo");
+        console.log("hello");
 
         if (data.gameid != undefined) {
             if (Object.keys(current).length == 0) {

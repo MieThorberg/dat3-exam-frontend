@@ -20,6 +20,7 @@ const Room = ({ room, chatHeader, scrollSize }) => {
     const [sentfx] = useSound(sent)
 
     useEffect(() => {
+        console.log("Mie");
         const socket = io("https://react-chat-werewolf-server.herokuapp.com/")
         setSocket(socket)
 
@@ -39,7 +40,10 @@ const Room = ({ room, chatHeader, scrollSize }) => {
 
 
     useEffect(() => {
-        //recieves the latest message from the server and sets our useStates
+        console.log("Marie");
+
+        const intervalId = setInterval(() => {
+            //recieves the latest message from the server and sets our useStates
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
                 /* console.log(allMessages) */
@@ -52,10 +56,17 @@ const Room = ({ room, chatHeader, scrollSize }) => {
 
 
         }
+        }, 500);
+
+        return () => {
+            clearInterval(intervalId);
+        }
+        
     }, [socket, allMessages])
 
     //sets the location data
     useEffect(() => {
+        console.log("Christian!");
         setData(location.state)
         /* console.log(location.state) */
     }, [location])

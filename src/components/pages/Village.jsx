@@ -67,6 +67,7 @@ function Village({ host, current, votePage, displayCharacter }) {
     }
 
     useEffect(() => {
+        console.log("stopTimer");
         if (timerHasStopped) {
             if (host) {
                 votePage()
@@ -76,6 +77,7 @@ function Village({ host, current, votePage, displayCharacter }) {
 
 
     useEffect(() => {
+        console.log("one timer 2");
         clear(getDeadTime());
     }, []);
 
