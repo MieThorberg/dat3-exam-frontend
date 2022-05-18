@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react'
 import { useEffect } from 'react'
+import facade from '../../apiFacade';
 
 
-function Village({ host, current, votePage, displayCharacter }) {
+function Village({ host, data, current, setCurrent, votePage, displayCharacter }) {
 
     const Ref = useRef(null);
     const [timer, setTimer] = useState('00:50');
@@ -19,6 +20,12 @@ function Village({ host, current, votePage, displayCharacter }) {
             total, minutes, seconds
         };
     }
+
+    useEffect(() => {
+        facade.getCurrentRound(data.gameid).then(data => setCurrent(data));
+    
+    },[])
+
 
     const start = (e) => {
         let { total, minutes, seconds } = getTimeRemaining(e);

@@ -51,7 +51,6 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
                 }
                 if (newMessage.msg == "new round") {
                     changeMode();
-                    facade.getCurrentRound(data.gameid).then(data => setCurrent(data));
                     setMessage("new round");
                 }
                 if (newMessage.msg == "ended") {
@@ -190,7 +189,7 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
                     <div className='content'>
 
                         {message == "new round" &&
-                            <Village host={host} current={current} votePage={votePage} displayCharacter={displayCharacter} />
+                            <Village host={host} data={data} current={current} setCurrent={setCurrent} votePage={votePage} displayCharacter={displayCharacter} />
                         }
 
                         {message == "vote" &&
