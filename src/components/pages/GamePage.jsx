@@ -134,7 +134,7 @@ function Vote({ host, current, voteResultPage, displayCharacter, playerToken }) 
     const location = useLocation()
     const [data, setData] = useState({})
     const Ref = useRef(null);
-    const [timer, setTimer] = useState('01:00');
+    const [timer, setTimer] = useState('00:10');
     const [timerHasStopped, setTimerHasStopped] = useState(false);
     const [hasVoted, setHasVoted] = useState(false);
     /*  const [allMessages, setMessages] = useState([])
@@ -167,7 +167,7 @@ function Vote({ host, current, voteResultPage, displayCharacter, playerToken }) 
 
     const clear = (e) => {
         //change time here
-        setTimer('01:00');
+        setTimer('00:10');
         if (Ref.current) clearInterval(Ref.current);
 
         const id = setInterval(() => {
@@ -180,7 +180,7 @@ function Vote({ host, current, voteResultPage, displayCharacter, playerToken }) 
         let deadline = new Date();
 
         //change time here
-        deadline.setMinutes(deadline.getMinutes() + 1)
+        deadline.setSeconds(deadline.getSeconds() + 10)
         return deadline;
     }
 

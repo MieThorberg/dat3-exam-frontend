@@ -92,7 +92,7 @@ function apiFacade() {
   }
 
   const assignCharacters = (id) => {
-    const options = makeOptions("PUT", true, id); //True add's the token
+    const options = makeOptions("PUT", true); //True add's the token
     return fetch(URL + `/api/games/${id}/assigncharacters`, options)
       .then(handleHttpErrors)
   }
