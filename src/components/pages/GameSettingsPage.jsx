@@ -16,6 +16,7 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
   const [user, setUser] = useState({});
   const [data, setData] = useState({ name: "", room: "", gameid: "", werewolves: "", hunter: false});
   const [game, setGame] = useState({});
+  const [copied, setCopied] = useState(false)
 
   const handleChange = (e) => {
     setData({
@@ -75,6 +76,14 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
       .substring(1);
     return setData({ ...data, room: newPin });
   };
+
+  const copy = async (e) => {
+    e.preventDefault();
+    await navigator.clipboard.writeText(data.room);
+    setCopied(true)
+    // alert('Text copied' + data.room);
+  }
+
   return (
     <>
 
@@ -118,6 +127,12 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
                   />
 
                   <button onClick={generatePin}>Generate pin</button>
+
+                  {copied ?
+                    <h3>Pin: {data.room} copied!!!!</h3> :
+                    <></>  
+                }
+                  <button onClick={copy}>Copy pin</button>
                 </div>
                 <button onClick={handleSubmit}>Enter</button>
                 {/* If you dont have type in values for the inputs */}
