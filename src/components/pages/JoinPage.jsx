@@ -1,5 +1,5 @@
 
-import Reactm, { useState, useEffect, useRef } from 'react'
+import Reactm, { useState, useEffect, useRef, useCallback } from 'react'
 import { io } from 'socket.io-client'
 import { useLocation, useNavigate } from 'react-router-dom'
 import "../../styles/App.css"
@@ -47,6 +47,8 @@ const JoinPage = ({ mode }) => {
     }, [])
 
     useEffect(() => {
+        let controller = new AbortController();
+
         if (data.gameid != undefined) {
             facade.getPlayers(data.gameid).then(data => setPlayers(data))
         }
@@ -60,7 +62,11 @@ const JoinPage = ({ mode }) => {
             setHost(facade.getPlayerToken().isHost);
         }
 
-    }, [data, players, host]);
+        return () => {
+            controller.abort();
+        }
+
+    }), [data ,players, host];
 
     useEffect(() => {
         //recieves the latest message from the server and sets our useStates

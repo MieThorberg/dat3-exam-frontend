@@ -27,24 +27,25 @@ function Village({ host, current, votePage, displayCharacter }) {
             setTimerHasStopped(true);
             return;
         } else {
-            if (total >= 0) {
-                setTimer(
-                    (minutes > 9 ? minutes : '0' + minutes) + ":" +
-                    (seconds > 9 ? seconds : '0' + seconds)
-                )
-                if (minutes == 0 && seconds < 31) {
-                    setTimerColor("red");
-
-                    if (seconds == 0) {
-                        setTimerHasStopped(true);
+                if (total >= 0) {
+                    setTimer(
+                        (minutes > 9 ? minutes : '0' + minutes) + ":" +
+                        (seconds > 9 ? seconds : '0' + seconds)
+                    )
+                    if (minutes == 0 && seconds < 31) {
+                        setTimerColor("red");
+    
+                        if (seconds == 0) {
+                            setTimerHasStopped(true);
+                        }
                     }
                 }
-            }
         }
     }
 
     const clear = (e) => {
-        //change time here
+        if(timerHasStopped) {
+             //change time here
         setTimer("00:50");
         if (Ref.current) clearInterval(Ref.current);
 
@@ -52,6 +53,7 @@ function Village({ host, current, votePage, displayCharacter }) {
             start(e);
         }, 1000)
         Ref.current = id;
+        }
     }
 
     const getDeadTime = () => {
@@ -62,7 +64,8 @@ function Village({ host, current, votePage, displayCharacter }) {
     }
 
     function stop() {
-        setIsPaused(!isPaused);
+        setTimerHasStopped(!timerHasStopped);
+        votePage();
     }
 
     useEffect(() => {
@@ -101,7 +104,7 @@ function Village({ host, current, votePage, displayCharacter }) {
                 <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
                 <div className='center'>
                     {
-                        host && <button className='btn-green' onClick={votePage}>Stop now</button>
+                        host && <button className='btn-green' onClick={stop}>Stop now</button>
                     }
                 </div>
                 <div className='right'></div>

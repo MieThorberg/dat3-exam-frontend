@@ -113,7 +113,7 @@ const GamePage = ({ mode, changeMode }) => {
                     setCurrent(data)
                 });
             }
-
+            console.log("hello");
             if (facade.getPlayerToken() != null) {
                 if (playerToken.characterName == null) {
                     facade.getPlayer(facade.getPlayerToken().id)
