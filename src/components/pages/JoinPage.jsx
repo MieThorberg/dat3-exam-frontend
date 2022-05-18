@@ -59,7 +59,7 @@ const JoinPage = ({ mode }) => {
                     setHost(facade.getPlayerToken().isHost);
                 }
             }
-        }, 1500)
+        }, 500)
 
         return () => clearInterval(intervalId);
 
@@ -79,20 +79,7 @@ const JoinPage = ({ mode }) => {
                     navigate(`/game/${data.room}`, { state: data });
 
                 }
-                /* setMessages([...allMessages, newMessage]) */
-                // msgBoxRef.current.scrollIntoView({behavior: "smooth"})
-                /* setMsg("") */
-                /* setLoading(false) */
-
-
             })
-
-            // when a new user enters the room we add the new user to the total number in the room
-            //     socket.on("newclientconnect", (newClient) => {
-            //       setUserNumber(newClient)
-            //       // console.log(newClient)
-
-            //   })
         }
     }, [socket, allMessages])
 

@@ -39,7 +39,6 @@ const GamePage = ({ mode, setIsDay, changeEndMode }) => {
     }, [])
 
     useEffect(() => {
-        console.log("current");
         setIsDay(current.isDay);
     },[current])
 
@@ -111,7 +110,7 @@ const GamePage = ({ mode, setIsDay, changeEndMode }) => {
                 });
             }
             if (facade.getPlayerToken() != null) {
-                if (playerToken.characterName == null) {
+                if (playerToken.characterName == undefined) {
                     facade.getPlayer(facade.getPlayerToken().id)
                     setPlayerToken(facade.getPlayerToken());
                 }
@@ -125,7 +124,7 @@ const GamePage = ({ mode, setIsDay, changeEndMode }) => {
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [data, playerToken])
+    }, [data,playerToken])
 
 
 
