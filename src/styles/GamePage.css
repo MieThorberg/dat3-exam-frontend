@@ -83,11 +83,27 @@ p {
 
 
 /* ROUND */
+
+.game-layout {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 22vh 63vh 15vh;
+    height: 100%;
+}
+
 .round-section {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.round-section .headline {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10%;
 }
 
 .round-section h1 {
@@ -114,7 +130,7 @@ p {
 .vote-section {
     width: 100%;
     display: grid;
-    grid-template-rows: 8vh 20vh 57vh 15vh;
+    grid-template-rows: 22vh 20vh 43vh 15vh;
     height: 100%;
 }
 
@@ -143,6 +159,7 @@ p {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-bottom: 5%;
 }
 
 .vote-result-section h1 {
@@ -185,7 +202,7 @@ h2 {
 
 .endgame-section .banner h1 {
     font-family: 'New Rocker', cursive;
-    font-size: 50px;
+    font-size: 60px;
 }
 
 .endgame-section .banner h2 {
@@ -197,6 +214,8 @@ h2 {
     width: 60%;
     text-align: center;
     padding-top: 25px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .vote-section .joined-players-section,

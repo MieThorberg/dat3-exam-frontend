@@ -2,7 +2,7 @@
   height: 50px;
   width: 100%;
   border: none;
-  display: none;
+ /*  display: none; */
 }
 
 .topnav {
@@ -48,6 +48,7 @@
 
 .topnav a {
   color: #d6ced9;
+  width: 100%;
 }
 
 .topnav .right a:hover,

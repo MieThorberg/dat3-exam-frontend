@@ -106,7 +106,7 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
 
     useEffect(() => {
         console.log("hasVoted");
-        if(!hasVoted){
+        if (!hasVoted) {
             setActiveBtn();
         }
     })
@@ -152,21 +152,24 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
             {
                 hasVoted ?
                     <>
-                        <div className='header'>
-                            <div className='left'></div>
-                            <div className='center'></div>
-                            <div className='right'><h1>DAY {current.day}</h1></div>
-                        </div>
-                        <div className='round-section'>
-                            {/* <h1 className='title'>{current.isDay ? "Day" : "Night"}</h1>
+                        <div className='game-layout'>
+                            <div className='header'>
+                                <div className='left'></div>
+                                <div className='center'></div>
+                                <div className='right'><h1>DAY {current.day}</h1></div>
+                            </div>
+                            <div className='round-section'>
+                                {/* <h1 className='title'>{current.isDay ? "Day" : "Night"}</h1>
                                  */}<h1 className='title' style={{ textAlign: "center" }}>Your voted has been recieved</h1>
-                            <p className='description' style={{ paddingTop: "10px" }}>Please wait for the vote result</p>
+                                <p className='description' style={{ paddingTop: "10px" }}>Please wait for the vote result</p>
+                            </div>
+                            <div className='footer'>
+                                <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
+                                <div className='center'></div>
+                                <div className='right'></div>
+                            </div>
                         </div>
-                        <div className='footer'>
-                            <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
-                            <div className='center'></div>
-                            <div className='right'></div>
-                        </div>
+
                     </>
                     :
                     <>
