@@ -115,7 +115,7 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
               <form >
                 <div>
                   <input type="text" name="werewolves" placeholder="Amount of werewolves" value={data.werewolves} onChange={handleChange}/>
-                  <label >Hunter?</label>
+                  <label style={{color: 'white'}}>Hunter?</label>
                   <input type="checkbox" name="hunter" id="hunter"  value={data.hunter} onChange={handleChecked}/>
                   <input
                     readOnly
@@ -129,7 +129,7 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
                   <button onClick={generatePin}>Generate pin</button>
 
                   {copied ?
-                    <h3>Pin: {data.room} copied!!!!</h3> :
+                    <h3 style={{color: 'red'}}>Pin: {data.room} copied!!!!</h3> :
                     <></>  
                 }
                   <button onClick={copy}>Copy pin</button>
