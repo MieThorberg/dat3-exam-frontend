@@ -17,7 +17,7 @@ import VotePage from './VotePage'
 import VoteResultPage from './VoteResultPage'
 import EndedGamePage from './EndedGamePage'
 
-const GamePage = ({ mode, changeMode }) => {
+const GamePage = ({ mode, changeMode, changeEndMode }) => {
     const navigate = useNavigate();
     const location = useLocation()
     const [playerToken, setPlayerToken] = useState({});
@@ -26,7 +26,7 @@ const GamePage = ({ mode, changeMode }) => {
     const [host, setHost] = useState(false)
     const [socket, setSocket] = useState(io);
     const [message, setMessage] = useState("new round");
-    const [character, setCharacter] = useState({ name: "", image: villagerImage, description: ""});
+    const [character, setCharacter] = useState({ name: "loading", image: "loading", description: ""});
 
     useEffect(() => {
         const socket = io("https://react-chat-werewolf-server.herokuapp.com")
@@ -120,7 +120,7 @@ const GamePage = ({ mode, changeMode }) => {
                     setPlayerToken(facade.getPlayerToken());
                 }
                 else {
-                    if (character.name == "") {
+                    if (character.description == "") {
                         setPlayerCharacter();
                     }
                 }
@@ -213,7 +213,7 @@ const GamePage = ({ mode, changeMode }) => {
                         }
 
                         {message == "ended" &&
-                            <EndedGamePage host={host} />
+                            <EndedGamePage host={host} changeEndMode={changeEndMode} />
                         }
 
                         <div id='characterPopup' onClick={displayCharacter}>
