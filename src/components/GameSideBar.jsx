@@ -34,7 +34,7 @@ const GameSideBar = ({characterName, username}) => {
             <div className='content'>
                 <div className='chatbar'>
 
-                    <Room room={location.state.room} chatHeader="Global chat" scrollSize={scrollSize} />
+                    <Room room={location.state.Room + 100000} chatHeader="Global chat" scrollSize={scrollSize} />
                     {/* <Room room={2} chatHeader="Werewolf chat" /> */}
                     {/* TODO: fix werewolf chat to work when playing games */}
                     <div>

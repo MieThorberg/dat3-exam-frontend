@@ -20,20 +20,17 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
 
     const [socket, setSocket] = useState(io)
     useEffect(() => {
-        console.log("wolf");
+        console.log("data setter");
         
         setData(location.state)
 
-        if (data.gameid != undefined) {
-            
-        }
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
     }, [location])
 
     useEffect(() => {
-        console.log("banana");
+        console.log("victim finder");
         console.log(data);
         if (data.gameid != undefined) {
             if(Object.keys(result).length == 0) {
