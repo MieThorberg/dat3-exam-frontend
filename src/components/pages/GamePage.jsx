@@ -57,7 +57,7 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
                 if (newMessage.msg == "ended") {
                     setMessage("ended");
                 }
-            })
+            })       
         }
     }, [socket, current])
 
