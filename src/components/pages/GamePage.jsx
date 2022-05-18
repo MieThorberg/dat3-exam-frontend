@@ -195,7 +195,7 @@ const GamePage = ({ mode, changeMode }) => {
 
             <div className='game'>
                 <div className='sidebar'>
-                    <GameSideBar characterName={playerToken.characterName} />
+                    <GameSideBar characterName={playerToken.characterName} username={playerToken.username} />
                 </div>
 
                 <div className='game-main'>
