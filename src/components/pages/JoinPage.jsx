@@ -70,7 +70,7 @@ const JoinPage = ({ mode }) => {
                   
                     if (facade.getPlayerToken().isHost) {
                     
-                        gameController.startGame(data.gameid);
+                        gameController.startGame(data);
                     }
 
                     navigate(`/game/${data.room}`, { state: data });

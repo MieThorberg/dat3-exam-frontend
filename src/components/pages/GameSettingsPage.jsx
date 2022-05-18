@@ -14,7 +14,7 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
 
   const [error, setError] = useState("");
   const [user, setUser] = useState({});
-  const [data, setData] = useState({ name: "", room: "", gameid: "", werewolves: "", hunters: ""});
+  const [data, setData] = useState({ name: "", room: "", gameid: "", werewolves: "", hunter: false});
   const [game, setGame] = useState({});
 
   const handleChange = (e) => {
@@ -22,6 +22,15 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
       ...data,
       [e.target.name]: e.target.value,
     });
+    
+  };
+
+  const handleChecked = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: (!data.hunter),
+    });
+    
   };
 
   const validation = () => {
@@ -53,7 +62,7 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
         console.log(fetchdata);
         facade.createPlayer(fetchdata.id, {userName: fetchdata.hostName}).then(data => facade.setPlayerHost(fetchdata.id, data))
         console.log("werwolves "+data.werewolves);
-        console.log("hunters "+data.hunters);
+        console.log("hunters "+data.hunter);
       });
     }
   };
@@ -97,7 +106,8 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
               <form >
                 <div>
                   <input type="text" name="werewolves" placeholder="Amount of werewolves" value={data.werewolves} onChange={handleChange}/>
-                  <input type="text" name="hunters" placeholder="Amount of hunters" value={data.hunters} onChange={handleChange}/>
+                  <label >Hunter?</label>
+                  <input type="checkbox" name="hunter" id="hunter"  value={data.hunter} onChange={handleChecked}/>
                   <input
                     readOnly
                     type="text"
