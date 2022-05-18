@@ -275,10 +275,10 @@ function Vote({ host, current, voteResultPage, displayCharacter, playerToken }) 
                             <p className='description' style={{ paddingTop: "10px" }}>Please wait for the vote result</p>
                         </div>
                         <div className='footer'>
-                                <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
-                                <div className='center'></div>
-                                <div className='right'></div>
-                            </div>
+                            <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
+                            <div className='center'></div>
+                            <div className='right'></div>
+                        </div>
                     </>
                     :
                     <>
@@ -633,7 +633,7 @@ const GamePage = ({ mode, changeMode }) => {
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [data, current/* , playerToken */])
+    }, [data, current , playerToken])
 
 
 
