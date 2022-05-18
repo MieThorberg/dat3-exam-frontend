@@ -14,22 +14,27 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
 
   const [error, setError] = useState("");
   const [user, setUser] = useState({});
-  const [data, setData] = useState({ name: "", room: "", gameid: "" });
-  const [pin, setPin] = useState("");
+  const [data, setData] = useState({ name: "", room: "", gameid: "", werewolves: 1, hunter: false});
   const [game, setGame] = useState({});
+  const [copied, setCopied] = useState(false)
 
   const handleChange = (e) => {
     setData({
       ...data,
       [e.target.name]: e.target.value,
     });
+    
+  };
+
+  const handleChecked = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: (!data.hunter),
+    });
+    
   };
 
   const validation = () => {
-    // if (!data.name) {
-    //   setError("Please enter your name.");
-    //   return false;
-    // }
     // if (!data.room) {
     //     setError("Please enter pin code.")
     //     return false
@@ -54,15 +59,14 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
       const host = facade.decodeToken().username;
       facade.createGame(host, data.room).then((fetchdata) => {
         setGame(fetchdata)
-        setData({ ...data, gameid: fetchdata.id });
+        setData({...data, name: host, gameid: fetchdata.id });
         console.log(fetchdata);
         facade.createPlayer(fetchdata.id, {userName: fetchdata.hostName}).then(data => facade.setPlayerHost(fetchdata.id, data))
-        
-        // TODO: set the player info, some where to use
+        console.log("werwolves "+data.werewolves);
+        console.log("hunters "+data.hunter);
       });
     }
   };
-
 
 
   const generatePin = (e) => {
@@ -70,9 +74,16 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
     const newPin = Math.floor(100000 + Math.random() * 900000)
       .toString()
       .substring(1);
-    // setPin(newPin)
     return setData({ ...data, room: newPin });
   };
+
+  const copy = async (e) => {
+    e.preventDefault();
+    await navigator.clipboard.writeText(data.room);
+    setCopied(true)
+    // alert('Text copied' + data.room);
+  }
+
   return (
     <>
 
@@ -103,6 +114,10 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
             >
               <form >
                 <div>
+                <label style={{color: 'white'}}>choose amount of werewolves?</label>
+                  <input type="number" name="werewolves" min={1} max={39} value={data.werewolves} onChange={handleChange}/>
+                  <label style={{color: 'white'}}>Hunter?</label>
+                  <input type="checkbox" name="hunter" id="hunter"  value={data.hunter} onChange={handleChecked}/>
                   <input
                     readOnly
                     type="text"
@@ -113,6 +128,12 @@ const GameSettingsPage = ({ mode, setHeadline }) => {
                   />
 
                   <button onClick={generatePin}>Generate pin</button>
+
+                  {copied ?
+                    <h3 style={{color: 'red'}}>Pin: {data.room} copied!!!!</h3> :
+                    <></>  
+                }
+                  <button onClick={copy}>Copy pin</button>
                 </div>
                 <button onClick={handleSubmit}>Enter</button>
                 {/* If you dont have type in values for the inputs */}

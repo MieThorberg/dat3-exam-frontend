@@ -1,0 +1,355 @@
+h1,
+h2,
+p {
+    text-shadow: 2px 2px 4px #00000088;
+}
+
+.game {
+    /* position: fixed;
+    display: grid;
+    grid-template-columns: 400px auto; */
+    /*  position: fixed; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+}
+
+.game .sidebar {
+    flex-grow: 1;
+    max-width: 400px;
+}
+
+
+.game .game-main {
+
+    flex-grow: 2;
+    /* position: relative; */
+    /*    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+}
+
+.game-main .content {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 60px auto 100px;
+}
+
+.game-main .content div {
+    width: 100%;
+    height: 100%;
+}
+
+.game-main .content .header {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+    height: 100%;
+}
+
+.game-main .content .header div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header .left {
+    align-items: left;
+}
+
+.header .center {
+    align-items: center;
+}
+
+.header .right {
+    align-items: flex-end;
+}
+
+.game-main .content .header h1 {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 20px;
+    font-weight: bolder;
+    color: rgb(255, 255, 255);
+}
+
+
+/* ROUND */
+.round-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.round-section h1 {
+    font-family: 'New Rocker', cursive;
+}
+
+.round-section .title {
+    font-size: 40px;
+}
+
+.round-section .timer {
+    font-family: 'New Rocker', cursive;
+    color: white;
+    font-size: 60px;
+    padding: 10px 0 20px 0;
+}
+
+.round-section .description {
+    font-size: 18px;
+    text-align: center;
+}
+
+/* VOTE */
+.vote-section {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 8vh 20vh 57vh 15vh;
+    height: 100%;
+}
+
+.vote-section .banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.vote-section .banner h1 {
+    font-family: 'New Rocker', cursive;
+    font-size: 50px;
+}
+
+.vote-section .banner p {
+    width: 60%;
+    text-align: center;
+    padding-top: 20px;
+}
+
+/* Vote result */
+.vote-result-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.vote-result-section h1 {
+    font-family: 'New Rocker', cursive;
+    font-size: 50px;
+    padding-bottom: 40px;
+}
+
+.vote-result-section h2 {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 25px;
+}
+
+.vote-result-section p {
+    width: 60%;
+    text-align: center;
+    padding-top: 20px;
+}
+
+/* ENDED GAME */
+.endgame-section {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 40vh 45vh 15vh;
+    height: 100%;
+}
+
+.endgame-section .banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.endgame-section .banner h1,
+h2 {
+    font-family: 'New Rocker', cursive;
+}
+
+.endgame-section .banner h1 {
+    font-family: 'New Rocker', cursive;
+    font-size: 50px;
+}
+
+.endgame-section .banner h2 {
+    font-family: 'New Rocker', cursive;
+    font-size: 25px;
+}
+
+.endgame-section .banner p {
+    width: 60%;
+    text-align: center;
+    padding-top: 25px;
+}
+
+.vote-section .joined-players-section,
+.endgame-section .joined-players-section {
+    position: relative;
+    top: 0;
+}
+
+
+.list-grid {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin: 0;
+}
+
+.btn-red {
+    background-color: red;
+}
+
+.btn-red:hover {
+    background-color: darkred;
+    color: white;
+}
+
+.content .footer {
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+    padding: 0 10px 0 10px;
+}
+
+.content .footer div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 10px 0 10px;
+}
+
+.footer .left {
+    align-items: left;
+}
+
+.footer .center {
+    align-items: center;
+}
+
+.footer .right {
+    align-items: flex-end;
+}
+
+.footer button {
+    height: 50px;
+    max-width: 400px;
+}
+
+.footer .restart-btn {
+    color: black;
+    background-color: #1ff39e;
+    max-width: 150px;
+    align-items: end;
+}
+
+.footer .restart-btn:hover {
+    color: #1ff39e;
+    background-color: black;
+}
+
+.footer .character-btn {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255);
+    font-size: 40px;
+    padding: 0;
+    color: rgba(117, 58, 200, 0.758);
+
+}
+
+.footer .character-btn:hover {
+    background-color: rgba(117, 58, 200, 0.758);
+    color: rgb(255, 255, 255);
+}
+
+#characterPopup {
+    /* display: none; */
+    position: fixed;
+}
+
+#characterPopup .card {
+    background-color: white;
+    width: 350px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 70px;
+    margin-left: 20px;
+    border-radius: 20px;
+    padding: 20px 22px 20px 22px;
+    text-align: center;
+}
+
+#characterPopup .card .content {
+    display: grid;
+    grid-template-rows: 5% 72% auto;
+    width: 100%;
+}
+
+#characterPopup .card div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#characterPopup .card .content .top {
+    text-align: right;
+    align-items: flex-end;
+    padding-right: 5px;
+}
+
+#remove-icon {
+    cursor: pointer;
+    color: rgb(226, 226, 226);
+}
+#remove-icon:hover {
+    color: rgba(117, 58, 200, 0.758);
+}
+
+#characterPopup .card .content .character-image p {
+    /* font-family: 'New Rocker', cursive; */
+    color: rgba(117, 58, 200, 0.315);
+    text-shadow: none;
+    font-size: 16px;
+    padding-bottom: 2px;
+    font-weight: bolder;
+}
+
+#characterPopup .card .content .character-image h1 {
+    font-family: 'New Rocker', cursive;
+    color: rgba(117, 58, 200, 0.758);
+    text-shadow: none;
+    font-size: 50px;
+    padding-bottom: 10px;
+}
+
+#characterPopup .card .content .character-image img {
+    width: 250px;
+}
+
+#characterPopup .card .content .description p{
+    color: black;
+    font-size: 16px;
+    text-shadow: none;
+}

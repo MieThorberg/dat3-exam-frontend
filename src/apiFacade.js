@@ -91,8 +91,10 @@ function apiFacade() {
     return fetch(URL + "/api/games/id/" + id, options).then(handleHttpErrors);
   }
 
-  const assignCharacters = (id) => {
-    const options = makeOptions("PUT", true, id); //True add's the token
+  const assignCharacters = (id, werewolf, hunter) => {
+    const options = makeOptions("PUT", true, {"amountOfWerewolves": werewolf,
+    "hasHunter": hunter
+    }); //True add's the token
     return fetch(URL + `/api/games/${id}/assigncharacters`, options)
       .then(handleHttpErrors)
   }
@@ -206,6 +208,11 @@ function apiFacade() {
     return fetch(URL + '/api/games/rules', options).then(handleHttpErrors);
   }
 
+  const getCharacter = (name) => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(`https://miemt.me/werewolf_characters/api/characters/${name}`, options).then(handleHttpErrors);
+  }
+
   const makeOptions = (method, addToken, body) => {
     var opts = {
       method: method,
@@ -260,6 +267,7 @@ function apiFacade() {
     getRules,
     getAlivePlayers,
     getPlayerById,
+    getCharacter,
   }
 }
 const facade = apiFacade();

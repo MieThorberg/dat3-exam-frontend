@@ -6,9 +6,7 @@ import facade from '../../apiFacade'
 
 const GamepinPage = ({ mode }) => {
   const navigate = useNavigate();
-
   const [error, setError] = useState("")
-  //Todo: change so its a user we send to the next page
   const [data, setData] = useState({ name: "", room: "", gameid: "" })
 
   const handleChange = e => {
@@ -19,10 +17,6 @@ const GamepinPage = ({ mode }) => {
   }
 
   const validation = () => {
-    // if (!data.name) {
-    //   setError("Please enter your name.")
-    //   return false
-    // }
     if (!data.room) {
       setError("Please select room.")
       return false
@@ -53,8 +47,7 @@ const GamepinPage = ({ mode }) => {
 
       facade.getGameByPin(data.room).then(fetchdata => {
         facade.createPlayer(fetchdata.id, { userName: user }).then(data => facade.setPlayerToken(data));
-        // TODO: set the player info, some where to use
-        setData({ ...data, gameid: fetchdata.id });
+        setData({ ...data, name: user, gameid: fetchdata.id });
       })
 
     }
@@ -80,7 +73,6 @@ const GamepinPage = ({ mode }) => {
             <div className='content' style={{ justifyContent: "start", gridTemplateRows: "60% auto" }}>
 
               <form onSubmit={handleSubmit}>
-                {/* TODO: delete name input and only have a room input */}
                 <input type="text" name="room" placeholder="Enter pin" onChange={handleChange} />
                 <button className='btn-lightpurple' style={{ maxWidth: "200px" }} onClick={handleSubmit}>Enter</button>
               </form>

@@ -5,13 +5,15 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import "../../styles/App.css"
 import facade from '../../apiFacade'
 import gameController from '../../gameController'
+import useSound from 'use-sound';
+import wol from "/src/sounds/wololo.mp3";
 
 const JoinPage = ({ mode }) => {
     // const players = []
     const navigate = useNavigate();
     const location = useLocation()
     const msgBoxRef = useRef()
-    const [data, setData] = useState({})
+    const [data, setData] = useState({ name:"", room:"", role:"" })
     const [role, setRole] = useState("")
     const [host, setHost] = useState(false)
     const [socket, setSocket] = useState(io)
@@ -20,11 +22,18 @@ const JoinPage = ({ mode }) => {
     const [allMessages, setMessages] = useState([])
     const [msg, setMsg] = useState("")
     const [loading, setLoading] = useState(false)
+    const [wololofx] = useSound(wol)
     // const [players, setPlayers] = useState([])
 
     useEffect(() => {
         setData(location.state)
+        
+       /*  setData({
+          ...data, 
+          [e.target.name]: e.target.value
+      }) */
     }, [location])
+ /*    console.log(data); */
 
     useEffect(() => {
         const socket = io("https://react-chat-werewolf-server.herokuapp.com")
@@ -47,6 +56,7 @@ const JoinPage = ({ mode }) => {
         }
 
         if (facade.getPlayerToken() != null) {
+   
             setHost(facade.getPlayerToken().isHost);
         }
 
@@ -57,12 +67,13 @@ const JoinPage = ({ mode }) => {
         if (socket) {
             socket.on("getLatestMessage", (newMessage) => {
                 if (newMessage.msg == "start") {
-
-                    if (host) {
-                        gameController.startGame(data.gameid);
+                  
+                    if (facade.getPlayerToken().isHost) {
+                    
+                        gameController.startGame(data);
                     }
 
-                    navigate(`/game/${data.room}/village`, { state: data });
+                    navigate(`/game/${data.room}`, { state: data });
 
                 }
                 /* setMessages([...allMessages, newMessage]) */
@@ -85,7 +96,7 @@ const JoinPage = ({ mode }) => {
 
     const handleEnter = e => e.keyCode === 13 ? onSubmit() : ""
     const onStart = () => {
-
+        // wololofx()
         /* setLoading(true) */
         const newMessage = { time: new Date(), msg: "start", name: data.name }
         socket.emit("newMessage", { newMessage, room: data.room })

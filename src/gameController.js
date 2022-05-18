@@ -33,7 +33,7 @@ function GameController() {
 
     function createRound(id) {
 
-        facade.getCurrentRound(id).then(data => {
+        return facade.getCurrentRound(id).then(data => {
 
             if (data.isDay) {
                 const night = facade.createNightRound(id);
@@ -62,8 +62,8 @@ function GameController() {
             facade.getDayRound(gameid, day);
         } */
 
-    function assignCharacters(id) {
-        facade.assignCharacters(id);
+    function assignCharacters(id, werewolf, hunter) {
+        facade.assignCharacters(id, werewolf, hunter);
     }
 
     //TODO: where to put it?
@@ -123,8 +123,8 @@ function GameController() {
     }
 
     //gameid
-    function startGame(gameid) {
-        assignCharacters(gameid);
+    function startGame(data) {
+        assignCharacters(data.gameid, data.werewolves, data.hunter);
         //createRound in loop
     }
 
