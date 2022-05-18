@@ -51,14 +51,16 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
     }
 
     const clear = (e) => {
-        //change time here
-        setTimer('00:10');
-        if (Ref.current) clearInterval(Ref.current);
+        if (!timerHasStopped) {
+            //change time here
+            setTimer('00:10');
+            if (Ref.current) clearInterval(Ref.current);
 
-        const id = setInterval(() => {
-            start(e);
-        }, 1000)
-        Ref.current = id;
+            const id = setInterval(() => {
+                start(e);
+            }, 1000)
+            Ref.current = id;
+        }
     }
 
     const getDeadTime = () => {
@@ -76,6 +78,13 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
     const onClickReset = () => {
         clear(getDeadTime());
     }
+
+    function stop() {
+        clearInterval(Ref.current)
+        setTimerHasStopped(true);
+        voteResultPage();
+    }
+
 
 
     useEffect(() => {
@@ -238,7 +247,7 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
                                 <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
                                 <div className='center'>
                                     {
-                                        host && <button className='btn-green' onClick={voteResultPage}>Stop now</button>
+                                        host && <button className='btn-green' onClick={stop}>Stop now</button>
                                     }
                                     {
                                         // if it is day or night
