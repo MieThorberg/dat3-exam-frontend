@@ -50,6 +50,9 @@ const GamePage = ({ mode, changeMode }) => {
                     setMessage("vote result");
                 }
                 if (newMessage.msg == "new round") {
+                    console.log(current);
+                    changeMode();
+                    facade.getCurrentRound(data.gameid).then(data => setCurrent(data));
                     setMessage("new round");
                 }
                 if (newMessage.msg == "ended") {
@@ -57,7 +60,7 @@ const GamePage = ({ mode, changeMode }) => {
                 }
             })
         }
-    }, [socket])
+    }, [socket, current])
 
     const votePage = () => {
 
@@ -107,7 +110,6 @@ const GamePage = ({ mode, changeMode }) => {
     useEffect(() => {
         if (data.gameid != undefined) {
             if (Object.keys(current).length == 0) {
-                console.log("wololo");
                 gameController.getCurrentRound(data.gameid).then(data => {
                     setCurrent(data)
                 });
@@ -115,7 +117,6 @@ const GamePage = ({ mode, changeMode }) => {
 
             if (facade.getPlayerToken() != null) {
                 if (playerToken.characterName == null) {
-                    console.log("bobo");
                     facade.getPlayer(facade.getPlayerToken().id)
                     setPlayerToken(facade.getPlayerToken());
                 }

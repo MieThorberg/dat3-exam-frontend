@@ -113,7 +113,7 @@ export default function App() {
           <Route path="join" element={<Join />} />
           <Route path="*" element={<NoMatch />} />
 
-          <Route path="/game/:roomid" element={<GamePage mode={nightMode} changeMode={changeMode}/>}></Route>
+          <Route path="/game/:roomid" element={<GamePage mode={mode} changeMode={changeMode}/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

@@ -33,7 +33,7 @@ function GameController() {
 
     function createRound(id) {
 
-        facade.getCurrentRound(id).then(data => {
+        return facade.getCurrentRound(id).then(data => {
 
             if (data.isDay) {
                 const night = facade.createNightRound(id);
