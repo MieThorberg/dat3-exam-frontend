@@ -72,6 +72,10 @@ function CreateUser({ create }) {
   const performLogin = (evt) => {
     evt.preventDefault();
     create(loginCredentials.username, loginCredentials.password);
+    setTimeout(() => {
+      navigate("/home");
+      window.location.reload();
+    }, 500)
   }
   const onChange = (evt) => {
     setLoginCredentials({ ...loginCredentials, [evt.target.id]: evt.target.value })
