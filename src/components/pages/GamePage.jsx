@@ -220,7 +220,7 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
                                     }
                                 </>
                                 ) : (
-                                    <DeadPage displayCharacter={displayCharacter} />
+                                    <DeadPage deadByVillager={current.isDay} displayCharacter={displayCharacter} />
                                 )
                             )
                         ) : (
