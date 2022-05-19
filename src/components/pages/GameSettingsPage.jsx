@@ -1,6 +1,6 @@
 import React from "react";
 import "../../styles/App.css";
-import { useState, useEffect, navigator } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import facade from "../../apiFacade";
 
