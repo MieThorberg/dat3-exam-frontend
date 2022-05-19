@@ -65,7 +65,7 @@ function EndedGamePage({ host, changeEndMode}) {
                                 (players.map((player) => {
                                     if (player.characterName == getWinnerRole())
                                         return <div key={player.id}>
-                                            <div className='vote'>
+                                            <div>
                                                 <img id={player.id} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
                                                 <h3 style={{ color: 'white' }}>{player.username}</h3>
                                             </div>
