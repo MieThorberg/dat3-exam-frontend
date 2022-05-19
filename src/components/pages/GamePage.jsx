@@ -227,7 +227,7 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
                             :
                             <EndedGamePage host={host} changeEndMode={changeEndMode} />
                         } */}
-}
+
                         {/*  <DeadPage displayCharacter={displayCharacter}/> */}
                         {/*                <HunterPage current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken}/>*/}
                         {message == "new round" &&
