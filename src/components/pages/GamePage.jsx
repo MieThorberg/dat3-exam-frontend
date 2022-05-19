@@ -16,8 +16,10 @@ import Village from './Village'
 import VotePage from './VotePage'
 import VoteResultPage from './VoteResultPage'
 import EndedGamePage from './EndedGamePage'
+import DeadPage from './DeadPage'
+import HunterPage from './HunterPage'
 
-const GamePage = ({ mode, changeMode, changeEndMode }) => {
+const GamePage = ({ mode, changeEndMode, setIsDay }) => {
     const navigate = useNavigate();
     const location = useLocation()
     const [playerToken, setPlayerToken] = useState({});
@@ -39,6 +41,10 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
     }, [])
 
     useEffect(() => {
+        setIsDay(current.isDay);
+    },[current])
+
+    useEffect(() => {
         console.log("socket Checker");
         //recieves the latest message from the server and sets our useStates
         if (socket) {
@@ -50,8 +56,6 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
                     setMessage("vote result");
                 }
                 if (newMessage.msg == "new round") {
-                    changeMode();
-                    facade.getCurrentRound(data.gameid).then(data => setCurrent(data));
                     setMessage("new round");
                 }
                 if (newMessage.msg == "ended") {
@@ -108,7 +112,7 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
                 });
             }
             if (facade.getPlayerToken() != null) {
-                if (playerToken.characterName == null) {
+                if (playerToken.characterName == undefined) {
                     facade.getPlayer(facade.getPlayerToken().id)
                     setPlayerToken(facade.getPlayerToken());
                 }
@@ -122,7 +126,7 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [data, playerToken])
+    }, [data,playerToken])
 
 
 
@@ -189,8 +193,11 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
 
                     <div className='content'>
 
+                       {/*  <DeadPage displayCharacter={displayCharacter}/> */}
+        {/*                <HunterPage current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken}/>
+ */}
                         {message == "new round" &&
-                            <Village host={host} current={current} votePage={votePage} displayCharacter={displayCharacter} />
+                            <Village host={host} data={data} current={current} setCurrent={setCurrent} votePage={votePage} displayCharacter={displayCharacter} />
                         }
 
                         {message == "vote" &&

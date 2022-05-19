@@ -44,11 +44,12 @@ function apiFacade() {
   }
 
   const create = (username, password) => {
-    const options = makeOptions("POST", true, { userName: username, userPass: password }); //True add's the token
+    const options = makeOptions("POST", false, { userName: username, userPass: password }); //True add's the token
     console.log(username + " " + password);
     return fetch(URL + "/api/info/newuser", options)
       .then(handleHttpErrors)
-      .then(res => { setToken(res.token) })
+      .then(res => { 
+        login(res.userName, password) })
   }
 
   const createGame = (id, pin) => {

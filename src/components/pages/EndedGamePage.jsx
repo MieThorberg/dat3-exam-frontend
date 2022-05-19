@@ -10,6 +10,7 @@ function EndedGamePage({ host, changeEndMode}) {
     const [data, setData] = useState({});
     const [players, setPlayers] = useState([]);
     const [winner, setWinner] = useState("");
+    let navigate = useNavigate();
 
     useEffect(() => {
         setData(location.state)
@@ -37,6 +38,13 @@ function EndedGamePage({ host, changeEndMode}) {
             return "villager"
         }
     }
+
+    const handleSubmit = e => {
+        e.preventDefault()
+        
+            navigate("/home");
+        
+    }
     return (
         <>
             {/* Ended game */}
@@ -57,7 +65,7 @@ function EndedGamePage({ host, changeEndMode}) {
                                 (players.map((player) => {
                                     if (player.characterName == getWinnerRole())
                                         return <div key={player.id}>
-                                            <div className='vote'>
+                                            <div>
                                                 <img id={player.id} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
                                                 <h3 style={{ color: 'white' }}>{player.username}</h3>
                                             </div>
@@ -70,11 +78,11 @@ function EndedGamePage({ host, changeEndMode}) {
                 <div className='footer'>
                     <div className='left'></div>
                     <div className='center'>
-                        {
-                            host && <button className='btn-purple'/*  onClick={showVoteResultpage} */>Finish</button>
-                        }
+                        
+                    <button className='btn-purple' onClick={handleSubmit}>Finish</button>
+                        
                     </div>
-                    <div className='right'><button className='restart-btn'>restart <i className="fa">&#xf0e2;</i></button></div>
+                    {/* <div className='right'><button className='restart-btn'>restart <i className="fa">&#xf0e2;</i></button></div> */}
                 </div>
 
             </div>

@@ -6,7 +6,7 @@ function LogIn({ login, error, creatingUser }) {
   const navigate = useNavigate();
   const init = { username: "", password: "" };
   const [loginCredentials, setLoginCredentials] = useState(init);
-  
+
 
   const performLogin = (evt) => {
     evt.preventDefault();
@@ -49,10 +49,10 @@ function LogIn({ login, error, creatingUser }) {
 
                 <input type="text" placeholder="Enter username" id="username" />
                 <input type="password" placeholder="Enter password" id="password" />
-                <div style={{color: 'red'}}>{error}</div>
+                <div style={{ color: 'red' }}>{error}</div>
                 <button className="btn-purple" onClick={performLogin}>Login</button>
                 <p style={{ padding: "2px 0 2px 0" }}>or</p>
-                <button onClick={creatingUser}>Create</button>
+                <button className="btn-green" onClick={creatingUser}>Create</button>
 
               </form>
             </div>
@@ -72,6 +72,10 @@ function CreateUser({ create }) {
   const performLogin = (evt) => {
     evt.preventDefault();
     create(loginCredentials.username, loginCredentials.password);
+    setTimeout(() => {
+      navigate("/home");
+      window.location.reload();
+    }, 500)
   }
   const onChange = (evt) => {
     setLoginCredentials({ ...loginCredentials, [evt.target.id]: evt.target.value })
@@ -79,6 +83,7 @@ function CreateUser({ create }) {
 
   function goToLogin() {
     //reloads page in which show the loginpage
+    //navigate("/login");
     window.location.reload();
   }
 
@@ -93,7 +98,7 @@ function CreateUser({ create }) {
         <div className="login-container">
           <div className="section">
             <div className="header" style={{ justifyContent: "end", paddingBottom: "20px" }}>
-               <div onClick={goToLogin}>
+              <div onClick={goToLogin}>
                 <p className="back-arrow"><i className="fa fa-arrow-circle-left" style={{ paddingRight: "5px" }}></i> Back</p>
               </div>
               <h1>Create account</h1>
@@ -149,13 +154,13 @@ function LoginPage({ loggedIn, setLoggedIn }) {
   const login = (user, pass) => {
     facade.login(user, pass)
       .then(res => setLoggedIn(true)).catch((err) => {
-        if(err.status == 403){
+        if (err.status == 403) {
           setError('Wrong username or Password')
-        }else {
+        } else {
           setError('Something went wrong')
         }
       });
-      
+
   }
 
   function createUser() {
