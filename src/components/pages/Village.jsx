@@ -104,26 +104,31 @@ function Village({ host, data, current, setCurrent, votePage, displayCharacter }
 
     return (
         <>
-            {/* Round/village page */}
-            <div className='header'>
-                <div className='left'></div>
-                <div className='center'></div>
-                <div className='right'><h1 className='day-count'>DAY {current.day}</h1></div>
-            </div>
-
-            <div className='round-section'>
-                <h1 className='title'>{current.isDay ? "Day" : "Night"}</h1>
-                <h1 className='timer' style={{ color: timerColor }}>{timer}</h1>
-                <p className='description'>Discuss who you think are a werewolf!</p>
-            </div>
-            <div className='footer'>
-                <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
-                <div className='center'>
-                    {
-                        show && host && <button className='btn-green' onClick={stop}>Stop now</button>
-                    }
+            <div className='game-layout'>
+                {/* Round/village page */}
+                <div className='header'>
+                    <div className='left'></div>
+                    <div className='center'></div>
+                    <div className='right'><h1 className='day-count'>DAY {current.day}</h1></div>
                 </div>
-                <div className='right'></div>
+
+                <div className='round-section'>
+                    <div className='headline'>
+                        <h1 className='title'>{current.isDay ? "Day" : "Night"}</h1>
+                        <h1 className='timer' style={{ color: timerColor }}>{timer}</h1>
+                        <p className='description'>Discuss who you think are a werewolf!</p>
+                    </div>
+
+                </div>
+                <div className='footer'>
+                    <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
+                    <div className='center'>
+                        {
+                             show && host && <button className='btn-green' onClick={stop}>Stop now</button>
+                        }
+                    </div>
+                    <div className='right'></div>
+                </div>
             </div>
         </>
     );

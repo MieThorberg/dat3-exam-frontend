@@ -9,7 +9,7 @@ import "../styles/GameSideBar.css";
 import image from "../images/1.jpg"
 
 
-const GameSideBar = ({characterName, username}) => {
+const GameSideBar = ({characterName}) => {
     const [scrollSize, setScrollSize] = useState("50");
     const location = useLocation()
     const [data, setData] = useState({})
@@ -24,12 +24,7 @@ const GameSideBar = ({characterName, username}) => {
 
         <div className='sidebar'>
             <div className='header'>
-                <div className='sidebar-profile'>
-                    <img src={image} />
-                </div>
-                <div className='sidebar-name'>
-                    <a>{username}</a>
-                </div>
+               
             </div>
             <div className='content'>
                 <div className='chatbar'>

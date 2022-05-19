@@ -207,6 +207,7 @@ p {
     justify-content: center;
     align-items: center;
     margin: 10px 0 10px 0;
+    box-shadow: none;
 }
 
 .login-container .section .content form {
@@ -217,8 +218,145 @@ p {
 }
 
 .login-container .btn-purple:hover {
+  /*   background-color: grey; */
+}
+
+.settings {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.settings-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 30% auto 30%;
+}
+
+.settings-container .section {
+
+    width: 100%;
+    max-width: 550px;
+    background-color: white;
+    padding: 20px 0 50px 0;
+    max-height: 600px;
+}
+
+.settings-container .section div input[type=text],
+.settings-container .section div input[type=number] {
+    background-color: rgba(235, 208, 248, 0.44);
+}
+
+.settings-container .section .header {
+    text-align: center;
+    color: rgb(215, 213, 218);
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
+.settings-container .section .header .back-arrow {
+    position: relative;
+    top: 0;
+    color: #901ff38a;
+    text-align: left;
+    font-size: 16px;
+    padding-left: 10px;
+}
+
+.settings-container .section .header .back-arrow:hover {
+    cursor: pointer;
+    color: gray;
+}
+
+.settings-container .section p,
+label {
+    font-size: 12px;
+    color: #4443448a;
+    text-shadow: none;
+}
+
+.settings-container .section .header {
+    padding: 0px 10px 0px 10px;
+}
+
+.settings-container .section .header h1 {
+    padding-top: 10px;
+    font-size: 40px;
+    text-shadow: none;
+    color: #000000;
+
+}
+
+.settings-container .section .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    align-items: center;
+}
+
+.settings-container .section .content .character-row {
+    display: grid;
+    grid-template-rows: auto auto;
+    width: 100%;
+    /* border: 1px solid rgb(197, 197, 197); */
+}
+
+.character-row div {
+    /*   border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    align-items: left;
+    text-align: left;
+}
+
+.character-row div div {
+    padding: 15px
+}
+
+.character-row div label {
+    color: black;
+    font-weight: bolder;
+}
+
+.character-row h2 {
+    color: rgb(81, 41, 137);
+    text-shadow: none;
+    font-size: 18px;
+}
+
+/* .settings-container .section .content button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0 10px 0;
+} */
+
+.settings-container .section .content form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .settings-container .btn-purple:hover {
     background-color: grey;
 }
+
+ */
+
+
 
 .main2 {
     position: relative;
@@ -274,7 +412,8 @@ p {
 
 
 input[type=text],
-input[type=password] {
+input[type=password],
+input[type=number] {
     color: #901ff3;
     border-radius: 25px;
     padding: 14px 20px;
@@ -287,8 +426,17 @@ input[type=password] {
 }
 
 input[type=text]:focus,
-input[type=password]:focus {
+input[type=password]:focus,
+input[type=number]:focus,
+input[type=checkbox]:focus {
     border: 1px solid #901ff3;
+}
+
+input[type=checkbox] {
+    accent-color: #901ff3;
+    transform: scale(1.3);
+    margin: 0;
+    padding: 0;
 }
 
 input,
@@ -335,8 +483,8 @@ button:hover {
 .btn-purple:hover {
     background-color: black;
     color: rgb(152, 78, 255);
-   /*  background-color: rgb(215, 213, 218); */
-   /*  color: rgb(29, 29, 29); */
+    /*  background-color: rgb(215, 213, 218); */
+    /*  color: rgb(29, 29, 29); */
 }
 
 .btn-lightpurple {
