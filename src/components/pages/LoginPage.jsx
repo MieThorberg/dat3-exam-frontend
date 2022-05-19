@@ -79,6 +79,7 @@ function CreateUser({ create }) {
 
   function goToLogin() {
     //reloads page in which show the loginpage
+    //navigate("/login");
     window.location.reload();
   }
 
