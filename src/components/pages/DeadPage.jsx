@@ -10,10 +10,10 @@ function DeadPage({ deadByVillager, displayCharacter }) {
                 <div className='round-section'>
                     <h1 className='title' style={{ textAlign: "center", color: "red" }}>Your are dead</h1>
                     <p className='description' style={{ padding: "10px 20px 0 20px", width: "400px" }}>
-                        {!deadByVillager ?
-                            "At sundown the village decided to hang you because of suspicion of you beeing the werewolf"
+                        {deadByVillager ?
+                            "At sundown the villagers decided to hang you, because they suspected you of being a werewolf ☠️🧑‍🌾👩‍🌾💔 "
                             :
-                            "In the middle of the night a werewolf came and killed you"
+                            "In the middle of the night a werewolf came and ate you 🐺☠️🐺"
                         }
                     </p>
                 </div>
