@@ -62,7 +62,7 @@ const GamePage = ({ mode, setIsDay, changeEndMode }) => {
                     socket.close();
                     setMessage("ended");
                 }
-            })
+            })       
         }
     }, [socket])
 

@@ -10,6 +10,7 @@ function EndedGamePage({ host, changeEndMode}) {
     const [data, setData] = useState({});
     const [players, setPlayers] = useState([]);
     const [winner, setWinner] = useState("");
+    let navigate = useNavigate();
 
     useEffect(() => {
         setData(location.state)
@@ -36,6 +37,13 @@ function EndedGamePage({ host, changeEndMode}) {
         } else {
             return "villager"
         }
+    }
+
+    const handleSubmit = e => {
+        e.preventDefault()
+        
+            navigate("/");
+        
     }
     return (
         <>
@@ -71,7 +79,7 @@ function EndedGamePage({ host, changeEndMode}) {
                     <div className='left'></div>
                     <div className='center'>
                         {
-                            host && <button className='btn-purple'/*  onClick={showVoteResultpage} */>Finish</button>
+                            host && <button className='btn-purple' onClick={handleSubmit}>Finish</button>
                         }
                     </div>
                     <div className='right'><button className='restart-btn'>restart <i className="fa">&#xf0e2;</i></button></div>
