@@ -28,7 +28,9 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
     const [host, setHost] = useState(false)
     const [socket, setSocket] = useState(io);
     const [message, setMessage] = useState("new round");
-    const [character, setCharacter] = useState({ name: "loading", image: "loading", description: ""});
+    const [result, setResult] = useState({});
+
+    const [character, setCharacter] = useState({ name: "loading", image: "loading", description: "" });
 
     useEffect(() => {
         const socket = io("https://react-chat-werewolf-server.herokuapp.com")
@@ -42,7 +44,7 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
 
     useEffect(() => {
         setIsDay(current.isDay);
-    },[current])
+    }, [current])
 
     useEffect(() => {
         console.log("socket Checker");
@@ -62,7 +64,7 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
                     socket.close();
                     setMessage("ended");
                 }
-            })       
+            })
         }
     }, [socket])
 
@@ -73,6 +75,12 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
     }
 
     const voteResultpage = () => {
+
+        gameController.getRoundResult(data.gameid).then(data => setResult(data));
+        setTimeout(() => {
+            console.log("waiting");
+        },2000)
+
         const newMessage = { time: new Date(), msg: "vote result", name: data.name }
         socket.emit("newMessage", { newMessage, room: location.state.room })
     }
@@ -126,7 +134,7 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
         if (facade.getToken() == undefined) {
             navigate("/login");
         }
-    }, [data,playerToken])
+    }, [data, playerToken])
 
 
 
@@ -166,8 +174,8 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
         const characterName = getCharacterName(name);
         const characterImage = getCharacterImage(name);
 
-        facade.getCharacter(name).then(data => setCharacter({name: characterName, image: characterImage, description: data.description}))
-       
+        facade.getCharacter(name).then(data => setCharacter({ name: characterName, image: characterImage, description: data.description }))
+
     }
 
     /*     const getCharacterDescription = () => {
@@ -193,8 +201,8 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
 
                     <div className='content'>
 
-                       {/*  <DeadPage displayCharacter={displayCharacter}/> */}
-        {/*                <HunterPage current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken}/>
+                        {/*  <DeadPage displayCharacter={displayCharacter}/> */}
+                        {/*                <HunterPage current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken}/>
  */}
                         {message == "new round" &&
                             <Village host={host} data={data} current={current} setCurrent={setCurrent} votePage={votePage} displayCharacter={displayCharacter} />

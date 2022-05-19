@@ -30,10 +30,13 @@ function Village({ host, data, current, setCurrent, votePage, displayCharacter }
 
 
     useEffect(() => {
-        facade.getCurrentRound(data.gameid).then(data => {
-            setCurrent(data)
-        });
-    }, [])
+        if(data.gameid != undefined) {
+            console.log(data.gameid);
+            facade.getCurrentRound(data.gameid).then(data => {
+                setCurrent(data)
+            });
+        }
+    }, [data])
 
 
     const start = (e) => {

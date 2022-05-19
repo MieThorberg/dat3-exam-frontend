@@ -8,7 +8,6 @@ import facade from "../../apiFacade";
 import { io } from "socket.io-client";
 
 function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerToken }) {
-    const [result, setResult] = useState({});
     const [victim, setVictim] = useState({});
     /* const [day, setDay] = useState(""); */
     const navigate = useNavigate();
@@ -41,9 +40,6 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
         console.log("victim finder");
         console.log(data);
         if (data.gameid != undefined) {
-            if (Object.keys(result).length == 0) {
-                gameController.getRoundResult(data.gameid).then(data => setResult(data));
-            }
             if (Object.keys(victim).length == 0) {
                 gameController.getVictimLatest(data.gameid).then(data => {
                     setVictim(data);
@@ -53,7 +49,7 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
                 });
             }
         }
-    }, [result, data])
+    }, [data])
 
     return (
         <>
