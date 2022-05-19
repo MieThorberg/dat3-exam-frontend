@@ -30,13 +30,17 @@ function Village({ host, data, current, setCurrent, votePage, displayCharacter }
 
 
     useEffect(() => {
+        const intervalId = setInterval(() => {
         if(data.gameid != undefined) {
+
             console.log(data.gameid);
             facade.getCurrentRound(data.gameid).then(data => {
                 setCurrent(data)
             });
         }
-    }, [data])
+        },500)
+        return () => clearInterval(intervalId);
+    },[])
 
 
     const start = (e) => {
