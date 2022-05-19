@@ -15,17 +15,22 @@ const RulesPage = ({ setHeadline }) => {
     return (
         
         <div className='main2'>
+          
             <div className='scroll-container'>
+                
                 <div className='full-scroll-section'>
+                    
                     <div className='text-section' >
+                        
                         <div className="header-large">
+                            
                         <h1>How to play</h1>
                         </div>
                        {rules.map( rule => {
                            return <div key={rule.id} >
-                               <ul>
-                               <li>{rule.rule}</li>
-                               </ul>
+                               
+                               <h2>{rule.rule}</h2>
+                               
                            </div>
                        })}
                     </div>
