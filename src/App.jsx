@@ -91,6 +91,15 @@ export default function App() {
     }
   }
 
+  function changeEndMode(villagersWon) {
+    if(villagersWon) {
+      setMode(dayEndMode);
+    }
+    else {
+      setMode(nightEndMode);
+    }
+  }
+
   useEffect(() => {
     changeMode();
   }, [isDay])
@@ -127,7 +136,7 @@ export default function App() {
           <Route path="join" element={<Join />} />
           <Route path="*" element={<NoMatch mode={nightMode}/>} />
 
-          <Route path="/game/:roomid" element={<GamePage mode={mode} setIsDay={setIsDay}/>}></Route>
+          <Route path="/game/:roomid" element={<GamePage mode={mode} changeEndMode={changeEndMode} setIsDay={setIsDay}/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
