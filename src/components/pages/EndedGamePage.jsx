@@ -42,7 +42,7 @@ function EndedGamePage({ host, changeEndMode}) {
     const handleSubmit = e => {
         e.preventDefault()
         
-            navigate("/");
+            navigate("/home");
         
     }
     return (
@@ -78,11 +78,11 @@ function EndedGamePage({ host, changeEndMode}) {
                 <div className='footer'>
                     <div className='left'></div>
                     <div className='center'>
-                        {
-                            host && <button className='btn-purple' onClick={handleSubmit}>Finish</button>
-                        }
+                        
+                    <button className='btn-purple' onClick={handleSubmit}>Finish</button>
+                        
                     </div>
-                    <div className='right'><button className='restart-btn'>restart <i className="fa">&#xf0e2;</i></button></div>
+                    {/* <div className='right'><button className='restart-btn'>restart <i className="fa">&#xf0e2;</i></button></div> */}
                 </div>
 
             </div>
