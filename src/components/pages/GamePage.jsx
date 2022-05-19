@@ -19,7 +19,7 @@ import EndedGamePage from './EndedGamePage'
 import DeadPage from './DeadPage'
 import HunterPage from './HunterPage'
 
-const GamePage = ({ mode, setIsDay, changeEndMode }) => {
+const GamePage = ({ mode, changeEndMode, setIsDay }) => {
     const navigate = useNavigate();
     const location = useLocation()
     const [playerToken, setPlayerToken] = useState({});
