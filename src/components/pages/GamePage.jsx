@@ -29,6 +29,7 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
     const [socket, setSocket] = useState(io);
     const [message, setMessage] = useState("new round");
     const [result, setResult] = useState({});
+    const [isHunter, setIsHunter] = useState(false);
 
     const [character, setCharacter] = useState({ name: "loading", image: "loading", description: "" });
 
@@ -60,6 +61,9 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
                 if (newMessage.msg == "new round") {
                     setMessage("new round");
                 }
+                if (newMessage.msg == "hunter") {
+                    setMessage("hunter")
+                }
                 if (newMessage.msg == "ended") {
                     socket.close();
                     setMessage("ended");
@@ -75,7 +79,6 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
     }
 
     const voteResultpage = () => {
-
         gameController.getRoundResult(data.gameid).then(data => setResult(data));
         setTimeout(() => {
             console.log("waiting");
@@ -91,6 +94,13 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
                 const newMessage = { time: new Date(), msg: "ended", name: data.name };
                 socket.emit("newMessage", { newMessage, room: location.state.room });
             } else {
+                if (isHunter) {
+                    console.log("the mysteri of the hunter");
+                    const newMessage = { time: new Date(), msg: "hunter", name: data.name };
+                    socket.emit("newMessage", { newMessage, room: location.state.room });
+                    setIsHunter(false);
+                    return;
+                }
                 gameController.createRound(data.gameid);
                 gameController.cleanVotes(data.gameid);
                 const newMessage = { time: new Date(), msg: "new round", name: data.name };
@@ -212,11 +222,14 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
                                     }
 
                                     {message == "vote" &&
-                                        <VotePage host={host} current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken}  />
+                                        <VotePage host={host} current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken} />
                                     }
 
                                     {message == "vote result" &&
-                                        <VoteResultPage host={host} current={current} newRoundPage={newRoundPage} displayCharacter={displayCharacter} playerToken={playerToken} setPlayerToken={setPlayerToken} />
+                                        <VoteResultPage host={host} current={current} newRoundPage={newRoundPage} displayCharacter={displayCharacter} playerToken={playerToken} setPlayerToken={setPlayerToken} setIsHunter={setIsHunter} />
+                                    }
+                                    {message == "hunter" &&
+                                        <HunterPage current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken} />
                                     }
                                 </>
                                 ) : (
