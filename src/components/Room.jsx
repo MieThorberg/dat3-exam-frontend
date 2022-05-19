@@ -41,6 +41,7 @@ const Room = ({ room, chatHeader, scrollSize }) => {
 
     useEffect(() => {
         console.log("Marie");
+        console.log(room);
 
         const intervalId = setInterval(() => {
             //recieves the latest message from the server and sets our useStates
