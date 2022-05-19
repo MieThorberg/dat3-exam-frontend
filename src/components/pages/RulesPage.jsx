@@ -11,14 +11,16 @@ const RulesPage = ({ setHeadline }) => {
         facade.getRules().then(res => setRules(res))
     }, []);
 
-    // console.log(rules);
 
     return (
+        
         <div className='main2'>
             <div className='scroll-container'>
                 <div className='full-scroll-section'>
                     <div className='text-section' >
+                        <div className="header-large">
                         <h1>How to play</h1>
+                        </div>
                        {rules.map( rule => {
                            return <div key={rule.id} >
                                <ul>
