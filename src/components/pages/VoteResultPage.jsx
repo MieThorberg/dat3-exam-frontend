@@ -37,10 +37,11 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
     }, [location])
 
     useEffect(() => {
-        console.log("victim finder");
-        console.log(data);
-        if (data.gameid != undefined) {
-            if (Object.keys(victim).length == 0) {
+        const intervalId = setInterval(() => {
+            console.log("hguo");
+            if (data.gameid != undefined) {
+                console.log(data);
+
                 gameController.getVictimLatest(data.gameid).then(data => {
                     setVictim(data);
                     if (playerToken.username == data.username) {
@@ -48,7 +49,8 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
                     }
                 });
             }
-        }
+        }, 500)
+        return () => clearInterval(intervalId);
     }, [data])
 
     return (
@@ -77,7 +79,7 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
                     <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
                     <div className='center'>
                         {
-                             show && host && <button className='btn-green' onClick={newRoundPage}>Continue</button>
+                            show && host && <button className='btn-green' onClick={newRoundPage}>Continue</button>
                         }
                     </div>
                     <div className='right'></div>
