@@ -52,7 +52,7 @@ function LogIn({ login, error, creatingUser }) {
                 <div style={{ color: 'red' }}>{error}</div>
                 <button className="btn-purple" onClick={performLogin}>Login</button>
                 <p style={{ padding: "2px 0 2px 0" }}>or</p>
-                <button onClick={creatingUser}>Create</button>
+                <button className="btn-green" onClick={creatingUser}>Create</button>
 
               </form>
             </div>

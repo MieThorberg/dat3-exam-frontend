@@ -207,6 +207,7 @@ p {
     justify-content: center;
     align-items: center;
     margin: 10px 0 10px 0;
+    box-shadow: none;
 }
 
 .login-container .section .content form {
@@ -217,7 +218,7 @@ p {
 }
 
 .login-container .btn-purple:hover {
-    background-color: grey;
+  /*   background-color: grey; */
 }
 
 .settings {

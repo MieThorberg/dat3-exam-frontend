@@ -151,6 +151,7 @@ p {
     width: 60%;
     text-align: center;
     padding-top: 20px;
+    font-size: 18px;
 }
 
 /* Vote result */
@@ -177,6 +178,7 @@ p {
     width: 60%;
     text-align: center;
     padding-top: 20px;
+    font-size: 18px;
 }
 
 /* ENDED GAME */
@@ -231,15 +233,6 @@ h2 {
     margin: 0;
 }
 
-.btn-red {
-    background-color: red;
-}
-
-.btn-red:hover {
-    background-color: darkred;
-    color: white;
-}
-
 .content .footer {
     display: grid;
     grid-template-columns: 25% 50% 25%;
@@ -291,6 +284,16 @@ h2 {
     padding: 0;
     color: rgba(117, 58, 200, 0.758);
 
+}
+
+.kill-btn {
+    background-color: #ff0f13;
+    color: white;
+}
+
+.kill-btn:hover {
+    background-color: black;
+    color: #ff0f13;
 }
 
 .footer .character-btn:hover {

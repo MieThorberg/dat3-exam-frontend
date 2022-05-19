@@ -23,7 +23,7 @@ const JoinPage = ({ mode }) => {
     const [msg, setMsg] = useState("")
     const [loading, setLoading] = useState(false)
     const [wololofx] = useSound(wol)
-    const [copied, setCopied] = useState(false)
+    
     // const [players, setPlayers] = useState([])
 
     useEffect(() => {
@@ -118,7 +118,6 @@ const JoinPage = ({ mode }) => {
     const copy = async (e) => {
         e.preventDefault();
         await navigator.clipboard.writeText(data.room);
-        setCopied(true)
         // alert('Text copied' + data.room);
       }
     
