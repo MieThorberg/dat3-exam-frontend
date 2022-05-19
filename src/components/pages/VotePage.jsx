@@ -20,6 +20,7 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
     const [data, setData] = useState({})
     const Ref = useRef(null);
     const [timer, setTimer] = useState('00:10');
+    const [timerColor, setTimerColor] = useState("white");
     const [timerHasStopped, setTimerHasStopped] = useState(false);
     const [hasVoted, setHasVoted] = useState(false);
     const [show, setShow] = useState(false);
@@ -52,8 +53,11 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
                 (seconds > 9 ? seconds : '0' + seconds)
             )
 
-            if (minutes == 0 && seconds == 0) {
-                setTimerHasStopped(true);
+            if (minutes == 0 && seconds < 11) {
+                setTimerColor("red");
+                if (minutes == 0 && seconds == 0) {
+                    setTimerHasStopped(true);
+                }
             }
         }
     }
@@ -114,7 +118,7 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
 
     useEffect(() => {
         console.log("hasVoted");
-        if(!hasVoted){
+        if (!hasVoted) {
             setActiveBtn();
         }
     })
@@ -160,31 +164,35 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
             {
                 hasVoted ?
                     <>
-                        <div className='header'>
-                            <div className='left'></div>
-                            <div className='center'></div>
-                            <div className='right'><h1>DAY {current.day}</h1></div>
-                        </div>
-                        <div className='round-section'>
-                            {/* <h1 className='title'>{current.isDay ? "Day" : "Night"}</h1>
+                        <div className='game-layout'>
+                            <div className='header'>
+                                <div className='left'><h1 style={{ color: timerColor }}>Time left: {timer}</h1></div>
+                                <div className='center'></div>
+                                <div className='right'><h1>DAY {current.day}</h1></div>
+                            </div>
+                            <div className='round-section'>
+                                {/* <h1 className='title'>{current.isDay ? "Day" : "Night"}</h1>
                                  */}<h1 className='title' style={{ textAlign: "center" }}>Your voted has been recieved</h1>
-                            <p className='description' style={{ paddingTop: "10px" }}>Please wait for the vote result</p>
+                                <p className='description' style={{ paddingTop: "10px" }}>Please wait for the vote result</p>
+                            </div>
+                            <div className='footer'>
+                                <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
+                                <div className='center'></div>
+                                <div className='right'></div>
+                            </div>
                         </div>
-                        <div className='footer'>
-                            <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
-                            <div className='center'></div>
-                            <div className='right'></div>
-                        </div>
+
                     </>
                     :
                     <>
                         {/* Vote */}
                         <div className='vote-section'>
                             <div className='header'>
-                                <div className='left'></div>
+                                <div className='left'><h1 style={{ color: timerColor }}>Time left: {timer}</h1></div>
                                 <div className='center'></div>
                                 <div className='right'><h1>DAY {current.day}</h1></div>
                             </div>
+
                             <div className="banner">
                                 <h1>Vote</h1>
                                 <p>Choose the player you want to vote for</p>

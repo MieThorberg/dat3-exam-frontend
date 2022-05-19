@@ -57,33 +57,35 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
 
     return (
         <>
-            <div className='header'>
-                <div className='left'></div>
-                <div className='center'></div>
-                <div className='right'><h1>DAY {current.day}</h1></div>
-            </div>
-
-            <div className='vote-result-section'>
-                {current.isDay ?
-                    <h1>Today..</h1>
-                    :
-                    <h1>Last night..</h1>
-                }
-                <img className='big-profile-img'></img>
-                <h2 className='voteresult-player'>{victim.username} ({victim.characterName})</h2>
-                {current.isDay ?
-                    <p className='voteresult-description'>was hanged by Village</p>
-                    :
-                    <p className='voteresult-description'>was killed by werewolves</p>}
-            </div>
-            <div className='footer'>
-                <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
-                <div className='center'>
-                    {
-                        show && host && <button className='btn-green' onClick={newRoundPage}>Continue</button>
-                    }
+            <div className="game-layout">
+                <div className='header'>
+                    <div className='left'></div>
+                    <div className='center'></div>
+                    <div className='right'><h1>DAY {current.day}</h1></div>
                 </div>
-                <div className='right'></div>
+
+                <div className='vote-result-section'>
+                    {current.isDay ?
+                        <h1>Today..</h1>
+                        :
+                        <h1>Last night..</h1>
+                    }
+                    <img className='big-profile-img'></img>
+                    <h2 className='voteresult-player'>{victim.username} ({victim.characterName})</h2>
+                    {current.isDay ?
+                        <p className='voteresult-description'>was hanged by Village</p>
+                        :
+                        <p className='voteresult-description'>was killed by werewolves</p>}
+                </div>
+                <div className='footer'>
+                    <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
+                    <div className='center'>
+                        {
+                             show && host && <button className='btn-green' onClick={newRoundPage}>Continue</button>
+                        }
+                    </div>
+                    <div className='right'></div>
+                </div>
             </div>
         </>
     );

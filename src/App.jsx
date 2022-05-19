@@ -31,7 +31,11 @@ export default function App() {
   const nightMode = {
     name: "night",
     image: night,
+<<<<<<< HEAD
+    blur: "rgba(16, 5, 30, 0.6)",
+=======
     blur: "rgba(16, 5, 30, 0.685)",
+>>>>>>> b0db0094562977abaf12afea1bba986eaf082f7d
     color: "white",
     header: "000000ee",
     votecolor: "#1ff39e",
@@ -41,10 +45,17 @@ export default function App() {
     /* TODO: add colors for font, navigation, btn, background-color */
   }
 
+<<<<<<< HEAD
+  const nightEndMode = {
+    name: "night",
+    image: nightEnd,
+    blur: "rgba(16, 5, 30, 0.6)",
+=======
   const werewolfMode = {
     name: "werewolf",
     image: night,
     blur: "rgba(10, 0, 0, 0.8)",
+>>>>>>> b0db0094562977abaf12afea1bba986eaf082f7d
     color: "white",
     header: "#da1313ee",
     votecolor: "#1ff39e",
@@ -114,7 +125,7 @@ export default function App() {
           <Route path="chat/:roomId" element={<Chat /* mode={nightMode} loggedIn={loggedIn} */ />} />
           <Route path="create" element={<CreateGame />} />
           <Route path="join" element={<Join />} />
-          <Route path="*" element={<NoMatch />} />
+          <Route path="*" element={<NoMatch mode={nightMode}/>} />
 
           <Route path="/game/:roomid" element={<GamePage mode={mode} setIsDay={setIsDay}/>}></Route>
         </Routes>

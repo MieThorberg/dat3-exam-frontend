@@ -16,6 +16,8 @@ import Village from './Village'
 import VotePage from './VotePage'
 import VoteResultPage from './VoteResultPage'
 import EndedGamePage from './EndedGamePage'
+import DeadPage from './DeadPage'
+import HunterPage from './HunterPage'
 
 const GamePage = ({ mode, setIsDay, changeEndMode }) => {
     const navigate = useNavigate();
@@ -191,6 +193,9 @@ const GamePage = ({ mode, setIsDay, changeEndMode }) => {
 
                     <div className='content'>
 
+                       {/*  <DeadPage displayCharacter={displayCharacter}/> */}
+        {/*                <HunterPage current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken}/>
+ */}
                         {message == "new round" &&
                             <Village host={host} data={data} current={current} setCurrent={setCurrent} votePage={votePage} displayCharacter={displayCharacter} />
                         }

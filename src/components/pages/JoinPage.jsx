@@ -23,6 +23,7 @@ const JoinPage = ({ mode }) => {
     const [msg, setMsg] = useState("")
     const [loading, setLoading] = useState(false)
     const [wololofx] = useSound(wol)
+    
     // const [players, setPlayers] = useState([])
 
     useEffect(() => {
@@ -101,6 +102,13 @@ const JoinPage = ({ mode }) => {
     //     facade.createPlayers(players, 1)
     // }
 
+    const copy = async (e) => {
+        e.preventDefault();
+        await navigator.clipboard.writeText(data.room);
+        // alert('Text copied' + data.room);
+      }
+    
+
     return (
         <>
 
@@ -111,7 +119,7 @@ const JoinPage = ({ mode }) => {
                     <div id='background-img-blur' style={{ backgroundColor: `${mode.blur}` }}></div>
                 </div>
                 <div className="fixed-header">
-                    <h1>Gamepin: {data.room}</h1>
+                    <h1 onClick={copy}>Gamepin: {data.room}</h1>
                     {/* <h3>{data.name}</h3> */}
 
                     {/* {users.map((index, user) => {
