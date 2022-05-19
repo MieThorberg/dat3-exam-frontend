@@ -123,17 +123,16 @@ export default function App() {
           <Route path="/join_game/:roomId" element={<JoinPage mode={mode} />}></Route>
           <Route path="/gamepin" element={<GamepinPage mode={mode} />}></Route>
 
-          {/* Playing game links */}
+          {/* Playing game links
           <Route path="/game/:roomid/village" element={<Village mode={mode} changeMode={changeMode} />}></Route>
           <Route path="/game/:roomid/vote" element={<VotePage mode={mode} />}></Route>
           <Route path="/game/:roomid/voteresult" element={<VoteResultPage mode={mode} />}></Route>
 
-          {/* TODO: just showing a result from voteresult, change to get the actual winners with a fetch function */}
           <Route path="/game/:roomid/ending" element={<EndedGamePage mode={mode} winners={voteresult} />}></Route>
 
-          <Route path="chat/:roomId" element={<Chat /* mode={nightMode} loggedIn={loggedIn} */ />} />
+          <Route path="chat/:roomId" element={<Chat />} />
           <Route path="create" element={<CreateGame />} />
-          <Route path="join" element={<Join />} />
+          <Route path="join" element={<Join />} /> */}
           <Route path="*" element={<NoMatch mode={nightMode}/>} />
 
           <Route path="/game/:roomid" element={<GamePage mode={mode} changeEndMode={changeEndMode} setIsDay={setIsDay}/>}></Route>
