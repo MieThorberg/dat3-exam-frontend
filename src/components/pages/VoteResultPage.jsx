@@ -17,8 +17,16 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
 
     const location = useLocation()
     const [data, setData] = useState({})
+    const [show, setShow] = useState(false)
 
     const [socket, setSocket] = useState(io)
+
+    useEffect(() => {
+        setTimeout(() => {
+            setShow(true);
+        }, 1000);
+    }, [])
+
     useEffect(() => {
         console.log("data setter");
 
@@ -73,7 +81,7 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
                     <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
                     <div className='center'>
                         {
-                            host && <button className='btn-green' onClick={newRoundPage}>Continue</button>
+                             show && host && <button className='btn-green' onClick={newRoundPage}>Continue</button>
                         }
                     </div>
                     <div className='right'></div>

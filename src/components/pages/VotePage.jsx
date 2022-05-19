@@ -23,6 +23,7 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
     const [timerColor, setTimerColor] = useState("white");
     const [timerHasStopped, setTimerHasStopped] = useState(false);
     const [hasVoted, setHasVoted] = useState(false);
+    const [show, setShow] = useState(false);
     /*  const [allMessages, setMessages] = useState([])
      const [msg, setMsg] = useState("")
      const [loading, setLoading] = useState(false)
@@ -36,6 +37,13 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
             total, minutes, seconds
         };
     }
+
+    useEffect(() => {
+        setTimeout(() => {
+            setShow(true);
+        }, 1000);
+    }, [])
+
 
     const start = (e) => {
         let { total, minutes, seconds } = getTimeRemaining(e);
@@ -250,7 +258,7 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
                                 <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
                                 <div className='center'>
                                     {
-                                        host && <button className='btn-green' onClick={stop}>Stop now</button>
+                                           show && host && <button className='btn-green' onClick={stop}>Stop now</button>
                                     }
                                     {
                                         // if it is day or night

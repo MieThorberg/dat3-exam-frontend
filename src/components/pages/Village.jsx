@@ -10,6 +10,7 @@ function Village({ host, data, current, setCurrent, votePage, displayCharacter }
     const [timerColor, setTimerColor] = useState('white');
     const [timerHasStopped, setTimerHasStopped] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
+    const [show, setShow] = useState(false);
 
 
     const getTimeRemaining = (e) => {
@@ -22,8 +23,16 @@ function Village({ host, data, current, setCurrent, votePage, displayCharacter }
     }
 
     useEffect(() => {
-        facade.getCurrentRound(data.gameid).then(data => setCurrent(data));
+        setTimeout(() => {
+            setShow(true);
+        }, 1000);
+    }, [])
 
+
+    useEffect(() => {
+        facade.getCurrentRound(data.gameid).then(data => {
+            setCurrent(data)
+        });
     }, [])
 
 
@@ -115,7 +124,7 @@ function Village({ host, data, current, setCurrent, votePage, displayCharacter }
                     <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
                     <div className='center'>
                         {
-                            host && <button className='btn-green' onClick={stop}>Stop now</button>
+                             show && host && <button className='btn-green' onClick={stop}>Stop now</button>
                         }
                     </div>
                     <div className='right'></div>

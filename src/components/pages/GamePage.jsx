@@ -19,7 +19,7 @@ import EndedGamePage from './EndedGamePage'
 import DeadPage from './DeadPage'
 import HunterPage from './HunterPage'
 
-const GamePage = ({ mode, changeMode, changeEndMode }) => {
+const GamePage = ({ mode, setIsDay, changeEndMode }) => {
     const navigate = useNavigate();
     const location = useLocation()
     const [playerToken, setPlayerToken] = useState({});
@@ -41,6 +41,11 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
     }, [])
 
     useEffect(() => {
+        console.log("current");
+        setIsDay(current.isDay);
+    },[current])
+
+    useEffect(() => {
         console.log("socket Checker");
         //recieves the latest message from the server and sets our useStates
         if (socket) {
@@ -52,7 +57,6 @@ const GamePage = ({ mode, changeMode, changeEndMode }) => {
                     setMessage("vote result");
                 }
                 if (newMessage.msg == "new round") {
-                    changeMode();
                     setMessage("new round");
                 }
                 if (newMessage.msg == "ended") {
