@@ -90,17 +90,16 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
 
     const newRoundPage = () => {
         facade.hasEnded(data.gameid).then((ended) => {
-            if (ended) {
+            if (isHunter) {
+                gameController.cleanVotes(data.gameid);
+                console.log("the mysteri of the hunter");
+                const newMessage = { time: new Date(), msg: "hunter", name: data.name };
+                socket.emit("newMessage", { newMessage, room: location.state.room });
+                setIsHunter(false);
+            }else if (ended) {
                 const newMessage = { time: new Date(), msg: "ended", name: data.name };
                 socket.emit("newMessage", { newMessage, room: location.state.room });
             } else {
-                if (isHunter) {
-                    console.log("the mysteri of the hunter");
-                    const newMessage = { time: new Date(), msg: "hunter", name: data.name };
-                    socket.emit("newMessage", { newMessage, room: location.state.room });
-                    setIsHunter(false);
-                    return;
-                }
                 gameController.createRound(data.gameid);
                 gameController.cleanVotes(data.gameid);
                 const newMessage = { time: new Date(), msg: "new round", name: data.name };
@@ -215,7 +214,7 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
                         {/* TEST IF THIS WORK! */}
                         {(message != "ended") ? (
 
-                            ((playerToken.isAlive) ?
+                            ((playerToken.isAlive) || (host) || (playerToken.characterName == "hunter" && message == "hunter") ?
                                 (<>
                                     {message == "new round" &&
                                         <Village host={host} data={data} current={current} setCurrent={setCurrent} votePage={votePage} displayCharacter={displayCharacter} />
@@ -229,7 +228,7 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
                                         <VoteResultPage host={host} current={current} newRoundPage={newRoundPage} displayCharacter={displayCharacter} playerToken={playerToken} setPlayerToken={setPlayerToken} setIsHunter={setIsHunter} />
                                     }
                                     {message == "hunter" &&
-                                        <HunterPage current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken} />
+                                        <HunterPage current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken} host={host} />
                                     }
                                 </>
                                 ) : (
