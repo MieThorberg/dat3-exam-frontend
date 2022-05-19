@@ -196,8 +196,32 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
                             </div>
 
                             <div className="banner">
-                                <h1>Vote</h1>
-                                <p>Choose the player you want to vote for</p>
+                                {(current.isDay) ?
+                                    /* Day voting - all*/
+                                    <>
+                                        <h1>Vote</h1>
+                                        <p>Choose the player you want to vote for</p>
+                                    </>
+                                    :
+
+                                    (playerToken.characterName == "werewolf" ?
+                                        /* Night voting - werewolf */
+                                        <>
+                                            <h1 style={{color: "#ff0f13", textAlign: "center", maxWidth: "600px", fontSize: "50px"}}>Werewolf, you are hungry!</h1>
+                                            <p>Choose the player you want to kill and eat</p>
+                                        </>
+                                        :
+                                        /* Night voting - villagers and hunters */
+                                        <>
+                                            <h1 style={{textAlign: "center", maxWidth: "600px", fontSize: "50px"}}>The village are asleep</h1>
+                                            <p></p>
+                                        </>)
+
+
+                                }
+
+                                {/* <h1>Vote</h1>
+                                <p>Choose the player you want to vote for</p> */}
                             </div>
                             <div className='joined-players-section'>
                                 <div className='joined-players-scroll'>
@@ -281,7 +305,7 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
                                                 playerToken.isAlive && <button className='btn-green' onClick={vote}>Vote</button>
                                             ) : (
                                                 // checks if player is alive and is a werewolf
-                                                playerToken.isAlive && (playerToken.characterName == "werewolf") && <button className='btn-green' onClick={vote}>Vote</button>
+                                                playerToken.isAlive && (playerToken.characterName == "werewolf") && <button className='kill-btn' onClick={vote}>Kill player</button>
                                             )
                                     }
                                 </div>
