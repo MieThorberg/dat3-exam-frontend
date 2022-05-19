@@ -149,7 +149,7 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
 
                 var current = document.getElementsByClassName("active");
                 if (current[0] != undefined) {
-                     // are adding to the current img style, so we still can see its active
+                    // are adding to the current img style, so we still can see its active
                     current[0].className = current[0].className.replace(" active", "");
                 }
                 this.className += " active";
@@ -228,7 +228,8 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
                                                         </div>
                                                     }
                                                 })
-                                                ) : (
+                                                ) : ((current.isDay) ?
+
                                                     players.map((player) => {
                                                         // if (index == 0) {
                                                         //     {
@@ -249,8 +250,18 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
                                                                 <h3 style={{ color: 'white' }}>{player.username}</h3>
                                                             </div>
                                                         </div>
-                                                    }))
-
+                                                    }
+                                                    ) : (
+                                                        players.map((player) => {
+                                                            return <div key={player.id}>
+                                                                <div >
+                                                                    <img id={player.id} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                                                </div>
+                                                            </div>
+                                                        })
+                                                    )
+                                                )
                                         }
                                     </div>
                                 </div>
