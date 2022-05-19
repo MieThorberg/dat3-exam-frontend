@@ -7,7 +7,7 @@ import gameController from '../../gameController'
 
 
 
-function HunterPage({ current, voteResultPage, displayCharacter, playerToken }) {
+function HunterPage({ current, voteResultPage, displayCharacter, playerToken, host }) {
 
     const [choosenPlayer, setChoosenPlayer] = useState("");
     const [players, setPlayers] = useState([]);
@@ -109,10 +109,13 @@ function HunterPage({ current, voteResultPage, displayCharacter, playerToken }) 
     }, [data])
 
     useEffect(() => {
-        console.log("hasVoted");
-        if (!hasVoted) {
-            setActiveBtn();
+        if (playerToken.characterName == "hunter") {
+            console.log("hasVoted");
+            if (!hasVoted) {
+                setActiveBtn();
+            }
         }
+
     })
 
     useEffect(() => {
@@ -125,9 +128,16 @@ function HunterPage({ current, voteResultPage, displayCharacter, playerToken }) 
     }, [timerHasStopped, setTimerHasStopped])
 
     function vote() {
-        gameController.vote(data.gameid, playerToken.id, choosenPlayer);
-        setHasVoted(true);
-        stop();
+        facade.getAlivePlayers(data.gameid).then(players => {
+            players.map((player) => {
+                gameController.vote(data.gameid, player.id, choosenPlayer)
+            })
+        })
+        setTimeout(() => {
+            setHasVoted(true);
+            stop();
+        },1000)
+
         console.log("has voted!")
     }
 
@@ -145,65 +155,95 @@ function HunterPage({ current, voteResultPage, displayCharacter, playerToken }) 
                 this.className += " active";
                 // the selected player's index (div id) are saved with usestate
                 setChoosenPlayer(e.target.id);
-                // console.log(choosenPlayer)
+                console.log(choosenPlayer)
             });
         }
     }
 
     return (
         <>
-            {/* Hunterpage */}
-            <div className='vote-section'>
-                <div className='header'>
-                    <div className='left'><h1 style={{ color: timerColor }}>Time left: {timer}</h1></div>
-                    <div className='center'></div>
-                    <div className='right'><h1>DAY {current.day}</h1></div>
-                </div>
-                <div className="banner">
-                    <h1 style={{ color: "#ff0f13", textAlign: "center", maxWidth: "550px", fontSize: "50px" }}>Hunter, a werewolf is chasing you!</h1>
-                    <p>You have one arrow left. Choose a player to shoot!</p>
-                </div>
-                <div className='joined-players-section'>
-                    <div className='joined-players-scroll'>
-                        <div className='list-grid' id="playerlist">
-                            {
-                                players.map((player, index) => {
-                                    if (index == 0) {
-                                        {
-                                            if (choosenPlayer == "") {
-                                                setChoosenPlayer(player.id);
-                                            }
-                                        }
-                                        return <div key={player.id}>
-                                            <div className='vote'>
-                                                <img id={player.id} className="profile-img active" />
-                                                <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                            </div>
-                                        </div>
-                                    }
+            {(playerToken.characterName == "hunter") ?
+                (<>
+                    {/* Hunterpage */}
 
-                                    return <div key={player.id}>
-                                        <div className='vote'>
-                                            <img id={player.id} className="profile-img" />
-                                            <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                        </div>
-                                    </div>
-                                })
-                            }
+                    <div className='vote-section'>
+                        <div className='header'>
+                            <div className='left'><h1 style={{ color: timerColor }}>Time left: {timer}</h1></div>
+                            <div className='center'></div>
+                            <div className='right'><h1>DAY {current.day}</h1></div>
+                        </div>
+
+                        <div className="banner">
+                            <h1 style={{ color: "#ff0f13", textAlign: "center", maxWidth: "550px", fontSize: "50px" }}>Hunter, a werewolf is chasing you!</h1>
+                            <p>You have one arrow left. Choose a player to shoot!</p>
+                        </div>
+                        <div className='joined-players-section'>
+                            <div className='joined-players-scroll'>
+                                <div className='list-grid' id="playerlist">
+                                    {
+                                        players.map((player, index) => {
+                                            if (index == 0) {
+                                                {
+                                                    if (choosenPlayer == "") {
+                                                        setChoosenPlayer(player.id);
+                                                    }
+                                                }
+                                                return <div key={player.id}>
+                                                    <div className='vote'>
+                                                        <img id={player.id} className="profile-img active" />
+                                                        <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            return <div key={player.id}>
+                                                <div className='vote'>
+                                                    <img id={player.id} className="profile-img" />
+                                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                                </div>
+                                            </div>
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className='footer'>
+                            <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
+                            <div className='center'>
+                                <button className='kill-btn' onClick={vote}>Shoot player</button>
+                            </div>
+                            <div className='right'></div>
                         </div>
                     </div>
-                </div>
-
-                <div className='footer'>
-                    <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
-                    <div className='center'>
-                        <button className='kill-btn' onClick={vote}>Shoot player</button>
+                </>)
+                :
+                (<>
+                    <div className='game-layout'>
+                        <div className='header'>
+                            <div className='left'></div>
+                            <div className='center'></div>
+                            <div className='right'></div>
+                        </div>
+                        <div className='round-section'>
+                            <h1 className='title' style={{ textAlign: "center", color: "red" }}>A hunter is chased by a werewolf!</h1>
+                            <p className='description' style={{ padding: "10px 20px 0 20px", width: "400px" }}>
+                                Beware player! he is aiming his last arrow on a player!
+                            </p>
+                        </div>
+                        <div className='footer'>
+                            <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
+                            <div className='center'></div>
+                            <div className='right'></div>
+                        </div>
                     </div>
-                    <div className='right'></div>
-                </div>
-            </div>
+
+                </>)
+
+            }
         </>
     );
+
 }
 
 export default HunterPage;
