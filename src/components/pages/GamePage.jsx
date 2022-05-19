@@ -79,7 +79,7 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
         gameController.getRoundResult(data.gameid).then(data => setResult(data));
         setTimeout(() => {
             console.log("waiting");
-        },2000)
+        }, 2000)
 
         const newMessage = { time: new Date(), msg: "vote result", name: data.name }
         socket.emit("newMessage", { newMessage, room: location.state.room })
@@ -201,9 +201,35 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
 
                     <div className='content'>
 
+
+                        {/* TEST IF THIS WORK! */}
+                        {/* {(message != "ended") ?
+                            <>
+                                (playerToken.isAlive) ?
+                                <>
+                                    {message == "new round" &&
+                                        <Village host={host} data={data} current={current} setCurrent={setCurrent} votePage={votePage} displayCharacter={displayCharacter} />
+                                    }
+
+                                    {message == "vote" &&
+                                        <VotePage host={host} current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken} />
+                                    }
+
+                                    {message == "vote result" &&
+                                        <VoteResultPage host={host} current={current} newRoundPage={newRoundPage} displayCharacter={displayCharacter} playerToken={playerToken} />
+                                    }
+                                </>
+                                :
+                                <>
+                                    <DeadPage displayCharacter={displayCharacter} />
+                                </>
+                            </>
+                            :
+                            <EndedGamePage host={host} changeEndMode={changeEndMode} />
+                        } */}
+}
                         {/*  <DeadPage displayCharacter={displayCharacter}/> */}
-                        {/*                <HunterPage current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken}/>
- */}
+                        {/*                <HunterPage current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken}/>*/}
                         {message == "new round" &&
                             <Village host={host} data={data} current={current} setCurrent={setCurrent} votePage={votePage} displayCharacter={displayCharacter} />
                         }
