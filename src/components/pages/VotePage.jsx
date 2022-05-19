@@ -146,13 +146,15 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
         for (var i = 0; i < btns.length; i++) {
             // every vote has an img called profile-img which we are making an listner to
             btns[i].getElementsByClassName("profile-img")[0].addEventListener("click", function (e) {
+
                 var current = document.getElementsByClassName("active");
-                // are adding to the current img style, so we still can see its active
-                current[0].className = current[0].className.replace(" active", "");
+                if (current[0] != undefined) {
+                     // are adding to the current img style, so we still can see its active
+                    current[0].className = current[0].className.replace(" active", "");
+                }
                 this.className += " active";
                 // the selected player's index (div id) are saved with usestate
                 setChoosenPlayer(e.target.id);
-                // console.log(choosenPlayer)
             });
         }
     }
@@ -202,21 +204,21 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
                                     <div className='list-grid' id="playerlist">
                                         {
                                             (playerToken.characterName == "werewolf" && (!current.isDay)) ?
-                                                (players.map((player, index) => {
+                                                (players.map((player) => {
                                                     if (player.characterName != "werewolf") {
-                                                        if (index == 0) {
-                                                            {
-                                                                if (choosenPlayer == "") {
-                                                                    setChoosenPlayer(player.id);
-                                                                }
-                                                            }
-                                                            return <div key={player.id}>
-                                                                <div className='vote'>
-                                                                    <img id={player.id} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                                                </div>
-                                                            </div>
-                                                        }
+                                                        // if (index == 0) {
+                                                        //     {
+                                                        //         if (choosenPlayer == "") {
+                                                        //             setChoosenPlayer(player.id);
+                                                        //         }
+                                                        //     }
+                                                        //     return <div key={player.id}>
+                                                        //         <div className='vote'>
+                                                        //             <img id={player.id} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                                        //             <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                                        //         </div>
+                                                        //     </div>
+                                                        // }
 
                                                         return <div key={player.id}>
                                                             <div className='vote'>
@@ -227,20 +229,20 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
                                                     }
                                                 })
                                                 ) : (
-                                                    players.map((player, index) => {
-                                                        if (index == 0) {
-                                                            {
-                                                                if (choosenPlayer == "") {
-                                                                    setChoosenPlayer(player.id);
-                                                                }
-                                                            }
-                                                            return <div key={player.id}>
-                                                                <div className='vote'>
-                                                                    <img id={player.id} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
-                                                                    <h3 style={{ color: 'white' }}>{player.username}</h3>
-                                                                </div>
-                                                            </div>
-                                                        }
+                                                    players.map((player) => {
+                                                        // if (index == 0) {
+                                                        //     {
+                                                        //         if (choosenPlayer == "") {
+                                                        //             setChoosenPlayer(player.id);
+                                                        //         }
+                                                        //     }
+                                                        //     return <div key={player.id}>
+                                                        //         <div className='vote'>
+                                                        //             <img id={player.id} className="profile-img active" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
+                                                        //             <h3 style={{ color: 'white' }}>{player.username}</h3>
+                                                        //         </div>
+                                                        //     </div>
+                                                        // }
                                                         return <div key={player.id}>
                                                             <div className='vote'>
                                                                 <img id={player.id} className="profile-img" /> {/* REMEMBER! set active on one player, or else the active vote will not show  */}
@@ -258,7 +260,7 @@ function VotePage({ host, current, voteResultPage, displayCharacter, playerToken
                                 <div className='left'><button className='character-btn' onClick={displayCharacter}><i className="fa fa-user-circle"></i></button></div>
                                 <div className='center'>
                                     {
-                                           show && host && <button className='btn-green' onClick={stop}>Stop now</button>
+                                        show && host && <button className='btn-green' onClick={stop}>Stop now</button>
                                     }
                                     {
                                         // if it is day or night
