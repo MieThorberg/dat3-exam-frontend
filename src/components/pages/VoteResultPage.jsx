@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import facade from "../../apiFacade";
 import { io } from "socket.io-client";
 
-function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerToken }) {
+function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerToken, setPlayerToken }) {
     const [victim, setVictim] = useState({});
     /* const [day, setDay] = useState(""); */
     const navigate = useNavigate();
@@ -38,14 +38,14 @@ function VoteResultPage({ host, current, newRoundPage, displayCharacter, playerT
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            console.log("hguo");
             if (data.gameid != undefined) {
-                console.log(data);
 
                 gameController.getVictimLatest(data.gameid).then(data => {
                     setVictim(data);
                     if (playerToken.username == data.username) {
                         facade.setPlayerToken(data);
+                        console.log(facade.getPlayerToken());
+                        setPlayerToken(facade.getPlayerToken())
                     }
                 });
             }

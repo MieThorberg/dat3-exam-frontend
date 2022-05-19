@@ -203,34 +203,33 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
 
 
                         {/* TEST IF THIS WORK! */}
-                        {/* {(message != "ended") ?
-                            <>
-                                (playerToken.isAlive) ?
-                                <>
+                        {(message != "ended") ? (
+
+                            ((playerToken.isAlive) ?
+                                (<>
                                     {message == "new round" &&
                                         <Village host={host} data={data} current={current} setCurrent={setCurrent} votePage={votePage} displayCharacter={displayCharacter} />
                                     }
 
                                     {message == "vote" &&
-                                        <VotePage host={host} current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken} />
+                                        <VotePage host={host} current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken}  />
                                     }
 
                                     {message == "vote result" &&
-                                        <VoteResultPage host={host} current={current} newRoundPage={newRoundPage} displayCharacter={displayCharacter} playerToken={playerToken} />
+                                        <VoteResultPage host={host} current={current} newRoundPage={newRoundPage} displayCharacter={displayCharacter} playerToken={playerToken} setPlayerToken={setPlayerToken} />
                                     }
                                 </>
-                                :
-                                <>
+                                ) : (
                                     <DeadPage displayCharacter={displayCharacter} />
-                                </>
-                            </>
-                            :
+                                )
+                            )
+                        ) : (
                             <EndedGamePage host={host} changeEndMode={changeEndMode} />
-                        } */}
-
+                        )
+                        }
                         {/*  <DeadPage displayCharacter={displayCharacter}/> */}
                         {/*                <HunterPage current={current} voteResultPage={voteResultpage} displayCharacter={displayCharacter} playerToken={playerToken}/>*/}
-                        {message == "new round" &&
+                        {/* {message == "new round" &&
                             <Village host={host} data={data} current={current} setCurrent={setCurrent} votePage={votePage} displayCharacter={displayCharacter} />
                         }
 
@@ -244,7 +243,7 @@ const GamePage = ({ mode, changeEndMode, setIsDay }) => {
 
                         {message == "ended" &&
                             <EndedGamePage host={host} changeEndMode={changeEndMode} />
-                        }
+                        } */}
 
                         <div id='characterPopup' onClick={displayCharacter}>
                             <div className='card'>
