@@ -114,7 +114,7 @@ export default function App() {
           <Route path="/login" element={<LoginPage loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
           <Route path="/create_user" element={<CreateUserPage />}></Route>
           <Route path="/edit_user" element={<EditUserPage />}></Route>
-          <Route path="/rules" element={<RulesPage setHeadline={setHeadline} />}></Route>
+          <Route path="/rules" element={<RulesPage mode={mode} setHeadline={setHeadline} />}></Route>
           <Route path="/credits" element={<CreditsPage />}></Route>
 
           {/* Logged as user links */}
