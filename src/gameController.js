@@ -34,12 +34,11 @@ function GameController() {
     function createRound(id) {
 
         return facade.getCurrentRound(id).then(data => {
-
             if (data.isDay) {
-                const night = facade.createNightRound(id);
+                facade.createNightRound(id);
             } else {
-                addDay(id);
-                const day = facade.createDayRound(id);
+                //addDay(id);
+                facade.createDayRound(id);
             }
         });
     }
