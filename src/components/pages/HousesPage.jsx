@@ -25,7 +25,7 @@ function HousesPage({ isUser }) {
     }, [])
 
     function seeMore(evt) {
-        /* navigate(`${evt.target.id}`); */
+        navigate(`${evt.target.id}`);
     }
 
     return (
@@ -70,7 +70,7 @@ function HousesPage({ isUser }) {
                                                         </div>
                                                     </div>
                                                     <div className='bottom'>
-                                                        <button id={element.id} /* onClick={seeMore} */ className='btn-black'>SEE MORE</button>
+                                                        <button id={element.id} onClick={seeMore} className='btn-black'>SEE MORE</button>
                                                     </div>
                                                 </div>
                                             )

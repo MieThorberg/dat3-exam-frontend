@@ -17,6 +17,7 @@ import NotFoundPage from "./components/errors/NotFoundPage";
 import RentalsPage from "./components/pages/RentalsPage";
 import DataPage from "./components/pages/DataPage";
 import HousesPage from "./components/pages/HousesPage";
+import HouseDetail from "./components/pages/HouseDetail";
 
 
 export default function App() {
@@ -32,6 +33,7 @@ export default function App() {
           {/* Admin */}
           <Route path="/rentals" element={<RentalsPage />}></Route>
           <Route path="/houses" element={<HousesPage/>}></Route>
+          <Route path="/houses/:houseid" element={<HouseDetail/>}></Route>
           <Route path="/data" element={<DataPage/>}></Route>
           
 
