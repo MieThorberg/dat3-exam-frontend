@@ -10,13 +10,11 @@ function MyRentalsPage() {
     const [rentals, setRentals] = useState([]);
     const navigate = useNavigate();
     const [isAuthorized, setIsAuthorized] = useState(true);
-    const [name, setName] = useState("")
     useEffect(() => {
 
         if (facade.getToken() != undefined) {
-            const i = facade.decodeToken().username;
-            console.log(i);
-            facade.getRentalByTenantName(i)
+            const name = facade.decodeToken().username;
+            facade.getRentalByTenantName(name)
                 .then(data => setRentals(data))
                 .catch((err) => {
                     if (err.status == 403) {
@@ -36,7 +34,8 @@ function MyRentalsPage() {
     }, [])
 
     function seeMore(evt) {
-        /* navigate(`${evt.target.id}`); */
+        console.log(evt.target.id)
+        navigate(`${evt.target.id}`);
     }
 
     return (
@@ -48,11 +47,10 @@ function MyRentalsPage() {
                 </>
 
                 :
-
                 <main>
                     <header className='header-normal'>
                         <div>
-                            <h2>Rentals</h2>
+                            <h2>My rentals</h2>
                             <p>All rentals</p>
                         </div>
                     </header>
@@ -79,11 +77,11 @@ function MyRentalsPage() {
                                                             <p>- End date: {element.endDate}</p>
                                                             <p>- Price annual: {element.priceAnnual}</p>
                                                             <p>- Deposit: {element.deposit}</p>
-                                                            <p>- Conact: {element.contactPerson}</p>
+                                                            <p>- Contact person: {element.contactPerson}</p>
                                                         </div>
                                                     </div>
                                                     <div className='bottom'>
-                                                        <button id={element.id} onClick={seeMore} className='btn-black'>SEE MORE</button>
+                                                        <button id={element.house.id} onClick={seeMore} className='btn-black'>SEE MORE</button>
                                                     </div>
                                                 </div>
                                             )

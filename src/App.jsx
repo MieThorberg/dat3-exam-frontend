@@ -42,6 +42,7 @@ export default function App() {
 
           {/* User */}
           <Route path="/my_rentals" element={<MyRentalsPage />}></Route>
+          <Route path="/my_rentals/:houseid" element={<HouseDetail/>}></Route>
           <Route path="/*" element={<NotFoundPage />}></Route>
         </Routes>
         <Footer />

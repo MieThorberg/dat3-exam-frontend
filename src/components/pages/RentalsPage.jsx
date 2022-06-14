@@ -68,7 +68,7 @@ function RentalsPage() {
                                                             <p>- End date: {element.endDate}</p>
                                                             <p>- Price annual: {element.priceAnnual}</p>
                                                             <p>- Deposit: {element.deposit}</p>
-                                                            <p>- Conact: {element.contactPerson}</p>
+                                                            <p>- Contact person: {element.contactPerson}</p>
                                                         </div>
                                                     </div>
                                                     <div className='bottom'>

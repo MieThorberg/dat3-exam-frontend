@@ -197,8 +197,17 @@ function HouseDetail() {
     const [tenants, setTenants] = useState([])
     const [editing, setEditing] = useState(false);
     useEffect(() => {
-        facade.getHouseById(params.houseid).then(data => setHouse(data));
-        facade.getTenantsFromHouseById(params.houseid).then(data => setTenants(data));
+
+
+        if (facade.getToken() != undefined) {
+            facade.getHouseById(params.houseid).then(data => setHouse(data));
+            if (facade.decodeToken().roles.includes("admin")) {
+                facade.getTenantsFromHouseById(params.houseid).then(data => setTenants(data));
+            }
+        } else {
+
+        }
+
     }, [])
 
     function remove() {
@@ -247,39 +256,42 @@ function HouseDetail() {
                         </section>
 
 
+                        {
+                            facade.decodeToken().roles.includes("admin") &&
+                            <section className='table-section'>
+                                {tenants.length == 0 ?
+                                    <p>Nothing registred</p>
+                                    :
+                                    <>
 
+                                        <p className='right'>Size: {tenants.length}</p>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <th><p className='bold'>Tenant ID</p></th>
+                                                    <th><p className='bold'>Name</p></th>
+                                                    <th><p className='bold'>Phone</p></th>
+                                                    <th><p className='bold'>Job</p></th>
+                                                </tr>
 
-                        <section className='table-section'>
-                            {tenants.length == 0 ?
-                                <p>Nothing registred</p>
-                                :
-                                <>
+                                                {tenants.map((element) => {
+                                                    return (
+                                                        <tr key={element.id}>
+                                                            <td><p>{element.id}</p></td>
+                                                            <td><p>{element.name}</p></td>
+                                                            <td><p>{element.phone}</p></td>
+                                                            <td><p>{element.job}</p></td>
+                                                        </tr>
+                                                    )
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </>
+                                }
+                            </section>
+                        }
+}
 
-                                    <p className='right'>Size: {tenants.length}</p>
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <th><p className='bold'>Tenant ID</p></th>
-                                                <th><p className='bold'>Name</p></th>
-                                                <th><p className='bold'>Phone</p></th>
-                                                <th><p className='bold'>Job</p></th>
-                                            </tr>
-
-                                            {tenants.map((element) => {
-                                                return (
-                                                    <tr key={element.id}>
-                                                        <td><p>{element.id}</p></td>
-                                                        <td><p>{element.name}</p></td>
-                                                        <td><p>{element.phone}</p></td>
-                                                        <td><p>{element.job}</p></td>
-                                                    </tr>
-                                                )
-                                            })}
-                                        </tbody>
-                                    </table>
-                                </>
-                            }
-                        </section>
 
                     </main >
                     :
