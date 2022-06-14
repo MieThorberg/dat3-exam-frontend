@@ -18,6 +18,9 @@ import RentalsPage from "./components/pages/RentalsPage";
 import DataPage from "./components/pages/DataPage";
 import HousesPage from "./components/pages/HousesPage";
 import HouseDetail from "./components/pages/HouseDetail";
+import { useEffect, useState } from "react";
+import facade from "./apiFacade";
+import MyRentalsPage from "./components/pages/MyRentalsPage";
 
 
 export default function App() {
@@ -38,7 +41,7 @@ export default function App() {
           
 
           {/* User */}
-          <Route path="/my_rentals" element={<RentalsPage/>}></Route>
+          <Route path="/my_rentals" element={<MyRentalsPage />}></Route>
           <Route path="/*" element={<NotFoundPage />}></Route>
         </Routes>
         <Footer />

@@ -9,11 +9,11 @@ import { useNavigate } from 'react-router-dom';
 
 function HouseUpdateDetail(/* { boat } */) {
 
-   /*  const [boatData, setBoatData] = useState({ id: "", brand: "", make: "", name: "", image: "", owners: [], harbour: {} });
-    const [allHarbourData, setAllHarbours] = useState([]);
-    const [allOwnersData, setAllOwners] = useState([]);
-    const [owners, setOwners] = useState([]);
-    const navigate = useNavigate(); */
+    /*  const [boatData, setBoatData] = useState({ id: "", brand: "", make: "", name: "", image: "", owners: [], harbour: {} });
+     const [allHarbourData, setAllHarbours] = useState([]);
+     const [allOwnersData, setAllOwners] = useState([]);
+     const [owners, setOwners] = useState([]);
+     const navigate = useNavigate(); */
 
     useEffect(() => {
         /* facade.getAllHarbours().then(data => setAllHarbours(data));
@@ -22,73 +22,73 @@ function HouseUpdateDetail(/* { boat } */) {
         setOwners(boatData.owners); */
     }, [])
 
-/*     const onChangeBoat = (evt) => {
-        evt.preventDefault();
-        setBoatData({ ...boatData, [evt.target.id]: evt.target.value })
-    }
-
-    const onChangeBoatHarbour = (evt) => {
-        evt.preventDefault();
-        const value = evt.target.value;
-
-        facade.getHarbourById(value).then(data => {
+    /*     const onChangeBoat = (evt) => {
+            evt.preventDefault();
+            setBoatData({ ...boatData, [evt.target.id]: evt.target.value })
+        }
+    
+        const onChangeBoatHarbour = (evt) => {
+            evt.preventDefault();
+            const value = evt.target.value;
+    
+            facade.getHarbourById(value).then(data => {
+                setBoatData(
+                    {
+                        ...boatData, harbour: {
+                            id: data.id,
+                            name: data.name,
+                            address: data.address,
+                            capacity: data.capacity
+                        }
+                    }
+                )
+            }
+            );
+        }
+    
+        const onChangeBoatOwner = (evt) => {
+            const value = evt.target.value;
+            const newOwners = boatData.owners;
+    
+            if (newOwners.find(owner => owner.id == value) == undefined) {
+                facade.getOwnerById(value).then(
+                    data => {
+                        newOwners.push({
+                            id: data.id,
+                            name: data.name,
+                            address: data.address,
+                            phone: data.phone
+                        })
+                    }
+                )
+            }
             setBoatData(
                 {
-                    ...boatData, harbour: {
-                        id: data.id,
-                        name: data.name,
-                        address: data.address,
-                        capacity: data.capacity
-                    }
+                    ...boatData, owners: newOwners
+                }
+            )
+            evt.preventDefault();
+        }
+    
+        function update() {
+            facade.updateBoat(boatData).then().catch((err) => {
+                alert("Please fill out the missing inputs")
+            });
+            window.location.reload();
+        }
+    
+        function cancel() {
+            window.location.reload();
+        }
+    
+        function removeBoatOwners(id) {
+            setBoatData(
+                {
+                    ...boatData, owners: boatData.owners.filter((owner) => owner.id !== id)
                 }
             )
         }
-        );
-    }
-
-    const onChangeBoatOwner = (evt) => {
-        const value = evt.target.value;
-        const newOwners = boatData.owners;
-
-        if (newOwners.find(owner => owner.id == value) == undefined) {
-            facade.getOwnerById(value).then(
-                data => {
-                    newOwners.push({
-                        id: data.id,
-                        name: data.name,
-                        address: data.address,
-                        phone: data.phone
-                    })
-                }
-            )
-        }
-        setBoatData(
-            {
-                ...boatData, owners: newOwners
-            }
-        )
-        evt.preventDefault();
-    }
-
-    function update() {
-        facade.updateBoat(boatData).then().catch((err) => {
-            alert("Please fill out the missing inputs")
-        });
-        window.location.reload();
-    }
-
-    function cancel() {
-        window.location.reload();
-    }
-
-    function removeBoatOwners(id) {
-        setBoatData(
-            {
-                ...boatData, owners: boatData.owners.filter((owner) => owner.id !== id)
-            }
-        )
-    }
- */
+     */
     return (
         <main>
             <header className='header-normal'>
@@ -102,7 +102,7 @@ function HouseUpdateDetail(/* { boat } */) {
                 <div className='grid-rows-3'>
                     <div className='datacard'>
                         <div className='content'>
-                           {/*  <div>
+                            {/*  <div>
                                 <p className='title'>Update ###</p>
                                 <form>
                                     <label className='bold'>Name</label>
@@ -193,7 +193,7 @@ function HouseUpdateDetail(/* { boat } */) {
 function HouseDetail() {
     const navigate = useNavigate();
     const params = useParams();
-    const [house, setHouse] = useState({ id: 0, address: "", city: "", name: "", numberOfRooms: 1});
+    const [house, setHouse] = useState({ id: 0, address: "", city: "", name: "", numberOfRooms: 1 });
     const [tenants, setTenants] = useState([])
     const [editing, setEditing] = useState(false);
     useEffect(() => {
@@ -202,9 +202,9 @@ function HouseDetail() {
     }, [])
 
     function remove() {
-       /*  facade.deleteBoat(boat.id);
-        navigate("/");
-        alert("Boat: " + boat.name + " is deleted") */
+        /*  facade.deleteBoat(boat.id);
+         navigate("/");
+         alert("Boat: " + boat.name + " is deleted") */
     }
     function edit() {
         setEditing(true);
@@ -222,7 +222,7 @@ function HouseDetail() {
                             </div>
                         </header>
 
-                       <section className='table-section'>
+                        <section className='table-section'>
                             <table>
                                 <tbody>
                                     <tr>
@@ -247,30 +247,40 @@ function HouseDetail() {
                         </section>
 
 
-                        <section className='table-section'>
-                            <p className='right'>Size: {tenants.length}</p>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th><p className='bold'>Tenant ID</p></th>
-                                        <th><p className='bold'>Name</p></th>
-                                        <th><p className='bold'>Phone</p></th>
-                                        <th><p className='bold'>Job</p></th>
-                                    </tr>
 
-                                    {tenants.map((element) => {
-                                        return (
-                                            <tr key={element.id}>
-                                                <td><p>{element.id}</p></td>
-                                                <td><p>{element.name}</p></td>
-                                                <td><p>{element.phone}</p></td>
-                                                <td><p>{element.job}</p></td>
+
+                        <section className='table-section'>
+                            {tenants.length == 0 ?
+                                <p>Nothing registred</p>
+                                :
+                                <>
+
+                                    <p className='right'>Size: {tenants.length}</p>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <th><p className='bold'>Tenant ID</p></th>
+                                                <th><p className='bold'>Name</p></th>
+                                                <th><p className='bold'>Phone</p></th>
+                                                <th><p className='bold'>Job</p></th>
                                             </tr>
-                                        )
-                                    })}
-                                </tbody>
-                            </table>
+
+                                            {tenants.map((element) => {
+                                                return (
+                                                    <tr key={element.id}>
+                                                        <td><p>{element.id}</p></td>
+                                                        <td><p>{element.name}</p></td>
+                                                        <td><p>{element.phone}</p></td>
+                                                        <td><p>{element.job}</p></td>
+                                                    </tr>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </>
+                            }
                         </section>
+
                     </main >
                     :
 

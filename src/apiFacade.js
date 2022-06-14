@@ -76,6 +76,11 @@ function apiFacade() {
     return fetch(URL + `/api/rentals/tenantsfromhouse/${id}`, options).then(handleHttpErrors)
   }
 
+  const getRentalByTenantName = (name) => {
+    const options = makeOptions("GET", true);
+    return fetch(URL + `/api/rentals/rentalsfromtenant/${name}`, options).then(handleHttpErrors)
+  }
+
   const createRental = (rental) => {
     const options = makeOptions("POST", true, rental);
     return fetch(URL + "/api/rentals/create", options).then(handleHttpErrors)
@@ -146,6 +151,7 @@ function apiFacade() {
     getAllRentals,
     getRentalById,
     getTenantsFromHouseById,
+    getRentalByTenantName,
     createRental,
 
     getAllHouses,

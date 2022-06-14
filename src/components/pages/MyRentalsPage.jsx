@@ -5,22 +5,33 @@ import "../../styles/CardsPage.css";
 import facade from '../../apiFacade';
 import UnauthorizedPage from "../errors/UnauthorizedPage";
 
-function RentalsPage() {
+
+function MyRentalsPage() {
     const [rentals, setRentals] = useState([]);
     const navigate = useNavigate();
     const [isAuthorized, setIsAuthorized] = useState(true);
-
+    const [name, setName] = useState("")
     useEffect(() => {
 
-        facade.getAllRentals()
-            .then(data => setRentals(data))
-            .catch((err) => {
-                if (err.status == 403) {
-                    navigate("/login");
-                } else if (err.status == 401) {
-                    setIsAuthorized(false);
-                }
-            });
+        if (facade.getToken() != undefined) {
+            const i = facade.decodeToken().username;
+            console.log(i);
+            facade.getRentalByTenantName(i)
+                .then(data => setRentals(data))
+                .catch((err) => {
+                    if (err.status == 403) {
+                        navigate("/login");
+                    } else if (err.status == 401) {
+                        setIsAuthorized(false);
+                    }
+                });
+        }
+        else {
+            setIsAuthorized(false);
+        }
+        
+
+
 
     }, [])
 
@@ -88,4 +99,4 @@ function RentalsPage() {
     )
 }
 
-export default RentalsPage;
+export default MyRentalsPage;
