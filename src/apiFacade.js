@@ -66,6 +66,11 @@ function apiFacade() {
     return fetch(URL + "/api/rentals", options).then(handleHttpErrors)
   }
 
+  const getRentalById = (id) => {
+    const options = makeOptions("GET", true);
+    return fetch(URL + `/api/rentals/id/${id}`, options).then(handleHttpErrors)
+  }
+
   const createRental = (rental) => {
     const options = makeOptions("POST", true, rental);
     return fetch(URL + "/api/rentals/create", options).then(handleHttpErrors)
@@ -77,6 +82,11 @@ function apiFacade() {
     return fetch(URL + "/api/houses", options).then(handleHttpErrors)
   }
 
+  const getHouseById = (id) => {
+    const options = makeOptions("GET", true);
+    return fetch(URL + `/api/houses/id/${id}`, options).then(handleHttpErrors)
+  }
+
   const createHouse = (house) => {
     const options = makeOptions("POST", true, house);
     return fetch(URL + "/api/houses/create", options).then(handleHttpErrors)
@@ -86,6 +96,11 @@ function apiFacade() {
   const getAllTenants = () => {
     const options = makeOptions("GET", true);
     return fetch(URL + "/api/tenants", options).then(handleHttpErrors)
+  }
+
+  const getTenantById = (id) => {
+    const options = makeOptions("GET", true);
+    return fetch(URL + `/api/tenants/id/${id}`, options).then(handleHttpErrors)
   }
 
   const createTenant = (tenant) => {
@@ -124,12 +139,15 @@ function apiFacade() {
     create,
 
     getAllRentals,
+    getRentalById,
     createRental,
 
     getAllHouses,
+    getHouseById,
     createHouse,
     
     getAllTenants,
+    getTenantById,
     createTenant,
   }
 }

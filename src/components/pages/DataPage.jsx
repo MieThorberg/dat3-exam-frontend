@@ -7,26 +7,33 @@ import facade from '../../apiFacade';
 function Data() {
 
     const [houseData, setHouseData] = useState({ address: "", city: "", numberOfRooms: 1 });
+    const [tenantData, setTenantData] = useState({ name: "", phone: "", job: "" });
+    const [rentalData, setRentalData] = useState({ startDate: "", endDate: "", priceAnnual: 0, deposit: 0, contactPerson: "", house: { id: 0, address: "", city: "", numberOfRooms: 1 }, tenants: [] });
+
+    const [rentalHouse, setRentalHouse] = useState({id: 0, address: "", city: "", numberOfRooms: 1 });
+
+    const [allTenants, setAllTenants] = useState([]);
+    const [allHouses, setAllHouses] = useState([]);
+
+
+    //const [allUsers, setAllUsers] = useState([]);
+    //const [userData, setUserData] = useState({ userName: "", userPass: "" });
     /*  const [harbourData, setHarbourData] = useState({ name: "", address: "", capacity: "" });
-     const [boatData, setBoatData] = useState({ brand: "", make: "", name: "", image: "", owners: [], harbour: {} });
-     const [boatHarbour, setBoatHarbour] = useState({ name: "", address: "", capacity: "" });
-     const [allHarbourData, setAllHarbours] = useState([]);
-     const [allOwnersData, setAllOwners] = useState([]); */
-
-    const [tenant, setTenant] = useState({ name: "", phone: "", job: "" });
-
-    const [allUsers, setAllUsers] = useState([]);
-    const [userData, setUserData] = useState({ userName: "", userPass: "" });
-
+         const [boatData, setBoatData] = useState({ brand: "", make: "", name: "", image: "", owners: [], harbour: {} });
+         const [boatHarbour, setBoatHarbour] = useState({ name: "", address: "", capacity: "" });
+         const [allHarbourData, setAllHarbours] = useState([]);
+         const [allOwnersData, setAllOwners] = useState([]); */
     useEffect(() => {
+        facade.getAllHouses().then(data => setAllHouses(data));
+        facade.getAllTenants().then(data => setAllTenants(data));
 
-        facade.getAllUsers().then(data => setAllUsers(data));
-
+        //facade.getAllUsers().then(data => setAllUsers(data));
         /* facade.getAllHarbours().then(data => setAllHarbours(data));
         facade.getAllOwners().then(data => setAllOwners(data)); */
     }, [])
 
     const onChangeHouse = (evt) => {
+        
         setHouseData({ ...houseData, [evt.target.id]: evt.target.value })
     }
 
@@ -38,30 +45,82 @@ function Data() {
         });
     }
 
-    const onChangeUser = (evt) => {
-
-        const value = evt.target.value;
-        facade.getUserById(value).then(data => setUserData(data));
-        setTenant(
-            { ...tenant, user: userData }
-        )
-
-    }
 
     const onChangeTenant = (evt) => {
-        setTenant({ ...tenant, [evt.target.id]: evt.target.value })
-        console.log(tenant);
+       
+        setTenantData({ ...tenantData, [evt.target.id]: evt.target.value })
     }
 
     function createTenant() {
-        facade.createTenant(tenant).then(
-            
+        facade.createTenant(tenantData).then(
             alert("Tenant was created")
         ).catch((err) => {
             alert("Please fill out the missing inputs")
         });
     }
 
+    const onChangeRental = (evt) => {
+
+        setRentalData({ ...rentalData, [evt.target.id]: evt.target.value })
+        console.log(rentalData);
+        console.table(rentalData);
+    }
+
+    function createRental() {
+        facade.createRental(rentalData).then(
+            alert("Rental was created")
+        ).catch((err) => {
+            alert("Please fill out the missing inputs")
+        });
+        console.log(rentalData)
+    }
+
+    const onChangeRentalHouse = (evt) => {
+       
+        const value = evt.target.value;
+
+        facade.getHouseById(value).then(data => {
+            setRentalHouse(data)
+            console.log(data);
+        });
+
+        setRentalData(
+            { ...rentalData, house: rentalHouse }
+        )
+    }
+
+    const onChangeRentalTenants = (evt) => {
+   
+        const value = evt.target.value;
+        const newTenants = rentalData.tenants;
+
+        if (newTenants.find(tenant => tenant.id == value) == undefined) {
+            facade.getTenantById(value).then(
+                data => {
+                    newTenants.push({
+                        id: data.id,
+                        name: data.name,
+                        phone: data.phone,
+                        job: data.job
+                    })
+                }
+            )
+        }
+        setRentalData(
+            {
+                ...rentalData, tenants: newTenants
+            }
+        )
+    }
+
+
+    /*  const onChangeUser = (evt) => {
+        const value = evt.target.value;
+        facade.getUserById(value).then(data => setUserData(data));
+        setTenant(
+            { ...tenant, user: userData }
+        )
+    }*/
 
 
     /*
@@ -106,19 +165,7 @@ function Data() {
             )
         }
     
-       
     
-        function createHarbour() {
-            facade.createHarbour(harbourData).then().catch((err) => {
-                alert("Please fill out the missing inputs")
-            });
-        }
-    
-        function createBoat() {
-            facade.createBoat(boatData).then().catch((err) => {
-                alert("Please fill out the missing inputs")
-            });
-        }
     
         function removeBoatOwners (id)  {
             setBoatData(
@@ -127,6 +174,7 @@ function Data() {
                 }
             )
         } */
+
 
     return (
         <main>
@@ -202,44 +250,62 @@ function Data() {
                         <div className='content'>
                             <div>
                                 <p className='title'>Create Rental</p>
-                                <form /* onChange={onChangeOwner} */ >
+                                <form >
                                     <label className='bold'>Start date</label>
-                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter address" id="city" />
+                                    <input onChange={onChangeRental} type="text" style={{ marginBottom: "20px" }} placeholder="Enter start date" id="startDate" />
 
                                     <label className='bold'>End date</label>
-                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter address" id="city" />
+                                    <input onChange={onChangeRental} type="text" style={{ marginBottom: "20px" }} placeholder="Enter end date" id="endDate" />
 
                                     <label className='bold'>Price annual</label>
-                                    <input type="number" style={{ marginBottom: "20px" }} min={1} id="numberOfRooms" />
+                                    <input onChange={onChangeRental} type="number" style={{ marginBottom: "20px" }} min={0} defaultValue={0} id="priceAnnual" />
 
                                     <label className='bold'>Deposit</label>
-                                    <input type="number" style={{ marginBottom: "20px" }} min={1} id="numberOfRooms" />
+                                    <input onChange={onChangeRental} type="number" style={{ marginBottom: "20px" }} min={0} defaultValue={0} id="deposit" />
 
 
                                     <label className='bold'>Contact person</label>
-                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter address" id="city" />
+                                    <input onChange={onChangeRental} type="text" style={{ marginBottom: "20px" }} placeholder="Enter contact person" id="contactPerson" />
 
                                     <label className='bold'>Select house</label>
-                                    <select /* onChange={onChangeBoat} */ style={{ marginBottom: "20px" }} id="image">
-                                        <option value="" disabled hidden>Choose image</option>
-                                        <option value="Image 1">Image 1</option>
-                                        <option value="Image 2">Image 2</option>
-                                        <option value="Image 3">Image 3</option>
+                                    <select onChange={onChangeRentalHouse} style={{ marginBottom: "20px" }} id="house">
+                                        {
+                                            allHouses.length == 0 ?
+                                                <option value="" disabled hidden>No houses registred</option>
+                                                :
+                                                <>
+                                                    <option value="" disabled hidden>Choose harbour</option>
+                                                    {allHouses.map((element) => {
+                                                        return (
+                                                            <option key={element.id} value={element.id}>{element.address}</option>
+                                                        )
+                                                    })}
+                                                </>
+                                        }
                                     </select>
 
                                     <label className='bold'>Select tenants</label>
-                                    <select /* onChange={onChangeBoat} */ style={{ marginBottom: "20px" }} id="image">
-                                        <option value="" disabled hidden>Choose image</option>
-                                        <option value="Image 1">Image 1</option>
-                                        <option value="Image 2">Image 2</option>
-                                        <option value="Image 3">Image 3</option>
+                                    <select onChange={onChangeRentalTenants} style={{ marginBottom: "20px" }} id="tenants">
+                                        {
+                                            allTenants.length == 0 ?
+                                                <option value="" disabled hidden>No tenants registred</option>
+                                                :
+                                                <>
+                                                    <option value="" disabled hidden>Choose harbour</option>
+                                                    {allTenants.map((element) => {
+                                                        return (
+                                                            <option key={element.id} value={element.id}>{element.name}</option>
+                                                        )
+                                                    })}
+                                                </>
+                                        }
                                     </select>
 
                                 </form>
                             </div>
                         </div>
                         <div className='bottom'>
-                            <button /* onClick={createOwner} */>CREATE</button>
+                            <button onClick={createRental}>CREATE</button>
                         </div>
                     </div>
 
