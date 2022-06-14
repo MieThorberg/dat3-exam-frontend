@@ -9,13 +9,14 @@ import Footer from "./components/Footer";
 import HomePage from "./components/pages/HomePage";
 import LoginPage from "./components/pages/LoginPage";
 
-import CreatePage from "./components/pages/CreatePage";
 import ListPage from "./components/pages/ListPage";
 import CardsPage from "./components/pages/CardsPage";
 import Details from "./components/pages/Details"
 
 import NotFoundPage from "./components/errors/NotFoundPage";
 import RentalsPage from "./components/pages/RentalsPage";
+import DataPage from "./components/pages/DataPage";
+import HousesPage from "./components/pages/HousesPage";
 
 
 export default function App() {
@@ -27,7 +28,14 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
+
+          {/* Admin */}
           <Route path="/rentals" element={<RentalsPage />}></Route>
+          <Route path="/houses" element={<HousesPage/>}></Route>
+          <Route path="/data" element={<DataPage/>}></Route>
+          
+
+          {/* User */}
           <Route path="/my_rentals" element={<RentalsPage/>}></Route>
           <Route path="/*" element={<NotFoundPage />}></Route>
         </Routes>

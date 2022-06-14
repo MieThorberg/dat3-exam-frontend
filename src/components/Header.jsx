@@ -15,13 +15,15 @@ function Header() {
                 {
                     facade.getToken() == undefined ?
                         <>
-                            <a href='/rentals'>Owners</a>
+                        
                         </>
                         :
 
                         (facade.decodeToken().roles.includes("admin") ?
                             <>
                                 <a href='/rentals'>Rentals</a>
+                                <a href='/data'>Data</a>
+                                <a href='/houses'>Houses</a>
 
                             </>
 
@@ -29,7 +31,6 @@ function Header() {
 
                             <>
                                 <a href='/my_rentals'>My Rentals</a>
-
                             </>
 
                         )

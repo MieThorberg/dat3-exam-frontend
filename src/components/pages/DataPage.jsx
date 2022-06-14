@@ -103,44 +103,97 @@ function Data() {
             <section className='table-section'>
                 <div className='grid-rows-3'>
 
-                    {/* <div className='datacard'>
+                    <div className='datacard'>
                         <div className='content'>
                             <div>
-                                <p className='title'>Create Owner</p>
-                                <form onChange={onChangeOwner} >
-                                    <label className='bold'>Name</label>
-                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter name" id="name" />
-
+                                <p className='title'>Create House</p>
+                                <form /* onChange={onChangeOwner} */ >
                                     <label className='bold'>Address</label>
                                     <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter address" id="address" />
 
-                                    <label className='bold'>Name</label>
-                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter phone" id="phone" />
+                                    <label className='bold'>City</label>
+                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter city" id="city" />
+
+                                    <label className='bold'>Number of Rooms</label>
+                                    <input type="number" style={{ marginBottom: "20px" }} min={1} id="numberOfRooms" />
                                 </form>
                             </div>
                         </div>
                         <div className='bottom'>
-                            <button onClick={createOwner}>CREATE</button>
+                            <button /* onClick={createOwner} */>CREATE</button>
                         </div>
-                    </div> */}
-                 {/*    <div className='datacard'>
+                    </div>
+
+                    <div className='datacard'>
                         <div className='content'>
                             <div>
-                                <p className='title'>Create Harbour</p>
-                                <form onChange={onChangeHarbour} >
+                                <p className='title'>Create Tenant</p>
+                                <form /* onChange={onChangeOwner} */ >
                                     <label className='bold'>Name</label>
-                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter name" id="name" />
+                                    <select /* onChange={onChangeBoat} */ style={{ marginBottom: "20px" }} id="image">
+                                        <option value="" disabled hidden>Choose image</option>
+                                        <option value="Image 1">Image 1</option>
+                                        <option value="Image 2">Image 2</option>
+                                        <option value="Image 3">Image 3</option>
+                                    </select>
                                     <label className='bold'>Address</label>
-                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter address" id="address" />
-                                    <label className='bold'>Capacity</label>
-                                    <input type="number" style={{ marginBottom: "20px" }} min={1} id="capacity" />
+                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter address" id="city" />
+
+                                    <label className='bold'>Phone</label>
+                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter phone" id="city" />
                                 </form>
                             </div>
                         </div>
                         <div className='bottom'>
-                            <button onClick={createHarbour}>CREATE</button>
+                            <button /* onClick={createOwner} */>CREATE</button>
                         </div>
-                    </div> */}
+                    </div>
+
+                    <div className='datacard'>
+                        <div className='content'>
+                            <div>
+                                <p className='title'>Create Rental</p>
+                                <form /* onChange={onChangeOwner} */ >
+                                    <label className='bold'>Start date</label>
+                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter address" id="city" />
+
+                                    <label className='bold'>End date</label>
+                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter address" id="city" />
+
+                                    <label className='bold'>Price annual</label>
+                                    <input type="number" style={{ marginBottom: "20px" }} min={1} id="numberOfRooms" />
+
+                                    <label className='bold'>Deposit</label>
+                                    <input type="number" style={{ marginBottom: "20px" }} min={1} id="numberOfRooms" />
+
+
+                                    <label className='bold'>Contact person</label>
+                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter address" id="city" />
+
+                                    <label className='bold'>Select house</label>
+                                    <select /* onChange={onChangeBoat} */ style={{ marginBottom: "20px" }} id="image">
+                                        <option value="" disabled hidden>Choose image</option>
+                                        <option value="Image 1">Image 1</option>
+                                        <option value="Image 2">Image 2</option>
+                                        <option value="Image 3">Image 3</option>
+                                    </select>
+
+                                    <label className='bold'>Select tenants</label>
+                                    <select /* onChange={onChangeBoat} */ style={{ marginBottom: "20px" }} id="image">
+                                        <option value="" disabled hidden>Choose image</option>
+                                        <option value="Image 1">Image 1</option>
+                                        <option value="Image 2">Image 2</option>
+                                        <option value="Image 3">Image 3</option>
+                                    </select>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                        <div className='bottom'>
+                            <button /* onClick={createOwner} */>CREATE</button>
+                        </div>
+                    </div>
+
 
                     {/* <div className='datacard'>
                         <div className='content'>
