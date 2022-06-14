@@ -12,15 +12,15 @@ function HousesPage({ isUser }) {
 
     useEffect(() => {
 
-       /*  facade.getAllRentals()
-            .then(data => setRentals(data))
+        facade.getAllHouses()
+            .then(data => setHouses(data))
             .catch((err) => {
                 if (err.status == 403) {
                     navigate("/login");
                 } else if (err.status == 401) {
                     setIsAuthorized(false);
                 }
-            }); */
+            });
 
     }, [])
 
@@ -54,7 +54,7 @@ function HousesPage({ isUser }) {
                                 <div className='grid-columns-3'>
 
                                     {
-                                        rentals.map((element) => {
+                                        houses.map((element) => {
                                             return (
                                                 <div className='card' key={element.id}>
                                                     <div className='top'>
@@ -70,7 +70,7 @@ function HousesPage({ isUser }) {
                                                         </div>
                                                     </div>
                                                     <div className='bottom'>
-                                                        <button id={element.id} onClick={seeMore} className='btn-black'>SEE MORE</button>
+                                                        <button id={element.id} /* onClick={seeMore} */ className='btn-black'>SEE MORE</button>
                                                     </div>
                                                 </div>
                                             )

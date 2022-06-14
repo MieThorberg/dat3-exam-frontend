@@ -22,8 +22,9 @@ function Header() {
                         (facade.decodeToken().roles.includes("admin") ?
                             <>
                                 <a href='/rentals'>Rentals</a>
-                                <a href='/data'>Data</a>
                                 <a href='/houses'>Houses</a>
+                                <a href='/data'>Data</a>
+                                
 
                             </>
 

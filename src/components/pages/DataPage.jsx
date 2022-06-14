@@ -6,8 +6,8 @@ import facade from '../../apiFacade';
 
 function Data() {
 
-    /* const [ownerData, setOwnerData] = useState({ name: "", address: "", phone: "" });
-    const [harbourData, setHarbourData] = useState({ name: "", address: "", capacity: "" });
+    const [houseData, setHouseData] = useState({ address: "", city: "", numberOfRooms: 1 });
+   /*  const [harbourData, setHarbourData] = useState({ name: "", address: "", capacity: "" });
     const [boatData, setBoatData] = useState({ brand: "", make: "", name: "", image: "", owners: [], harbour: {} });
     const [boatHarbour, setBoatHarbour] = useState({ name: "", address: "", capacity: "" });
     const [allHarbourData, setAllHarbours] = useState([]);
@@ -18,79 +18,85 @@ function Data() {
         facade.getAllOwners().then(data => setAllOwners(data)); */
     }, [])
 
-    /* const onChangeOwner = (evt) => {
-        setOwnerData({ ...ownerData, [evt.target.id]: evt.target.value })
+    const onChangeHouse = (evt) => {
+        setHouseData({ ...houseData, [evt.target.id]: evt.target.value })
     }
 
-    const onChangeHarbour = (evt) => {
-        setHarbourData({ ...harbourData, [evt.target.id]: evt.target.value })
-    }
-    const onChangeBoat = (evt) => {
-        setBoatData({ ...boatData, [evt.target.id]: evt.target.value })
-        console.table(boatData)
-    }
-
-    const onChangeBoatHarbour = (evt) => {
-        const value = evt.target.value;
-
-        facade.getHarbourById(value).then(data => setBoatHarbour(data));
-
-        setBoatData(
-            { ...boatData, harbour: boatHarbour }
-        )
-
-        console.table(boatData)
-        console.log(boatHarbour)
+    function createHouse() {
+        facade.createHouse(houseData).then(
+            alert("House was created")
+        ).catch((err) => {
+            alert("Please fill out the missing inputs")
+        });
     }
 
-    const onChangeBoatOwner = (evt) => {
-        const value = evt.target.value;
-        const newOwners = boatData.owners;
 
-        if(newOwners.find(owner => owner.id == value) == undefined) {
-            facade.getOwnerById(value).then(
-                data => {
-                    newOwners.push({
-                        id: data.id,
-                        name: data.name,
-                        address: data.address,
-                        phone: data.phone
-                    })
+    /*
+        const onChangeHarbour = (evt) => {
+            setHarbourData({ ...harbourData, [evt.target.id]: evt.target.value })
+        }
+        const onChangeBoat = (evt) => {
+            setBoatData({ ...boatData, [evt.target.id]: evt.target.value })
+            console.table(boatData)
+        }
+    
+        const onChangeBoatHarbour = (evt) => {
+            const value = evt.target.value;
+    
+            facade.getHarbourById(value).then(data => setBoatHarbour(data));
+    
+            setBoatData(
+                { ...boatData, harbour: boatHarbour }
+            )
+    
+            console.table(boatData)
+            console.log(boatHarbour)
+        }
+    
+        const onChangeBoatOwner = (evt) => {
+            const value = evt.target.value;
+            const newOwners = boatData.owners;
+    
+            if(newOwners.find(owner => owner.id == value) == undefined) {
+                facade.getOwnerById(value).then(
+                    data => {
+                        newOwners.push({
+                            id: data.id,
+                            name: data.name,
+                            address: data.address,
+                            phone: data.phone
+                        })
+                    }
+                )
+            }
+            setBoatData(
+                {
+                    ...boatData, owners: newOwners
                 }
             )
         }
-        setBoatData(
-            {
-                ...boatData, owners: newOwners
-            }
-        )
-    }
-
-    function createOwner() {
-        facade.createOwner(ownerData).then().catch((err) => {
-            alert("Please fill out the missing inputs")
-        });
-    }
-
-    function createHarbour() {
-        facade.createHarbour(harbourData).then().catch((err) => {
-            alert("Please fill out the missing inputs")
-        });
-    }
-
-    function createBoat() {
-        facade.createBoat(boatData).then().catch((err) => {
-            alert("Please fill out the missing inputs")
-        });
-    }
-
-    function removeBoatOwners (id)  {
-        setBoatData(
-            {
-                ...boatData, owners: boatData.owners.filter((owner) => owner.id !== id)
-            }
-        )
-    } */
+    
+       
+    
+        function createHarbour() {
+            facade.createHarbour(harbourData).then().catch((err) => {
+                alert("Please fill out the missing inputs")
+            });
+        }
+    
+        function createBoat() {
+            facade.createBoat(boatData).then().catch((err) => {
+                alert("Please fill out the missing inputs")
+            });
+        }
+    
+        function removeBoatOwners (id)  {
+            setBoatData(
+                {
+                    ...boatData, owners: boatData.owners.filter((owner) => owner.id !== id)
+                }
+            )
+        } */
 
     return (
         <main>
@@ -107,7 +113,7 @@ function Data() {
                         <div className='content'>
                             <div>
                                 <p className='title'>Create House</p>
-                                <form /* onChange={onChangeOwner} */ >
+                                <form onChange={onChangeHouse} >
                                     <label className='bold'>Address</label>
                                     <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter address" id="address" />
 
@@ -115,12 +121,12 @@ function Data() {
                                     <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter city" id="city" />
 
                                     <label className='bold'>Number of Rooms</label>
-                                    <input type="number" style={{ marginBottom: "20px" }} min={1} id="numberOfRooms" />
+                                    <input type="number" style={{ marginBottom: "20px" }} min={1} defaultValue={1} id="numberOfRooms" />
                                 </form>
                             </div>
                         </div>
                         <div className='bottom'>
-                            <button /* onClick={createOwner} */>CREATE</button>
+                            <button onClick={createHouse}>CREATE</button>
                         </div>
                     </div>
 
@@ -185,7 +191,7 @@ function Data() {
                                         <option value="Image 2">Image 2</option>
                                         <option value="Image 3">Image 3</option>
                                     </select>
-                                    
+
                                 </form>
                             </div>
                         </div>

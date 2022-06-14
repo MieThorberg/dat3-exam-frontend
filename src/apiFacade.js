@@ -49,10 +49,26 @@ function apiFacade() {
       .then(res => { login(username, password) })
   }
 
+  /* Rentals fetches */
   const getAllRentals = () => {
     const options = makeOptions("GET", true);
     return fetch(URL + "/api/rentals", options).then(handleHttpErrors)
   }
+
+  /* House fetches */
+  const getAllHouses = () => {
+    const options = makeOptions("GET", true);
+    return fetch(URL + "/api/houses", options).then(handleHttpErrors)
+  }
+
+  const createHouse = (house) => {
+    const options = makeOptions("POST", true, house);
+    return fetch(URL + "/api/houses/create", options).then(handleHttpErrors)
+  }
+
+  /* Tenants fetches */
+
+
  
   const makeOptions = (method, addToken, body) => {
     var opts = {
@@ -81,6 +97,8 @@ function apiFacade() {
     fetchUserInfo,
     create,
     getAllRentals,
+    getAllHouses,
+    createHouse,
   }
 }
 const facade = apiFacade();
