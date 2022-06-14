@@ -1,0 +1,44 @@
+name: surge deploy
+
+on:
+  push:
+    branches: [ "main" ]
+
+
+jobs:
+
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: build
+        uses: actions/setup-node@v3
+        with:
+         node-version: ${{ matrix.node-version }}
+         cache: 'npm'
+     
+     # in the line below chance localhost if necessary, and chance MYDOMAIN to your where your API domain 
+     ## - run: sed -i -e 's/localhost:8080\/exam_backend_war_exploded/MYDOMAIN/g' src/settings.js
+     ## - run: npm i
+      - run: npm run build 
+      
+     # uncommented this if you use vite
+      - run: mv ./dist/index.html ./dist/200.html
+    
+      # uncommented all ##
+  
+      - name: Deploy
+        uses: dswistowski/surge-sh-action@v1
+        with:
+       
+     # chance this to your domain
+          domain: 'http://miemt.surge.sh'
+          
+     # chance this if to your build path, if necessary
+          project: './dist'
+          
+     # setup secrets, the email you use in surge
+     # an the token, if you dont have your token, write surge token in your cmd
+          login: ${{ secrets.SURGE_EMAIL }}
+          token: ${{ secrets.SURGE_TOKEN }}
