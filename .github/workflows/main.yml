@@ -19,8 +19,8 @@ jobs:
          cache: 'npm'
      
      # in the line below chance localhost if necessary, and chance MYDOMAIN to your where your API domain 
-     ## - run: sed -i -e 's/localhost:8080\/exam_backend_war_exploded/MYDOMAIN/g' src/settings.js
-     ## - run: npm i
+      - run: sed -i -e 's/localhost:8080\/exam_backend_war_exploded/MYDOMAIN/g' src/settings.js
+      - run: npm i
       - run: npm run build 
       
      # uncommented this if you use vite
