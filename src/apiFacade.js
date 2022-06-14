@@ -48,6 +48,11 @@ function apiFacade() {
       .then(handleHttpErrors)
       .then(res => { login(username, password) })
   }
+
+  const getAllRentals = () => {
+    const options = makeOptions("GET", true);
+    return fetch(URL + "/api/rentals", options).then(handleHttpErrors)
+  }
  
   const makeOptions = (method, addToken, body) => {
     var opts = {
@@ -75,6 +80,7 @@ function apiFacade() {
     logout,
     fetchUserInfo,
     create,
+    getAllRentals,
   }
 }
 const facade = apiFacade();

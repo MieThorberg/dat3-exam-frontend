@@ -15,6 +15,7 @@ import CardsPage from "./components/pages/CardsPage";
 import Details from "./components/pages/Details"
 
 import NotFoundPage from "./components/errors/NotFoundPage";
+import RentalsPage from "./components/pages/RentalsPage";
 
 
 export default function App() {
@@ -26,6 +27,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/rentals" element={<RentalsPage />}></Route>
+          <Route path="/my_rentals" element={<RentalsPage/>}></Route>
           <Route path="/*" element={<NotFoundPage />}></Route>
         </Routes>
         <Footer />
