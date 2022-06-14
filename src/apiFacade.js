@@ -37,6 +37,12 @@ function apiFacade() {
       .then(handleHttpErrors)
       .then(res => { setToken(res.token) })
   }
+
+  const getAllUsers = () => {
+    const options = makeOptions("GET", true); //True add's the token
+    return fetch(URL + "/api/info/allusers", options).then(handleHttpErrors);
+  }
+
   const fetchUserInfo = () => {
     const options = makeOptions("GET", true); //True add's the token
     return fetch(URL + "/api/info/userinfo", options).then(handleHttpErrors);
@@ -94,6 +100,7 @@ function apiFacade() {
     loggedIn,
     login,
     logout,
+    getAllUsers,
     fetchUserInfo,
     create,
     getAllRentals,

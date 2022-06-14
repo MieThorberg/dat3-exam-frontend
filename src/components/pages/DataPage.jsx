@@ -7,13 +7,18 @@ import facade from '../../apiFacade';
 function Data() {
 
     const [houseData, setHouseData] = useState({ address: "", city: "", numberOfRooms: 1 });
-   /*  const [harbourData, setHarbourData] = useState({ name: "", address: "", capacity: "" });
-    const [boatData, setBoatData] = useState({ brand: "", make: "", name: "", image: "", owners: [], harbour: {} });
-    const [boatHarbour, setBoatHarbour] = useState({ name: "", address: "", capacity: "" });
-    const [allHarbourData, setAllHarbours] = useState([]);
-    const [allOwnersData, setAllOwners] = useState([]); */
+    /*  const [harbourData, setHarbourData] = useState({ name: "", address: "", capacity: "" });
+     const [boatData, setBoatData] = useState({ brand: "", make: "", name: "", image: "", owners: [], harbour: {} });
+     const [boatHarbour, setBoatHarbour] = useState({ name: "", address: "", capacity: "" });
+     const [allHarbourData, setAllHarbours] = useState([]);
+     const [allOwnersData, setAllOwners] = useState([]); */
+
+    const [allUsers, setAllUsers] = useState([]);
 
     useEffect(() => {
+
+        facade.getAllUsers().then(data => setAllUsers(data));
+
         /* facade.getAllHarbours().then(data => setAllHarbours(data));
         facade.getAllOwners().then(data => setAllOwners(data)); */
     }, [])
@@ -137,10 +142,19 @@ function Data() {
                                 <form /* onChange={onChangeOwner} */ >
                                     <label className='bold'>Name</label>
                                     <select /* onChange={onChangeBoat} */ style={{ marginBottom: "20px" }} id="image">
-                                        <option value="" disabled hidden>Choose image</option>
-                                        <option value="Image 1">Image 1</option>
-                                        <option value="Image 2">Image 2</option>
-                                        <option value="Image 3">Image 3</option>
+                                        {
+                                            allUsers.length == 0 ?
+                                                <option value="" disabled hidden>No users registred</option>
+                                                :
+                                                <>
+                                                    <option value="" disabled hidden>Choose user</option>
+                                                    {allUsers.map((element) => {
+                                                        return (
+                                                            <option key={element.id} value={element.id}>{element.userName}</option>
+                                                        )
+                                                    })}
+                                                </>
+                                        }
                                     </select>
                                     <label className='bold'>Address</label>
                                     <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter address" id="city" />
