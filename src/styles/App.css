@@ -2,868 +2,135 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
 }
 
 body {
     width: 100%;
     height: 100%;
+    background-color: #DBF5F0;
 }
 
-a {
-    text-decoration: none;
-    display: block;
-    color: black;
+main {
+    min-height: 90vh;
+    height: auto;
 }
 
 h1,
 h2,
-h3,
-p {
-    color: rgb(215, 213, 218);
+h3 {
+    color: #0C6170;
+    font-weight: bold;
 }
 
-.header h1,
-.header-large h1 {
-    font-family: 'New Rocker', cursive;
+h1 {
     font-size: 50px;
 }
 
-.wololo h2 {
-    font-family: 'New Rocker', cursive;
-    font-size: 40px;
-}
-
 h2 {
+    font-size: 35px;
+}
+
+h3 {
+    font-size: 25px;
+}
+
+p, label {
+    color: #0C6170;
     font-size: 16px;
 }
 
-p {
-    font-size: 16px;
+i {
+    color: #cae3e1;
 }
 
-/* width */
-::-webkit-scrollbar {
-    width: 10px;
-    display: none;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-.background-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    z-index: -1;
-}
-
-#background-img {
-    background-position: center;
-    background-attachment: fixed;
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 100vh;
-}
-
-#background-img-blur {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
+input, select {
     width: 100%;
-}
-
-
-.color-background-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-}
-
-.main {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 0 20px 0 20px;
-}
-
-
-.login {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-.login-container {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    grid-template-columns: 30% auto 30%;
-}
-
-.login-container .section {
-
-    width: 100%;
-    max-width: 550px;
-    background-color: white;
-    padding: 20px 0 50px 0;
-}
-
-.login-container .section div input[type=text],
-.login-container .section div input[type=password] {
-    background-color: rgba(235, 208, 248, 0.44);
-}
-
-::-webkit-input-placeholder {
-    color: #901ff38a;
-}
-
-:-ms-input-placeholder {
-    color: #901ff38a;
-}
-
-::placeholder {
-    color: #901ff38a;
-}
-
-.login-container .section .header {
-    text-align: center;
-    color: rgb(215, 213, 218);
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-}
-
-.login-container .section .header .back-arrow {
-    position: fixed;
-    top: 20px;
-    color: #901ff38a;
-    text-align: left;
-    font-size: 16px;
-    padding-left: 10px;
-}
-
-.login-container .section .header .back-arrow:hover {
-    cursor: pointer;
-    color: gray;
-}
-
-.login-container .section p {
-    font-size: 12px;
-    color: #4443448a;
-}
-
-.login-container .section .header {
-    padding: 0px 10px 0px 10px;
-}
-
-.login-container .section .header h1 {
-    padding-top: 10px;
-    font-size: 30px;
-    color: #000000;
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-}
-
-.login-container .section .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: baseline;
-    align-items: center;
-}
-
-.login-container .section .content button {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 10px 0 10px 0;
-    box-shadow: none;
-}
-
-.login-container .section .content form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.login-container .btn-purple:hover {
-  /*   background-color: grey; */
-}
-
-.settings {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-.settings-container {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    grid-template-columns: 30% auto 30%;
-}
-
-.settings-container .section {
-
-    width: 100%;
-    max-width: 550px;
-    background-color: white;
-    padding: 20px 0 50px 0;
-    max-height: 600px;
-}
-
-.settings-container .section div input[type=text],
-.settings-container .section div input[type=number] {
-    background-color: rgba(235, 208, 248, 0.44);
-}
-
-.settings-container .section .header {
-    text-align: center;
-    color: rgb(215, 213, 218);
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-}
-
-.settings-container .section .header .back-arrow {
-    position: relative;
-    top: 0;
-    color: #901ff38a;
-    text-align: left;
-    font-size: 16px;
-    padding-left: 10px;
-}
-
-.settings-container .section .header .back-arrow:hover {
-    cursor: pointer;
-    color: gray;
-}
-
-.settings-container .section p,
-label {
-    font-size: 12px;
-    color: #4443448a;
-    text-shadow: none;
-}
-
-.settings-container .section .header {
-    padding: 0px 10px 0px 10px;
-}
-
-.settings-container .section .header h1 {
-    padding-top: 10px;
-    font-size: 40px;
-    text-shadow: none;
-    color: #000000;
-
-}
-
-.settings-container .section .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: baseline;
-    align-items: center;
-}
-
-.settings-container .section .content .character-row {
-    display: grid;
-    grid-template-rows: auto auto;
-    width: 100%;
-    /* border: 1px solid rgb(197, 197, 197); */
-}
-
-.character-row div {
-    /*   border: 1px solid red; */
-    display: flex;
-    flex-direction: column;
-    justify-content: baseline;
-    align-items: left;
-    text-align: left;
-}
-
-.character-row div div {
-    padding: 15px
-}
-
-.character-row div label {
-    color: black;
-    font-weight: bolder;
-}
-
-.character-row h2 {
-    color: rgb(81, 41, 137);
-    text-shadow: none;
-    font-size: 18px;
-}
-
-/* .settings-container .section .content button {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 10px 0 10px 0;
-} */
-
-.settings-container .section .content form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-/* .settings-container .btn-purple:hover {
-    background-color: grey;
-}
-
- */
-
-
-
-.main2 {
-    position: relative;
-    top: 0;
-    left: 0;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 20px 15px 50px 15px;
-}
-
-.scroll-container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    align-items: left;
-    width: 100%;
-    height: 100%;
-}
-
-.full-scroll-section {
-    height: auto;
-    width: auto;
-    overflow: auto;
-}
-
-.text-section {
-    text-align: left;
-    padding: 0 10px 0 10px;
-}
-
-.text-section h2 {
-    padding-top: 20px;
-    padding-bottom: 5px;
-}
-
-.text-section p {
-    padding-bottom: 20px;
-}
-
-.text-section div {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-
-input[type=text],
-input[type=password],
-input[type=number] {
-    color: #901ff3;
-    border-radius: 25px;
-    padding: 14px 20px;
-    width: 100%;
-    border: none;
-    margin: 10px 0 10px 0;
-    border: 1px solid transparent;
-    outline: none;
-    max-width: 300px;
-}
-
-input[type=text]:focus,
-input[type=password]:focus,
-input[type=number]:focus,
-input[type=checkbox]:focus {
-    border: 1px solid #901ff3;
-}
-
-input[type=checkbox] {
-    accent-color: #901ff3;
-    transform: scale(1.3);
-    margin: 0;
-    padding: 0;
-}
-
-input,
-button {
-    cursor: pointer;
-}
-
-button {
-    background-color: black;
-    color: rgb(197, 197, 197);
-    border-radius: 25px;
-    padding: 10px 20px;
+    padding: 12px 18px;
+    border: 2px solid #37BEB0;
+    border-radius: 3px;
     height: 45px;
+    font-size: 14px;
+}
+
+button, a {
+    cursor: pointer;
+}
+
+button {
+    font-weight: 500;
+    font-size: 14px;
+    padding: 12px 18px;
     width: 100%;
-    font-size: 17px;
+    height: 45px;
+    background-color: #37BEB0;
+    color: #DBF5F0;
     border: none;
-    outline: none;
-    font-weight: bolder;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    max-width: 300px;
+    border-radius: 3px;
 }
 
 button:hover {
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0.19);
-    background-color: gray;
-    color: black;
+    background-color: #2c968b;
+    color: #DBF5F0;
 }
 
-.btn-green {
-    background-color: #1ff39e;
-    color: black;
+.btn-black {
+    background-color: #1c2428;
+    color: #DBF5F0;
+}
+.btn-black:hover {
+    background-color: #000000;
+    color: #DBF5F0;
 }
 
-.btn-green:hover {
-    color: #1ff39e;
-    background-color: black;
+.btn-red {
+    background-color: #da4941;
+    color: #DBF5F0;
+}
+.btn-red:hover {
+    background-color: #b73b35;
+    color: #DBF5F0;
 }
 
-.btn-purple {
-    background-color: rgb(81, 41, 137);
-    color: rgb(215, 213, 218);
-}
-
-.btn-purple:hover {
-    background-color: black;
-    color: rgb(152, 78, 255);
-    /*  background-color: rgb(215, 213, 218); */
-    /*  color: rgb(29, 29, 29); */
-}
-
-.btn-lightpurple {
-    background-color: rgb(127, 110, 235);
-    color: rgb(215, 213, 218);
-}
-
-.btn-lightpurple:hover {
-    background-color: rgb(215, 213, 218);
-    color: rgb(29, 29, 29);
-}
-
-.main-container {
-    height: 100%;
-    max-width: 100%;
-    display: grid;
-    grid-template-rows: auto 60% auto;
-}
-
-.main-container div {
-    height: 100%;
-    display: grid;
-    grid-template-rows: auto 60%;
-}
-
-.main-container .section div {
-    height: 100%;
-    width: 100%;
-}
-
-.main-container .section .header,
-.main-container .section .header-large {
-    text-align: center;
-    color: rgb(215, 213, 218);
+.header-large {
+    background-color: #A4E5E0;
+    height: 40vh;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    text-shadow: 2px 2px 4px #00000088;
-}
-
-.main-container .section .header {
-    padding: 0px 10px 0px 10px;
-}
-
-.main-container .section .header * {
-    padding-top: 20px;
-}
-
-.main-container .section .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: baseline;
-    align-items: center;
-}
-
-.main-container .section .content button {
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    margin: 10px 0 10px 0;
-}
-
-
-.main-container .section .content form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.joined-players-section {
-    position: fixed;
-    width: 100vw;
-    bottom: 100px;
-    top: 140px;
-}
-
-.joined-players-scroll {
-    overflow-y: scroll;
-    height: 100%;
-}
-
-.fixed-header {
-    position: fixed;
-    top: 50px;
-    left: 0;
-    width: 100%;
-    height: 90px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #000000ee;
-    z-index: 0;
-}
-
-.fixed-header h1 {
-    font-family: 'New Rocker', cursive;
-    font-size: 25px;
-    color: rgba(255, 255, 255);
-}
-
-.fixed-btn {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 110px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.fixed-btn button {
-    width: 60%;
-    max-width: 350px;
-}
-
-.fixed-character-btn {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    /* width: 100%;
-    height: 80px; */
-    /*     display: flex; */
-    /*     flex-direction: row;
-    justify-content: center;
-    align-items: right; */
-    border: 1px solid red;
-}
-
-.fixed-character-btn button {
-    position: fixed;
-    bottom: 25px;
-    right: 20px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: 1px solid red;
-}
-
-.list-grid {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    margin: 10px 10px 30px 10px;
-}
-
-.list-grid div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 10px;
-    padding: 2px;
-}
-
-.list-grid div div {
-    max-width: 150px;
-    width: 100%;
-    font-size: 11px;
     text-align: center;
 }
 
-.list-grid div div h3 {
-    max-width: 100px;
+.header-large .title {
+    padding: 10px 0 20px;
 }
 
-.profile-img {
-    margin: 10px;
-    height: 45px;
-    width: 45px;
-    border-radius: 50%;
-    background-color: white;
+.header-normal {
+    margin: 35px 0 20px 50px;
 }
 
-.big-profile-img {
-    margin: 10px;
-    height: 80px;
-    width: 80px;
-    border-radius: 50%;
-    background-color: white;
+.header-normal p {
+    font-size: 14px;
 }
 
-.voteresult-player {
-    font-size: 25px;
+section {
+    height: auto;
+    padding: 50px 25% 50px 25%;
 }
 
-.voteresult-description {
-    padding-top: 10px;
+.text-section {
+    padding-bottom: 30px;
 }
 
-.active,
-.list-grid div .vote .profile-img:hover {
-    cursor: pointer;
-    border: 5px solid #1ff39e;
+.bold {
+    font-weight: bold;
 }
 
-#rows {
-    position: fixed;
-    top: 50px;
-    left: 0;
-    display: flex;
-    align-items: stretch;
-    width: 100%;
+.left {
+    text-align: left;
 }
 
-#rows>div {
-    border: 1px solid red;
-    height: 100vh;
-}
-
-#rows .left {
-    flex-grow: 1;
-    min-width: 300px;
-    max-width: 500px;
-    background-color: #76b3e5;
-}
-
-#rows .right {
-    flex-grow: 2;
-    background-color: white;
-}
-
-
-@media only screen and (max-width: 300px) {
-    .fixed-header .header h1 {
-        font-size: 30px;
-    }
-
-    .main-container .section .header h1,
-    .main-container .section .header-large h1 {
-        font-size: 40px;
-    }
-
-    .main-container .section .header {
-        padding: 0px 5px 0px 5px;
-    }
-
-    .main-container .section .header * {
-        padding-top: 30px;
-    }
-
-    .main-container .section .header h2 {
-        font-size: 12px;
-    }
-
-    .main-container {
-        grid-template-rows: auto 50% auto;
-    }
-
-    .main-container .section .content {
-        padding: 0;
-    }
-
-    button {
-        height: 40px;
-        font-size: 15px;
-    }
-}
-
-@media only screen and (min-width: 450px) {
-
-    .login-container .section .header .back-arrow {
-        position: relative;
-        top: 0;
-        color: #901ff38a;
-        text-align: left;
-        font-size: 16px;
-        padding-left: 20px;
-    }
-
-    .color-background-container #background-img {
-        background-image: url("../images/night.jpg");
-    }
-
-    .color-background-container #background-img-blur {
-        background-color: rgba(16, 5, 30, 0.685);
-    }
-
-    .fixed-header {
-        top: 60px;
-    }
-
-    .fixed-header h1 {
-        font-size: 30px;
-    }
-
-    .joined-players-section {
-        top: 150px;
-    }
-
-    .list-grid {
-        margin: 20px 10px 30px 10px;
-    }
-
-    .profile-img {
-        margin: 5px;
-        height: 50px;
-        width: 50px;
-        border-radius: 50%;
-        background-color: white;
-    }
-
-    .big-profile-img {
-        height: 100px;
-        width: 100px;
-    }
-
-    .voteresult-player {
-        font-size: 30px;
-    }
-
-    .voteresult-description {
-        padding-top: 20px;
-        font-size: 20px;
-    }
-
-    button {
-        width: 100%;
-    }
-
-    .main-container .section .header h1,
-    .main-container .section .header-large h1 {
-        font-size: 70px;
-    }
-
-    .main-container .section .header p {
-        font-size: 16px;
-    }
-
-    .main-container .section .header {
-        padding: 0px 20px 0px 20px;
-    }
-
-    #rows {
-        top: 60px;
-    }
-
-}
-
-@media only screen and (min-width: 600px) {
-    .list-grid {
-        display: grid;
-        grid-template-columns: auto auto auto auto;
-    }
-}
-
-@media only screen and (min-width: 900px) {
-    .main-container .section .header-large h1 {
-        font-size: 90px;
-        margin-bottom: 20px;
-    }
-
-    .main-container .section .header p {
-        font-size: 16px;
-    }
-
-    .list-grid {
-        grid-template-columns: auto auto auto auto auto;
-    }
-
-    .joined-players-section {
-        padding: 0 10% 0 10%;
-    }
-}
-
-@media only screen and (min-height: 800px) {
-    .main-container {
-        grid-template-rows: auto 50% auto;
-    }
-}
-
-@media only screen and (min-height: 1000px) {
-    .main-container {
-        grid-template-rows: auto 40% auto;
-    }
+.right {
+    text-align: right;
 }

@@ -1,0 +1,54 @@
+.table-section {
+    padding: 20px 50px 50px 50px;
+}
+
+.role {
+    width: 80px;
+}
+
+.role p {
+    padding: 4px;
+    width: 100%;
+    text-align: center;
+    border-radius: 3px;
+    background-color: #DBF5F0;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr {
+
+    border-bottom: 15px solid #DBF5F0;
+  
+}
+
+th,
+td {
+    text-align: left;
+    padding: 18px 24px;
+    width: auto;
+}
+
+th {
+    font-weight: 500;
+    height: 50px;
+}
+
+td {
+    height: 80px;
+    background-color: #ffffff;
+}
+
+.btn-columns {
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 5px;
+
+}
+
+.btn-columns button {
+    max-width: 100px;
+}

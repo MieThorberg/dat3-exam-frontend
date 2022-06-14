@@ -1,0 +1,19 @@
+.large-section {
+    background-color: white;
+    margin: 50px;
+    display: flex;
+    justify-content: left;
+    padding: 50px;
+}
+
+
+.grid-column-2 {
+    display: grid;
+    grid-template-columns: 50% auto;
+    column-gap: 20px;
+    width: 100%;
+}
+
+.grid-column-2 div {
+    border: 1px solid black;
+}

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import facade from "../../apiFacade";
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import "../../styles/LoginPage.css";
 
 function LogIn({ login, error, creatingUser }) {
   const navigate = useNavigate();
@@ -11,52 +12,30 @@ function LogIn({ login, error, creatingUser }) {
   const performLogin = (evt) => {
     evt.preventDefault();
     login(loginCredentials.username, loginCredentials.password);
-    window.scroll(0, 0);
-
   }
   const onChange = (evt) => {
     setLoginCredentials({ ...loginCredentials, [evt.target.id]: evt.target.value })
   }
 
-  function goToStartPage() {
-    navigate("/");
-  }
-
   return (
 
     <>
-      <div className="color-background-container">
-        <div id="background-img"></div>
-        <div id="background-img-blur"></div>
-      </div>
-      <div className="login">
-        <div className="login-container">
-          <div className="section">
-            <div
-              className="header"
-              style={{ justifyContent: "end", paddingBottom: "20px" }}>
-              <div onClick={goToStartPage}>
-                <p className="back-arrow"><i className="fa fa-arrow-circle-left" style={{ paddingRight: "5px" }}></i> Back</p>
-              </div>
-              <h1>Login</h1>
-              <p>Please login to continue</p>
-            </div>
-            <div
-              className="content"
-              style={{ justifyContent: "start", gridTemplateRows: "100%" }}
-            >
-              <form onChange={onChange} >
-
-                <input type="text" placeholder="Enter username" id="username" />
-                <input type="password" placeholder="Enter password" id="password" />
-                <div style={{ color: 'red' }}>{error}</div>
-                <button className="btn-purple" onClick={performLogin}>Login</button>
-                <p style={{ padding: "2px 0 2px 0" }}>or</p>
-                <button className="btn-green" onClick={creatingUser}>Create</button>
-
-              </form>
-            </div>
+      <div className="login-section">
+        <div>
+          <div className="title">
+            <h2>Login</h2>
+            <p>Please login to continue</p>
           </div>
+
+          <form onChange={onChange} onSubmit={performLogin}>
+            <input type="text" placeholder="Enter username" id="username" />
+            <input type="password" placeholder="Enter password" id="password" />
+            <div style={{ color: 'red' }}>{error}</div>
+            <button type="submit" style={{ marginTop: "20px" }}>LOGIN</button>
+          </form>
+          <p style={{ padding: "5px 0 5px 0" }}>or</p>
+          <button className="btn-black" onClick={creatingUser}>CREATE ACCOUNT</button>
+
         </div>
       </div>
     </>
@@ -64,7 +43,7 @@ function LogIn({ login, error, creatingUser }) {
 }
 
 
-function CreateUser({ create }) {
+function CreateUser({ create, errorCreate }) {
   const navigate = useNavigate();
   const init = { username: "", password: "" };
   const [loginCredentials, setLoginCredentials] = useState(init);
@@ -72,52 +51,32 @@ function CreateUser({ create }) {
   const performLogin = (evt) => {
     evt.preventDefault();
     create(loginCredentials.username, loginCredentials.password);
-    setTimeout(() => {
-      navigate("/home");
-      window.location.reload();
-    }, 500)
   }
   const onChange = (evt) => {
     setLoginCredentials({ ...loginCredentials, [evt.target.id]: evt.target.value })
   }
 
   function goToLogin() {
-    //reloads page in which show the loginpage
-    //navigate("/login");
     window.location.reload();
   }
 
   return (
 
     <>
-      <div className="color-background-container">
-        <div id="background-img"></div>
-        <div id="background-img-blur"></div>
-      </div>
-      <div className="login">
-        <div className="login-container">
-          <div className="section">
-            <div className="header" style={{ justifyContent: "end", paddingBottom: "20px" }}>
-              <div onClick={goToLogin}>
-                <p className="back-arrow"><i className="fa fa-arrow-circle-left" style={{ paddingRight: "5px" }}></i> Back</p>
-              </div>
-              <h1>Create account</h1>
-              <p>Please enter the following</p>
-            </div>
-            <div
-              className="content"
-              style={{ justifyContent: "start", gridTemplateRows: "100%" }}
-            >
-              <form onChange={onChange} >
-
-                <input type="text" placeholder="Enter username" id="username" />
-                <input type="password" style={{ marginTop: "20px" }} placeholder="Enter password" id="password" />
-                <input type="password" style={{ marginBottom: "30px" }} placeholder="Enter password again" id="password" />
-                <button className="btn-purple" onClick={performLogin}>Create</button>
-
-              </form>
-            </div>
+      <div className="login-section">
+        <div>
+          <div className="title">
+            <h2>Create account</h2>
+            <p>Please enter the following</p>
           </div>
+
+          <form onChange={onChange} onSubmit={performLogin} >
+            <input type="text" placeholder="Enter username" id="username" />
+            <input type="password" style={{ marginTop: "20px" }} placeholder="Enter password" id="password" />
+            <input type="password" style={{ marginBottom: "30px" }} placeholder="Enter password again" id="password2" />
+            <button type="submit">CREATE</button>
+          </form>
+          <button onClick={goToLogin} className="btn-black" style={{ marginTop: "10px" }}>CANCEL</button>
         </div>
       </div>
     </>
@@ -125,35 +84,29 @@ function CreateUser({ create }) {
 
 }
 
-// not in use anymore!
-// function LoggedIn() {
-//   const [dataFromServer, setDataFromServer] = useState("Loading...")
-
-//   useEffect(() => {
-//     facade.fetchUserInfo().then(data => setDataFromServer(data));
-//   }, [])
-
-//   return (
-//     <div>
-//       <h2>Data Received from server</h2>
-//       <h3>Hello {dataFromServer.userName} Role: {dataFromServer.roles}</h3>
-//     </div>
-//   )
-
-// }
-
-function LoginPage({ loggedIn, setLoggedIn }) {
+function LoginPage() {
   const [creatingUser, setCreatingUser] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [errorCreate, setErrorCreate] = useState("null");
+
+  useEffect(() => {
+    if (facade.getToken() != undefined) {
+      navigate("/");
+    }
+  });
+
 
   const logout = () => {
     facade.logout()
-    setLoggedIn(false)
+    window.location.reload();
   }
+
   const login = (user, pass) => {
     facade.login(user, pass)
-      .then(res => setLoggedIn(true)).catch((err) => {
+      .then(res => {
+        window.location.reload();
+      }).catch((err) => {
         if (err.status == 403) {
           setError('Wrong username or Password')
         } else {
@@ -168,13 +121,21 @@ function LoginPage({ loggedIn, setLoggedIn }) {
   }
 
   const create = (user, pass) => {
-    facade.create(user, pass)
+    facade.create(user, pass).then(res => {
+      window.location.reload();
+    });
+
   }
 
   return (
-    <main>
-      {!loggedIn ? (!creatingUser ? (<LogIn login={login} error={error} creatingUser={createUser} />) : (<CreateUser create={create} />)) :
-        navigate("/home")}
+    <main className="login-main">
+      {
+        (!creatingUser ?
+          (<LogIn login={login} error={error} creatingUser={createUser} />)
+          :
+          (<CreateUser create={create} errorCreate={errorCreate} />)
+        )
+      }
     </main>
   )
 
