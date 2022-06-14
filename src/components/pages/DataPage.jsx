@@ -13,7 +13,10 @@ function Data() {
      const [allHarbourData, setAllHarbours] = useState([]);
      const [allOwnersData, setAllOwners] = useState([]); */
 
+    const [tenant, setTenant] = useState({ name: "", phone: "", job: "" });
+
     const [allUsers, setAllUsers] = useState([]);
+    const [userData, setUserData] = useState({ userName: "", userPass: "" });
 
     useEffect(() => {
 
@@ -35,15 +38,37 @@ function Data() {
         });
     }
 
+    const onChangeUser = (evt) => {
+
+        const value = evt.target.value;
+        facade.getUserById(value).then(data => setUserData(data));
+        setTenant(
+            { ...tenant, user: userData }
+        )
+
+    }
+
+    const onChangeTenant = (evt) => {
+        setTenant({ ...tenant, [evt.target.id]: evt.target.value })
+        console.log(tenant);
+    }
+
+    function createTenant() {
+        facade.createTenant(tenant).then(
+            
+            alert("Tenant was created")
+        ).catch((err) => {
+            alert("Please fill out the missing inputs")
+        });
+    }
+
+
 
     /*
         const onChangeHarbour = (evt) => {
             setHarbourData({ ...harbourData, [evt.target.id]: evt.target.value })
         }
-        const onChangeBoat = (evt) => {
-            setBoatData({ ...boatData, [evt.target.id]: evt.target.value })
-            console.table(boatData)
-        }
+        
     
         const onChangeBoatHarbour = (evt) => {
             const value = evt.target.value;
@@ -139,33 +164,37 @@ function Data() {
                         <div className='content'>
                             <div>
                                 <p className='title'>Create Tenant</p>
-                                <form /* onChange={onChangeOwner} */ >
-                                    <label className='bold'>Name</label>
-                                    <select /* onChange={onChangeBoat} */ style={{ marginBottom: "20px" }} id="image">
+                                <form onChange={onChangeTenant} >
+                                    {/*<label className='bold'>Name</label>
+                                     <select onClick={onChangeUser} style={{ marginBottom: "20px" }} id="image">
                                         {
                                             allUsers.length == 0 ?
                                                 <option value="" disabled hidden>No users registred</option>
                                                 :
                                                 <>
-                                                    <option value="" disabled hidden>Choose user</option>
+                                                    <option value="" selected disabled hidden>Choose user</option>
                                                     {allUsers.map((element) => {
                                                         return (
-                                                            <option key={element.id} value={element.id}>{element.userName}</option>
+                                                            <option key={element.userName} value={element.userName}>{element.userName}</option>
                                                         )
                                                     })}
                                                 </>
                                         }
-                                    </select>
-                                    <label className='bold'>Address</label>
-                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter address" id="city" />
+                                    </select> */}
+
+                                    <label className='bold'>Name</label>
+                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter name" id="name" />
 
                                     <label className='bold'>Phone</label>
-                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter phone" id="city" />
+                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter phone" id="phone" />
+
+                                    <label className='bold'>Job</label>
+                                    <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter job" id="job" />
                                 </form>
                             </div>
                         </div>
                         <div className='bottom'>
-                            <button /* onClick={createOwner} */>CREATE</button>
+                            <button onClick={createTenant}>CREATE</button>
                         </div>
                     </div>
 

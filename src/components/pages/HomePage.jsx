@@ -6,9 +6,7 @@ function HomePage() {
         <main>
             <header className='header-large'>
                 <div>
-                    <h1>Logo</h1>
-                    <h1 className='title'>Company</h1>
-                    <p>Insert some text, insert some text, insert some text, insert some text, insert some text</p>
+                    <h1>Rental</h1>
                 </div>
             </header>
             <section>
