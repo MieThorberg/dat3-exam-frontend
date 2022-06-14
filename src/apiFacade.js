@@ -48,66 +48,6 @@ function apiFacade() {
       .then(handleHttpErrors)
       .then(res => { login(username, password) })
   }
-
-  const getAllBoats = () => {
-    const options = makeOptions("GET", true);
-    return fetch(URL + "/api/boats", options).then(handleHttpErrors)
-  }
-
-  const getBoatById = (id) => {
-    const options = makeOptions("GET", true);
-    return fetch(URL + `/api/boats/id/${id}`, options).then(handleHttpErrors)
-  }
-
-  const createBoat = (boat) => {
-    const options = makeOptions("POST", true, boat);
-    return fetch(URL + "/api/boats/create", options).then(handleHttpErrors)
-  }
-
-  const updateBoat = (boat) => {
-    const options = makeOptions("PUT", true, boat);
-    return fetch(URL + `/api/boats/update`, options).then(handleHttpErrors)
-  }
-
-  const deleteBoat = (id) => {
-    const options = makeOptions("DELETE", true);
-    return fetch(URL + `/api/boats/delete/${id}`, options).then(handleHttpErrors)
-  }
-
-  const getAllHarbours = () => {
-    const options = makeOptions("GET", true);
-    return fetch(URL + "/api/harbours", options).then(handleHttpErrors)
-  }
-  
-  const getHarbourById = (id) => {
-    const options = makeOptions("GET", true);
-    return fetch(URL + `/api/harbours/id/${id}`, options).then(handleHttpErrors)
-  }
-
-  const getBoatsFromHarbourById = (id) => {
-    const options = makeOptions("GET", true);
-    return fetch(URL + `/api/harbours/id/${id}/boats`, options).then(handleHttpErrors)
-  }
-
-  const createHarbour = (harbour) => {
-    const options = makeOptions("POST", true, harbour);
-    return fetch(URL + "/api/harbours/create", options).then(handleHttpErrors)
-  }
-
-  const getAllOwners = () => {
-    const options = makeOptions("GET", true);
-    return fetch(URL + "/api/owners", options).then(handleHttpErrors)
-  }
-
-  const getOwnerById = (id) => {
-    const options = makeOptions("GET", true);
-    return fetch(URL + `/api/owners/id/${id}`, options).then(handleHttpErrors)
-  }
-
-  const createOwner = (owner) => {
-    const options = makeOptions("POST", true, owner);
-    return fetch(URL + "/api/owners/create", options).then(handleHttpErrors)
-  }
  
   const makeOptions = (method, addToken, body) => {
     var opts = {
@@ -135,18 +75,6 @@ function apiFacade() {
     logout,
     fetchUserInfo,
     create,
-    getAllBoats,
-    getBoatById,
-    createBoat,
-    updateBoat,
-    deleteBoat,
-    getAllHarbours,
-    getHarbourById,
-    getBoatsFromHarbourById,
-    createHarbour,
-    getAllOwners,
-    getOwnerById,
-    createOwner
   }
 }
 const facade = apiFacade();
