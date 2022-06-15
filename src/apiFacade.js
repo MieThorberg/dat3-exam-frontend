@@ -86,6 +86,16 @@ function apiFacade() {
     return fetch(URL + "/api/rentals/create", options).then(handleHttpErrors)
   }
 
+  const deleteRental = (id) => {
+    const options = makeOptions("DELETE", true);
+    return fetch(URL + `/api/rentals/delete/${id}`, options).then(handleHttpErrors)
+  }
+
+  const updateRental = (rental) => {
+    const options = makeOptions("PUT", true, rental);
+    return fetch(URL + `/api/rentals/update/`, options).then(handleHttpErrors)
+  }
+
   /* House fetches */
   const getAllHouses = () => {
     const options = makeOptions("GET", true);
@@ -153,6 +163,8 @@ function apiFacade() {
     getTenantsFromHouseById,
     getRentalByTenantName,
     createRental,
+    deleteRental,
+    updateRental,
 
     getAllHouses,
     getHouseById,

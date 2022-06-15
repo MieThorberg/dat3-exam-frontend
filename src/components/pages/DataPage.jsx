@@ -10,30 +10,18 @@ function Data() {
     const [tenantData, setTenantData] = useState({ name: "", phone: "", job: "" });
     const [rentalData, setRentalData] = useState({ startDate: "", endDate: "", priceAnnual: 0, deposit: 0, contactPerson: "", house: { id: 0, address: "", city: "", numberOfRooms: 1 }, tenants: [] });
 
-    const [rentalHouse, setRentalHouse] = useState({id: 0, address: "", city: "", numberOfRooms: 1 });
+    const [rentalHouse, setRentalHouse] = useState({ id: 0, address: "", city: "", numberOfRooms: 1 });
 
     const [allTenants, setAllTenants] = useState([]);
     const [allHouses, setAllHouses] = useState([]);
 
-
-    //const [allUsers, setAllUsers] = useState([]);
-    //const [userData, setUserData] = useState({ userName: "", userPass: "" });
-    /*  const [harbourData, setHarbourData] = useState({ name: "", address: "", capacity: "" });
-         const [boatData, setBoatData] = useState({ brand: "", make: "", name: "", image: "", owners: [], harbour: {} });
-         const [boatHarbour, setBoatHarbour] = useState({ name: "", address: "", capacity: "" });
-         const [allHarbourData, setAllHarbours] = useState([]);
-         const [allOwnersData, setAllOwners] = useState([]); */
     useEffect(() => {
         facade.getAllHouses().then(data => setAllHouses(data));
         facade.getAllTenants().then(data => setAllTenants(data));
-
-        //facade.getAllUsers().then(data => setAllUsers(data));
-        /* facade.getAllHarbours().then(data => setAllHarbours(data));
-        facade.getAllOwners().then(data => setAllOwners(data)); */
     }, [])
 
     const onChangeHouse = (evt) => {
-        
+
         setHouseData({ ...houseData, [evt.target.id]: evt.target.value })
     }
 
@@ -47,7 +35,7 @@ function Data() {
 
 
     const onChangeTenant = (evt) => {
-       
+
         setTenantData({ ...tenantData, [evt.target.id]: evt.target.value })
     }
 
@@ -76,7 +64,7 @@ function Data() {
     }
 
     const onChangeRentalHouse = (evt) => {
-       
+
         const value = evt.target.value;
 
         facade.getHouseById(value).then(data => {
@@ -90,7 +78,7 @@ function Data() {
     }
 
     const onChangeRentalTenants = (evt) => {
-   
+
         const value = evt.target.value;
         const newTenants = rentalData.tenants;
 
@@ -113,67 +101,13 @@ function Data() {
         )
     }
 
-
-    /*  const onChangeUser = (evt) => {
-        const value = evt.target.value;
-        facade.getUserById(value).then(data => setUserData(data));
-        setTenant(
-            { ...tenant, user: userData }
-        )
-    }*/
-
-
-    /*
-        const onChangeHarbour = (evt) => {
-            setHarbourData({ ...harbourData, [evt.target.id]: evt.target.value })
-        }
-        
-    
-        const onChangeBoatHarbour = (evt) => {
-            const value = evt.target.value;
-    
-            facade.getHarbourById(value).then(data => setBoatHarbour(data));
-    
-            setBoatData(
-                { ...boatData, harbour: boatHarbour }
-            )
-    
-            console.table(boatData)
-            console.log(boatHarbour)
-        }
-    
-        const onChangeBoatOwner = (evt) => {
-            const value = evt.target.value;
-            const newOwners = boatData.owners;
-    
-            if(newOwners.find(owner => owner.id == value) == undefined) {
-                facade.getOwnerById(value).then(
-                    data => {
-                        newOwners.push({
-                            id: data.id,
-                            name: data.name,
-                            address: data.address,
-                            phone: data.phone
-                        })
-                    }
-                )
+    function removeRentalTenant(id) {
+        setRentalData(
+            {
+                ...rentalData, tenants: rentalData.tenants.filter((tenant) => tenant.id !== id)
             }
-            setBoatData(
-                {
-                    ...boatData, owners: newOwners
-                }
-            )
-        }
-    
-    
-    
-        function removeBoatOwners (id)  {
-            setBoatData(
-                {
-                    ...boatData, owners: boatData.owners.filter((owner) => owner.id !== id)
-                }
-            )
-        } */
+        )
+    }
 
 
     return (
@@ -213,23 +147,6 @@ function Data() {
                             <div>
                                 <p className='title'>Create Tenant</p>
                                 <form onChange={onChangeTenant} >
-                                    {/*<label className='bold'>Name</label>
-                                     <select onClick={onChangeUser} style={{ marginBottom: "20px" }} id="image">
-                                        {
-                                            allUsers.length == 0 ?
-                                                <option value="" disabled hidden>No users registred</option>
-                                                :
-                                                <>
-                                                    <option value="" selected disabled hidden>Choose user</option>
-                                                    {allUsers.map((element) => {
-                                                        return (
-                                                            <option key={element.userName} value={element.userName}>{element.userName}</option>
-                                                        )
-                                                    })}
-                                                </>
-                                        }
-                                    </select> */}
-
                                     <label className='bold'>Name</label>
                                     <input type="text" style={{ marginBottom: "20px" }} placeholder="Enter name" id="name" />
 
@@ -263,21 +180,20 @@ function Data() {
                                     <label className='bold'>Deposit</label>
                                     <input onChange={onChangeRental} type="number" style={{ marginBottom: "20px" }} min={0} defaultValue={0} id="deposit" />
 
-
                                     <label className='bold'>Contact person</label>
                                     <input onChange={onChangeRental} type="text" style={{ marginBottom: "20px" }} placeholder="Enter contact person" id="contactPerson" />
 
                                     <label className='bold'>Select house</label>
-                                    <select onChange={onChangeRentalHouse} style={{ marginBottom: "20px" }} id="house">
+                                    <select onClick={onChangeRentalHouse} style={{ marginBottom: "20px" }} id="house">
                                         {
                                             allHouses.length == 0 ?
                                                 <option value="" disabled hidden>No houses registred</option>
                                                 :
                                                 <>
-                                                    <option value="" disabled hidden>Choose harbour</option>
+                                                    <option value="" selected disabled hidden>Choose house</option>
                                                     {allHouses.map((element) => {
                                                         return (
-                                                            <option key={element.id} value={element.id}>{element.address}</option>
+                                                            <option key={element.id} value={element.id}>#{element.id}. Address: {element.address}, City: {element.city}, Rooms: {element.numberOfRooms}</option>
                                                         )
                                                     })}
                                                 </>
@@ -285,13 +201,13 @@ function Data() {
                                     </select>
 
                                     <label className='bold'>Select tenants</label>
-                                    <select onChange={onChangeRentalTenants} style={{ marginBottom: "20px" }} id="tenants">
+                                    <select onClick={onChangeRentalTenants} style={{ marginBottom: "20px" }} id="tenants">
                                         {
                                             allTenants.length == 0 ?
                                                 <option value="" disabled hidden>No tenants registred</option>
                                                 :
                                                 <>
-                                                    <option value="" disabled hidden>Choose harbour</option>
+                                                    <option value="" selected disabled hidden>Choose tenants</option>
                                                     {allTenants.map((element) => {
                                                         return (
                                                             <option key={element.id} value={element.id}>{element.name}</option>
@@ -300,6 +216,19 @@ function Data() {
                                                 </>
                                         }
                                     </select>
+                                    <div style={{ marginBottom: "20px" }}>
+                                        {rentalData.tenants.map((element) => {
+                                            return (
+                                                < div key={element.id} className='grey-box' >
+                                                    <div><p>{element.name}</p></div>
+                                                    <div className='right'>
+                                                        <a value={element.id} onClick={() => removeRentalTenant(element.id)}>x</a>
+                                                    </div>
+                                                </div>
+
+                                            )
+                                        })}
+                                    </div>
 
                                 </form>
                             </div>
@@ -308,85 +237,6 @@ function Data() {
                             <button onClick={createRental}>CREATE</button>
                         </div>
                     </div>
-
-
-                    {/* <div className='datacard'>
-                        <div className='content'>
-                            <div>
-                                <p className='title'>Create Boat</p>
-                                <form>
-                                    <label className='bold'>Name</label>
-                                    <input onChange={onChangeBoat} type="text" style={{ marginBottom: "20px" }} placeholder="Enter name" id="name" />
-
-                                    <label className='bold'>Brand</label>
-                                    <input onChange={onChangeBoat} type="text" style={{ marginBottom: "20px" }} placeholder="Enter brand" id="brand" />
-
-                                    <label className='bold'>Make</label>
-                                    <input onChange={onChangeBoat} type="text" style={{ marginBottom: "20px" }} placeholder="Enter make" id="make" />
-
-                                    <label className='bold'>Image</label>
-                                    <select onChange={onChangeBoat} style={{ marginBottom: "20px" }} id="image">
-                                        <option value="" disabled hidden>Choose image</option>
-                                        <option value="Image 1">Image 1</option>
-                                        <option value="Image 2">Image 2</option>
-                                        <option value="Image 3">Image 3</option>
-                                    </select>
-
-                                    <label className='bold'>Owners</label>
-                                    <select onChange={onChangeBoatOwner} style={{ marginBottom: "10px" }} id="owners">
-                                        {
-                                            allOwnersData.length == 0 ?
-                                                <option value="" disabled hidden>No owner registred</option>
-                                                :
-                                                <>
-                                                    <option value="" disabled hidden>Choose owner</option>
-                                                    {allOwnersData.map((element) => {
-                                                        return (
-                                                            <option key={element.id} value={element.id}>{element.name}</option>
-                                                        )
-                                                    })}
-                                                </>
-                                        }
-                                    </select>
-                                    <div style={{ marginBottom: "20px" }}>
-                                        {boatData.owners.map((element) => {
-                                            return (
-                                                < div key={element.id} className='grey-box' >
-                                                    <div><p>{element.name}</p></div>
-                                                    <div className='right'>
-                                                        <a value={element.id} onClick={() => removeBoatOwners(element.id)}>x</a>
-                                                    </div>
-                                                </div>
-
-                                            )
-                                        })}
-                                    </div>
-
-                                    <label className='bold'>Harbour</label>
-                                    <select onChange={onChangeBoatHarbour} style={{ marginBottom: "20px" }} id="harbour">
-                                        {
-                                            allHarbourData.length == 0 ?
-                                                <option value="" disabled hidden>No harbour registred</option>
-                                                :
-                                                <>
-                                                    <option value="" disabled hidden>Choose harbour</option>
-                                                    {allHarbourData.map((element) => {
-                                                        return (
-                                                            <option key={element.id} value={element.id}>{element.name}</option>
-                                                        )
-                                                    })}
-                                                </>
-                                        }
-
-                                    </select>
-
-                                </form>
-                            </div>
-                        </div>
-                        <div className='bottom'>
-                            <button onClick={createBoat}>CREATE</button>
-                        </div>
-                    </div> */}
                 </div>
             </section >
         </main >

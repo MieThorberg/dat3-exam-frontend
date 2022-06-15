@@ -9,17 +9,12 @@ import Footer from "./components/Footer";
 import HomePage from "./components/pages/HomePage";
 import LoginPage from "./components/pages/LoginPage";
 
-import ListPage from "./components/pages/ListPage";
-import CardsPage from "./components/pages/CardsPage";
-import Details from "./components/pages/Details"
-
 import NotFoundPage from "./components/errors/NotFoundPage";
 import RentalsPage from "./components/pages/RentalsPage";
 import DataPage from "./components/pages/DataPage";
 import HousesPage from "./components/pages/HousesPage";
-import HouseDetail from "./components/pages/HouseDetail";
-import { useEffect, useState } from "react";
-import facade from "./apiFacade";
+import HouseDetailPage from "./components/pages/HouseDetailPage";
+import RentalDetailPage from "./components/pages/RentalDetailPage";
 import MyRentalsPage from "./components/pages/MyRentalsPage";
 
 
@@ -35,14 +30,15 @@ export default function App() {
 
           {/* Admin */}
           <Route path="/rentals" element={<RentalsPage />}></Route>
+          <Route path="/rentals/:rentalid" element={<RentalDetailPage/>}></Route>
           <Route path="/houses" element={<HousesPage/>}></Route>
-          <Route path="/houses/:houseid" element={<HouseDetail/>}></Route>
+          <Route path="/houses/:houseid" element={<HouseDetailPage/>}></Route>
           <Route path="/data" element={<DataPage/>}></Route>
           
 
           {/* User */}
           <Route path="/my_rentals" element={<MyRentalsPage />}></Route>
-          <Route path="/my_rentals/:houseid" element={<HouseDetail/>}></Route>
+          <Route path="/my_rentals/:houseid" element={<HouseDetailPage/>}></Route>
           <Route path="/*" element={<NotFoundPage />}></Route>
         </Routes>
         <Footer />

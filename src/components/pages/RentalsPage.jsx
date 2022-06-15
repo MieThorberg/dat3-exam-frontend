@@ -25,7 +25,7 @@ function RentalsPage() {
     }, [])
 
     function seeMore(evt) {
-        /* navigate(`${evt.target.id}`); */
+        navigate(`${evt.target.id}`);
     }
 
     return (
